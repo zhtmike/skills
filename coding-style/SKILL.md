@@ -23,6 +23,10 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Touch only what the task needs — small, clean diffs make personal review fast. No drive-by reformat or rename of untouched lines.
 - A refactor or any big change: ask first and get the user's go-ahead before starting (separate from any later git-action approval).
 
+### Fix the class, not just the instance
+- After fixing a bug, check whether the same pattern or risk exists elsewhere — same root cause means the fix applies there too.
+- Sibling fixes for the same defect class are in scope, not drive-by changes; if the sweep turns up many sites or grows into a refactor, report and ask instead of expanding the diff.
+
 ### Fail fast, never silently fall back
 - Raise with actionable messages: `raise ValueError(f"Invalid backend: {x}. Must be one of {sorted(valid)}")`
 - A silent downgrade (catch-and-continue, default substitution) hides broken setups.
