@@ -30,6 +30,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Scripts: env-overridable defaults (`VAR=${VAR:-default}`); deprecated paths get a header naming the replacement.
 
 ### Comments & docstrings
+- Comment only the non-trivial — if the code says it plainly, no comment. A comment must earn its line.
 - WHY, not WHAT. Cross-reference the invariant or upstream behavior: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
 - Docstrings only on non-obvious or public functions; state the invariant being pinned.
 - Delete stale comments when behavior changes — an inaccurate comment is worse than none.
