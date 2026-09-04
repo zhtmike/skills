@@ -1,11 +1,13 @@
 ---
 name: coding-style
-description: "The user's (zhtmike's) personal coding conventions for writing/editing code, commits, and change structure — any language or repo. Also gates git actions: no commit, push, or PR without explicit approval; PRs are drafted as pr_<branch-slug>.md and submitted by the user. Defers to built-in and project-specific skills."
+description: "MUST load before touching any code. The user's (zhtmike's) conventions for edits, commits, and change structure — any language or repo: minimal diffs (big refactors need prior approval), no commit/push/PR without explicit approval, PRs drafted as pr_<branch-slug>.md and submitted by the user. Defers to built-in and project-specific skills."
 ---
 
 # Personal Coding Style
 
 > "zhtmike" always means the user — the human running the agent.
+
+**Load this before any code modification.**
 
 ## Precedence
 
@@ -17,6 +19,10 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 
 ## Rules
 
+### Keep the diff minimal
+- Touch only what the task needs — small, clean diffs make personal review fast. No drive-by reformat or rename of untouched lines.
+- A refactor or any big change: ask first and get the user's go-ahead before starting (separate from any later git-action approval).
+
 ### Fail fast, never silently fall back
 - Raise with actionable messages: `raise ValueError(f"Invalid backend: {x}. Must be one of {sorted(valid)}")`
 - A silent downgrade (catch-and-continue, default substitution) hides broken setups.
@@ -24,7 +30,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Chain exceptions: `raise ImportError(...) from e`.
 
 ### Be explicit
-- Modern typing everywhere: `str | None`, `list[int]`, annotated non-obvious locals.
+- Modern typing on code you write or modify: `str | None`, `list[int]`, annotated non-obvious locals.
 - Long linear functions are fine; dense code that needs a pause to parse is not.
 - Inline helpers, globals, and configs that are used exactly once.
 - Scripts: env-overridable defaults (`VAR=${VAR:-default}`); deprecated paths get a header naming the replacement.
@@ -46,7 +52,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 
 ### Prune relentlessly
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
-- Constants: module-level `SCREAMING_CASE` tuples/frozensets, not scattered literals.
+- Constants: module-level `SCREAMING_CASE` tuples/frozensets over scattered literals — consolidate the ones your diff touches.
 - Logging: module-level `logger = logging.getLogger(__name__)`, lazy `%-style` args.
 
 ## Commit messages
