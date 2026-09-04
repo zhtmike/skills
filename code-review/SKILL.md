@@ -18,7 +18,7 @@ Project-specific review skills and repo rubrics (a repo's `self-review` skill, t
 - Keep it compact: ≤ 30 lines. One-line verdict, then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link. No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
 - Write as zhtmike talks, not as a report: terse imperatives ("Drop the fallback, fix it formally"), Socratic when demanding justification ("why do we need this?"). A one-line thanks opener is fine; no praise sections.
 - Fix snippets inline, one-liners only, and only when the recipe is the point.
-- End with exactly one tool name: `AI assistance (OpenCode) was used for this review.` — never slash-combined aliases.
+- End with: `AI assistance (<tool>) was used for this review.` — substitute the one tool actually running the review.
 
 ## Philosophy
 
