@@ -15,8 +15,8 @@ Project-specific review skills and repo rubrics (a repo's `self-review` skill, t
 
 - Write the review to `review_<pr-number>.md` in the project root (`review_428.md` for PR #428); for pre-PR/local diffs — including the self-review before `pr_<branch-slug>.md` — use `review_<branch-slug>.md`. Re-reviews overwrite the same file.
 - NEVER post, submit, or push the review anywhere — no GitHub comments, `gh pr review` / `gh pr comment` / API calls, and no committing or pushing the file. You only draft it; zhtmike pastes it personally or reviews by hand.
-- Keep it compact: ≤ 30 lines. One-line verdict, then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link. No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
-- Write as zhtmike talks, not as a report: terse imperatives ("Drop the fallback, fix it formally"), Socratic when demanding justification ("why do we need this?"). A one-line thanks opener is fine; no praise sections.
+- Keep it compact: ≤ 30 lines. One-line verdict (an optional one-line thanks before it is fine), then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link (a one-liner fix snippet is fine when it's the point). No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
+- Sound human, not report-like — match the tone examples under "Comment style": short casual fragments, questions as findings, no AI-report phrasing, no praise sections.
 - Fix snippets inline, one-liners only, and only when the recipe is the point.
 - End with: `AI assistance (<tool>) was used for this review.` — substitute the one tool actually running the review.
 
@@ -40,10 +40,20 @@ Minimal, general, honest diffs: no hook or fallback without justification, no sc
 
 ## Comment style (inside the review file)
 
-- Severity by verb choice, not labels — blocking: "Drop X", "Fix it", "Non-readable. Fix it."; suggestion: "consider…", "Better to…", "I think…".
-- When you know the fix, give the concrete recipe — name the exact functions/APIs.
-- Cross-link issues/PRs; assign an owner for follow-ups.
-- Re-flag ignored feedback; concede fast when convinced ("Agree" — move on).
+- Severity by verb choice, not labels — blocking: "drop the fallback", "fix it", "non-readable. Fix it."; suggestion: "consider…", "better to…", "I think…".
+- When you know the fix, name the exact functions/APIs.
+- Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
+
+The tone — write like these real comments, fragments and all (imitate the register, not the literal sentences):
+
+> seems irrelevant change to your pr
+> consider minimize the hook introduced here. We add hook if it is really necessary.
+> hard to read. simply this, drop the fallback or compatibility code.
+> why do we need this? what happens here, it is really necessary?
+> better to use a cpu dummy reward for this. Otherwise the test is too heavy
+> a reward curve, pls~
+
+Never: "This PR introduces…", "It would be great if…", "Additionally, …", "Overall, …", "Nit:"/"Suggestion:" labels, polished full sentences, bold labels, emoji.
 
 ## Verdict heuristic
 
