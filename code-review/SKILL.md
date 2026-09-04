@@ -35,6 +35,7 @@ Minimal, general, honest diffs: no hook or fallback without justification, no sc
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it. Flag names that hide intent.
 8. **Workaround hygiene** — Temporary code must carry `TODO(owner)` + a tracking issue (+ upstream link if applicable).
 9. **Docs sync** — README/docs updated in the same PR, dates aligned.
+10. **Same defect, elsewhere** — When a finding lands, check whether the same pattern or risk exists elsewhere in the diff or repo; flag the class ("this same unchecked-NaN pattern appears in 3 more places"), not just the instance found.
 
 **Skip / low priority:** formatting, typing style, docstring aesthetics, naming bikeshedding, commit hygiene, micro-performance.
 
