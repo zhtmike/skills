@@ -24,6 +24,12 @@ Project-specific review skills and repo rubrics (a repo's `self-review` skill, t
 
 Minimal, general, honest diffs: no hook or fallback without justification, no scope creep, no permanent workarounds — and behavioral claims proven with data.
 
+## Working-tree isolation
+
+- Never switch, create, or rebase the current branch for a review — reviews of different PRs may run in parallel.
+- Diff-only reviews: read from GitHub (`gh pr diff`, files, comments, CI artifacts) without any checkout.
+- When repo-wide context is needed (grep, call paths, the defect-class sweep): use a throwaway detached worktree at the PR head — `git fetch origin pull/<N>/head && git worktree add --detach <tmpdir> FETCH_HEAD` — and `git worktree remove <tmpdir>` after writing the review.
+
 ## Review Order — flag in this priority
 
 1. **Necessity** — For every addition ask: why does this exist? Hooks, protections, abstractions, and defensive checks must justify themselves. Default answer: delete it.
