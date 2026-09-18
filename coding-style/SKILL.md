@@ -69,6 +69,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 ## Git actions & PRs — approval-gated
 
 - Never commit, push, or create a PR without the user's explicit approval for that action. Silence is not approval; work being finished is not approval.
+- Just before each commit: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. Only at commit time, not after every edit.
 - With explicit approval, commits and pushes are allowed — to the user's fork remote only. Identify the fork remote before the first push (`git remote -v`, `gh repo view --json parent`); if ambiguous or no fork exists, ask. Never push upstream, even if it is `origin`.
 - Branches on the fork use a short kebab-case slug with a type prefix: `feat/async-rollout-lifecycle`, `fix/fa3-fail-fast`.
 - Before drafting the PR file, self-review the final diff: the repo's own review skill/rubric wins, else the personal `code-review` skill. Fix findings (or list what's still open) first.
