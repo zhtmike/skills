@@ -40,10 +40,10 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Scripts: env-overridable defaults (`VAR=${VAR:-default}`); deprecated paths get a header naming the replacement.
 
 ### Comments & docstrings
-- Comment only the non-trivial — if the code says it plainly, no comment. A comment must earn its line.
-- WHY, not WHAT. Cross-reference the invariant or upstream behavior: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
-- Docstrings only on non-obvious or public functions; state the invariant being pinned.
-- Delete stale comments when behavior changes — an inaccurate comment is worse than none.
+- Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers — the code itself carries the explanation. Comments stay rare; each must earn its line (a tracked `TODO(owner)` counts). If the code says it plainly, no comment.
+- Comment only the non-trivial. WHY, not WHAT. Cross-reference the invariant or upstream behavior: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
+- Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one.
+- Prevent comment erosion: comments rot as code drifts, and fewer comments = less surface to rot — rare ≠ none; keep the comments that pin real invariants. When a diff changes behavior, update or delete the comments it invalidates in the same PR, on touched lines and anywhere it orphaned them. An inaccurate comment is worse than none.
 
 ### Tests ship with the change
 - Every behavior change gets a test in the same PR. Prefer cheap CPU tests (`importorskip`, `monkeypatch`) over heavy e2e; never fake import systems or mock what you could really construct.
