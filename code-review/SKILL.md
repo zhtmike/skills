@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "The user's (zhtmike's) personal way to review code and PRs — necessity-first, scope-disciplined, zero tolerance for fallback shims, evidence-backed claims. Use when asked to review a diff or PR on the user's behalf. Lower priority than built-in and project-specific skills."
+description: "MUST load before reviewing any diff or PR on the user's behalf. The user's (zhtmike's) personal way to review code — necessity-first, scope-disciplined, zero tolerance for fallback shims, evidence-backed claims. Lower priority than built-in and project-specific skills."
 ---
 
 # Personal Code Review
