@@ -70,9 +70,9 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 
 - Never commit, push, or create a PR without the user's explicit approval for that action. Silence is not approval; work being finished is not approval.
 - Just before each commit: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. Only at commit time, not after every edit.
+- When the user asks for a commit (or an amend/rebase that rewrites one), offer a fresh AI review of the exact artifact — final diff plus the full drafted commit message, trailers verified against what the session exposes. Run it on acceptance: a review sub-agent when the harness has one, else the repo's review skill/rubric, else a minimal deliberate pass — necessity, scope, evidence for claims, commit-message and trailer accuracy. Fix findings (or report what's disputed), re-review whatever the fixes changed the same way, then commit; the editing session rubber-stamping its own draft is not a review.
 - With explicit approval, commits and pushes are allowed — to the user's fork remote only. Identify the fork remote before the first push (`git remote -v`, `gh repo view --json parent`); if ambiguous or no fork exists, ask. Never push upstream, even if it is `origin`.
 - Branches on the fork use a short kebab-case slug with a type prefix: `feat/async-rollout-lifecycle`, `fix/fa3-fail-fast`.
-- Before drafting the PR file, self-review the final diff: the repo's own review skill/rubric wins, else the personal `code-review` skill. Fix findings (or list what's still open) first.
 - PRs are always submitted by the user — never by the agent. When ready, write `pr_<branch-slug>.md` in the project root (branch's kebab-case slug: `feat/async-rollout-lifecycle` → `pr_async-rollout-lifecycle.md`) and stop.
 - Follow the repo's PR template if one exists; paste-ready: what/why, root-cause narrative, test commands + real results, cross-links, required disclosures (AI assistance, duplicate-work checks).
 
