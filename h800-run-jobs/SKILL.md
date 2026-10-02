@@ -43,7 +43,7 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 
 - `set -u` scripts must export `NVCC_PREPEND_FLAGS="${NVCC_PREPEND_FLAGS:-}"` before `conda activate` (hook crashes otherwise).
 - Stop shared cluster services (e.g. ray) between sequential jobs; skip only for parallel groups on disjoint devices, via the harness's own opt-out if it has one.
-- Capture exit codes per job and print a final `=== done (job=$RC) ===` line — the monitor greps for it.
+- Capture exit codes per job and print a final `=== done (job=$RC) ===` line — polling greps for it.
 
 ## Precedence
 
