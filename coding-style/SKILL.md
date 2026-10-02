@@ -1,11 +1,11 @@
 ---
 name: coding-style
-description: "MUST load before touching any code. The user's conventions for edits, commits, and change structure — any language or repo: minimal diffs (big refactors need prior approval), no commit/push/PR without explicit approval; a commit request triggers a fresh single-dispatch review against these rules. PRs drafted as pr_<branch-slug>.md and submitted by the user. Defers to built-in and project-specific skills."
+description: "MUST load before touching any code and before any git action — commit, amend/rebase, push, PR. The user's conventions for edits and change structure — any language or repo: minimal diffs (big refactors need prior approval), no commit/push/PR without explicit approval; a commit request triggers a fresh single-dispatch review against these rules. PRs drafted as pr_<branch-slug>.md and submitted by the user. Defers to built-in and project-specific skills."
 ---
 
 # Personal Coding Style
 
-**Load this before any code modification.** These rules are also the rubric for the fresh review at commit time (see "Fresh review" below).
+**Load this before any code modification or git action.** These rules are also the rubric for the fresh review at commit time (see "Fresh review" below).
 
 ## Precedence
 
