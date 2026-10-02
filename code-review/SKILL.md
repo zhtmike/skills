@@ -13,12 +13,16 @@ Project-specific review skills and repo rubrics (a repo's `self-review` skill, t
 
 ## Output contract — never post reviews
 
-- Write the review to `review_<pr-number>.md` in the project root (`review_428.md` for PR #428); for pre-PR/local diffs — including the self-review before `pr_<branch-slug>.md` — use `review_<branch-slug>.md`. Re-reviews overwrite the same file.
+- Write the review to `review_<pr-number>.md` in the project root (`review_428.md` for PR #428); for local diffs use `review_<branch-slug>.md`. Re-reviews overwrite the same file.
 - NEVER post, submit, or push the review anywhere — no GitHub comments, `gh pr review` / `gh pr comment` / API calls, and no committing or pushing the file. You only draft it; zhtmike pastes it personally or reviews by hand.
 - Keep it compact: ≤ 30 lines. One-line verdict (an optional one-line thanks before it is fine), then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link (a one-liner fix snippet is fine when it's the point). No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
 - Sound human, not report-like — substance over tone: plain, direct, casual is fine; no AI-report phrasing.
 - Fix snippets inline, one-liners only, and only when the recipe is the point.
 - End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — agent/model/provider verified from whatever the session exposes (harness metadata, model/provider env vars), never assumed; if unverifiable, name only what is verified and omit the rest.
+
+## Scope — review documents for the user, not the agent's own gates
+
+This skill drafts reviews of diffs/PRs for zhtmike to read and paste — external PR reviews and on-demand local-diff reviews, all written to `review_<...>.md`. It is a different job from the agent's pre-commit fresh AI review of its own change (diff + commit message) — that gate lives in `coding-style`; do not apply this skill's output contract there, and do not reach for this skill to self-check a commit.
 
 ## Philosophy
 
