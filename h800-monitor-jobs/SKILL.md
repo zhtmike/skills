@@ -9,21 +9,20 @@ description: "MUST load before monitoring or debugging long-running GPU jobs on 
 
 Context: the session lives inside tmux → Slurm; both are incidental to job mechanics — jobs are ssh-detached with their own logs (per h800-run-jobs). Two recovery uses: `tmux capture-pane -p` retrieves the tool shell's own scrollback (a foreground command whose output redirect was lost), and Slurm persistence means a "disappeared" job is usually still running (`squeue`, `pgrep -f` before assuming death).
 
-## Delegate the monitoring
+## Delegate the monitoring (when the harness can delegate)
 
-Long monitoring loops burn orchestrator context — dispatch a fixer sub-agent to poll and report instead of checking yourself:
+Long monitoring loops burn the session's context — if your harness can spawn sub-agents or background tasks, delegate the polling to one instead of checking yourself; otherwise poll directly at the cadence below. Whoever polls: one retry max per failure, and close with a final report (PASS/FAIL tally, durations, root causes) — read the verdict, not the stream.
 
-- Give it: the runner log path, the done-marker line, the poll cadence (adaptive 30s→10m, below), the known-failure table below, and a one-retry-max rule.
-- It returns a final report (PASS/FAIL tally, durations, root causes) — you read the verdict, not the stream.
-- Reuse the same fixer session for follow-up rounds; it retains the log layouts.
+- Hand the delegate: the runner log path, the done-marker line, the poll cadence (adaptive 30s→10m, below), and the known-failure table below.
+- Reuse the same delegate for follow-up rounds when the harness allows; it retains the log layouts.
 
-## Polling cadence (for the sub-agent, or quick manual checks)
+## Polling cadence (for the delegate, or direct checks)
 
 **Adaptive interval — poll tight early, back off when stable:**
 
 - Start at 15–30s during engine startup (the ramp phase where JIT builds, port binds, and import errors surface). A failure caught in the first minute saves the whole run.
 - Each check where the log grows and no error appears: increase the interval (30s → 1m → 2m → 5m → 10m), capped at 10 minutes. Any error, stall (log frozen but process alive), or GPU-memory anomaly: drop back to 30s to track the failure as it develops.
-- The sub-agent should state its current interval when reporting, so the orchestrator can see the stability trend.
+- State the current interval in each report so the stability trend stays visible.
 - Watch: the runner log's size/freshness (`stat -c %Y`), `nvidia-smi` memory+util, and process liveness (`pgrep -f`). A frozen log + idle GPU + live process = investigate; a growing log = healthy.
 - GPUs climbing 0 → 3 MiB → 1.3 GB → 20+ GB is the normal engine-startup ramp; 0% util during it is expected (minutes, not hours).
 
