@@ -1,13 +1,11 @@
 ---
 name: coding-style
-description: "MUST load before touching any code. The user's (zhtmike's) conventions for edits, commits, and change structure — any language or repo: minimal diffs (big refactors need prior approval), no commit/push/PR without explicit approval, PRs drafted as pr_<branch-slug>.md and submitted by the user. Defers to built-in and project-specific skills."
+description: "MUST load before touching any code. The user's conventions for edits, commits, and change structure — any language or repo: minimal diffs (big refactors need prior approval), no commit/push/PR without explicit approval; a commit request triggers a fresh single-dispatch review against these rules. PRs drafted as pr_<branch-slug>.md and submitted by the user. Defers to built-in and project-specific skills."
 ---
 
 # Personal Coding Style
 
-> "zhtmike" always means the user — the human running the agent.
-
-**Load this before any code modification.**
+**Load this before any code modification.** These rules are also the rubric for the fresh review at commit time (see "Fresh review" below).
 
 ## Precedence
 
@@ -66,15 +64,25 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Review fixes: title `address review` + bullet list of changed areas.
 - Trailers: `AI-assistance: <agent> (<model> via <provider>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by:`. Verify model and provider from whatever the session exposes (harness metadata, model/provider env vars) before writing — never assume the vendor. If the provider is unverifiable, drop the `via <provider>` segment and the `noreply@…` email entirely (a bare `Co-authored-by: <agent>` is valid); a false attribution is worse than none.
 
-## Git actions & PRs — approval-gated
+## Git actions — approval-gated
 
 - Never commit, push, or create a PR without the user's explicit approval for that action. Silence is not approval; work being finished is not approval.
-- Just before each commit: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. Only at commit time, not after every edit.
-- When the user asks for a commit (or an amend/rebase that rewrites one), offer a fresh AI review of the exact artifact — final diff plus the full drafted commit message, trailers verified against what the session exposes. Run it on acceptance: a review sub-agent when the harness has one, else the repo's review skill/rubric, else a minimal deliberate pass — necessity, scope, evidence for claims, commit-message and trailer accuracy. Fix findings (or report what's disputed), re-review whatever the fixes changed the same way, then commit; the editing session rubber-stamping its own draft is not a review.
+- Just before every commit, on every path (review-triggered or not): run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
 - With explicit approval, commits and pushes are allowed — to the user's fork remote only. Identify the fork remote before the first push (`git remote -v`, `gh repo view --json parent`); if ambiguous or no fork exists, ask. Never push upstream, even if it is `origin`.
 - Branches on the fork use a short kebab-case slug with a type prefix: `feat/async-rollout-lifecycle`, `fix/fa3-fail-fast`.
 - PRs are always submitted by the user — never by the agent. When ready, write `pr_<branch-slug>.md` in the project root (branch's kebab-case slug: `feat/async-rollout-lifecycle` → `pr_async-rollout-lifecycle.md`) and stop.
 - Follow the repo's PR template if one exists; paste-ready: what/why, root-cause narrative, test commands + real results, cross-links, required disclosures (AI assistance, duplicate-work checks).
+
+## Fresh review — the commit gate
+
+**Trigger:** the user asks for a commit (or an amend/rebase that rewrites one) and no fresh review has run on this exact artifact — the final diff plus the full drafted commit message. Run it directly; don't just offer. Any later edit to the artifact invalidates the review and re-triggers it.
+
+**Single dispatch, this file as the rubric.** Dispatch exactly ONE read-only agent (no edit tools — the reviewer must not touch what it reviews; use whatever agent-dispatch mechanism your harness provides). Hand it this skill file, the final diff, and the full drafted commit message. Its job: check the change against every rule above — minimal diff, no silent fallbacks, comment hygiene, tests shipped, docs synced, pruned leftovers — and the commit message for root-cause narrative, numbers, and verified trailers. Findings come back with `file:line` evidence. The editing session rubber-stamping its own draft is not a review; if the harness truly cannot dispatch an agent, run a separate deliberate pass through the rubric and say so.
+
+**After the review returns:**
+1. Fix each finding, or report what's disputed and why — never silently skip.
+2. Re-review whatever the fixes changed, the same single-dispatch way.
+3. **Size check before committing.** Review-induced changes small → commit. Large → the artifact now differs materially from what the user asked to commit: stop and ask — commit as-is, or a different follow-up (keep iterating, split the change, hand it back).
 
 ## Design posture
 

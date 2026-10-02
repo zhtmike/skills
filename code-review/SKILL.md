@@ -1,43 +1,44 @@
 ---
 name: code-review
-description: "MUST load before reviewing any diff or PR on the user's behalf. The user's (zhtmike's) personal way to review code — necessity-first, scope-disciplined, zero tolerance for fallback shims, evidence-backed claims. Lower priority than built-in and project-specific skills."
+description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, comprehensive review — necessity-first, scope-disciplined, zero tolerance for fallback shims, evidence-backed claims; spans multiple dispatched agents when the target is large. Not for pre-commit self-checks. Lower priority than project-specific skills."
 ---
 
 # Personal Code Review
 
-> "zhtmike" always means the user — the human running the agent.
+## Scope — PRs and review branches only
 
-## Precedence
+This skill reviews exactly two kinds of target, on the user's request:
 
-Project-specific review skills and repo rubrics (a repo's `self-review` skill, templates in `AGENTS.md`) take priority — run those first; apply this skill only to what they don't cover.
+1. **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout needed.
+2. **Review branches** — a branch whose changes are pending review, local or remote, reviewed from its diff (`git diff <base>...<head>`).
 
-## Output contract — never post reviews
+It is a **deep and comprehensive** review: read the whole diff, trace call paths, verify every behavioral claim, sweep the repo for the same defect class. Out of scope: the agent's pre-commit self-check of its own staged change — do not reach for this skill to self-check a commit.
 
-- Write the review to `review_<pr-number>.md` in the project root (`review_428.md` for PR #428); for local diffs use `review_<branch-slug>.md`. Re-reviews overwrite the same file.
-- NEVER post, submit, or push the review anywhere — no GitHub comments, `gh pr review` / `gh pr comment` / API calls, and no committing or pushing the file. You only draft it; zhtmike pastes it personally or reviews by hand.
-- Keep it compact: ≤ 30 lines. One-line verdict (an optional one-line thanks before it is fine), then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link (a one-liner fix snippet is fine when it's the point). No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
-- Sound human, not report-like — substance over tone: plain, direct, casual is fine; no AI-report phrasing.
-- Fix snippets inline, one-liners only, and only when the recipe is the point.
-- End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — agent/model/provider verified from whatever the session exposes (harness metadata, model/provider env vars), never assumed; if unverifiable, name only what is verified and omit the rest.
-
-## Scope — review documents for the user, not the agent's own gates
-
-This skill drafts reviews of diffs/PRs for zhtmike to read and paste — external PR reviews and on-demand local-diff reviews, all written to `review_<...>.md`. It is a different job from the agent's pre-commit fresh AI review of its own change (diff + commit message) — that gate lives in `coding-style`; do not apply this skill's output contract there, and do not reach for this skill to self-check a commit.
-
-## Philosophy
-
-Minimal, general, honest diffs: no hook or fallback without justification, no scope creep, no permanent workarounds — and behavioral claims proven with data.
+Precedence: project-specific skills and repo conventions (`AGENTS.md`, review templates) win where they define a rubric; this skill covers the rest.
 
 ## Working-tree isolation
 
-- Never switch, create, or rebase the current branch for a review — reviews of different PRs may run in parallel.
-- Diff-only reviews: read from GitHub (`gh pr diff`, files, comments, CI artifacts) without any checkout.
-- When repo-wide context is needed (grep, call paths, the defect-class sweep): use a throwaway detached worktree at the PR head — `git fetch origin pull/<N>/head && git worktree add --detach <tmpdir> FETCH_HEAD` — and `git worktree remove <tmpdir>` after writing the review.
+- Never switch, create, or rebase the current branch for a review — reviews of different targets may run in parallel.
+- When repo-wide context is needed (grep, call paths, the defect-class sweep): use a throwaway detached worktree at the target head — fetch the head if needed, then `git worktree add --detach <tmpdir> <head>` (PRs: `git fetch origin pull/<N>/head && git worktree add --detach <tmpdir> FETCH_HEAD`) — and `git worktree remove <tmpdir>` after writing the review.
 
-## Review Order — flag in this priority
+## Depth — verify everything; span agents when needed
+
+- Every finding is verified before it is written: read the surrounding code, trace the call path, check the test actually asserts the behavior. No skimming, no speculative findings.
+- Large or multi-subsystem targets: dispatch parallel read-only agents, one per subsystem or file group, through whatever agent-dispatch mechanism your harness provides. Each hands back findings with `file:line` evidence; merge and dedupe, re-verify borderline findings yourself, then write the single review file.
+- One review file per target, no matter how many agents contributed.
+
+## Output contract — never post
+
+- Write the review to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
+- NEVER post, submit, or push the review anywhere — no GitHub comments, `gh pr review` / `gh pr comment` / API calls, and no committing or pushing the file. You only draft it; the user pastes it personally or reviews by hand.
+- Keep it compact: ≤ 30 lines. One-line verdict, then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link (a one-liner fix snippet is fine when it's the point). No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
+- Severity by verb choice, not labels — blocking: "drop the fallback", "fix it", "non-readable. Fix it."; suggestion: "consider…", "better to…", "I think…". When you know the fix, name the exact functions/APIs. Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
+- End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — agent/model/provider verified from whatever the session exposes (harness metadata, model/provider env vars), never assumed; if unverifiable, name only what is verified and omit the rest.
+
+## Review order — flag in this priority
 
 1. **Necessity** — For every addition ask: why does this exist? Hooks, protections, abstractions, and defensive checks must justify themselves. Default answer: delete it.
-2. **Scope** — Anything unrelated to the PR's purpose: drop it. Change too huge? Split it — interface/RFC first PR, implementation second.
+2. **Scope** — Anything unrelated to the target's purpose: drop it. Change too huge? Split it — interface/RFC first PR, implementation second.
 3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades: drop them and fix formally. Never wave through "fallback plan" code.
 4. **Generality & reuse** — Does this solve only one model/case? Prefer extending existing infra over introducing parallel mechanisms. Check duplication against already-landed work.
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
@@ -49,13 +50,6 @@ Minimal, general, honest diffs: no hook or fallback without justification, no sc
 
 **Skip / low priority:** formatting, typing style, docstring formatting (not content), naming bikeshedding, commit hygiene, micro-performance.
 
-## Comment style (inside the review file)
-
-- Severity by verb choice, not labels — blocking: "drop the fallback", "fix it", "non-readable. Fix it."; suggestion: "consider…", "better to…", "I think…".
-- When you know the fix, name the exact functions/APIs.
-- Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
-- Tone is secondary to substance — write plainly and directly; avoid "This PR introduces…", "It would be great if…", "Nit:"/"Suggestion:" labels, and polished report phrasing.
-
 ## Verdict heuristic
 
-A PR is approvable when nothing in it is unnecessary, nothing is temporary-without-a-tracker, and every behavioral claim has evidence. Violations of these block; everything else — formatting, style nits — doesn't.
+A target is approvable when nothing in it is unnecessary, nothing is temporary-without-a-tracker, and every behavioral claim has evidence. Violations of these block; everything else — formatting, style nits — doesn't.
