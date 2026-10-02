@@ -64,7 +64,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Follow the repo's own commit convention when it defines one. Otherwise: `[modules] type: subject (#PR)` — modules comma-listed, type in `feat|fix|chore|refactor|test`. Prepend `[BREAKING]` when APIs change.
 - Body = root-cause narrative with numbers and issue links, not a diff restatement.
 - Review fixes: title `address review` + bullet list of changed areas.
-- Trailers: AI-assistance disclosure + `Co-authored-by: <tool>` + `Signed-off-by:`.
+- Trailers: `AI-assistance: <agent> (<model> via <provider>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by:`. Verify model and provider from whatever the session exposes (harness metadata, model/provider env vars) before writing — never assume the vendor. If the provider is unverifiable, drop the `via <provider>` segment and the `noreply@…` email entirely (a bare `Co-authored-by: <agent>` is valid); a false attribution is worse than none.
 
 ## Git actions & PRs — approval-gated
 
