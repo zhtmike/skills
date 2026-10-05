@@ -1,6 +1,6 @@
 ---
 name: h800-monitor-jobs
-description: "MUST load before monitoring or debugging long-running GPU jobs on the H800 cluster (driver 535 / CUDA 12.2). Covers progress polling without flooding, root-cause extraction from job/ray/vllm logs, the known failure signatures (flashinfer JIT, EADDRINUSE, OOM races), and the cleanup checklist. For general tasks — the constraints are the cluster's, not any repo's."
+description: "MUST load while monitoring or debugging any long-running GPU job in flight on the H800 cluster (driver 535 / CUDA 12.2). Covers progress polling without flooding, root-cause extraction from job/ray/vllm logs, the known failure signatures (flashinfer JIT, EADDRINUSE, OOM races), and the cleanup checklist. Not for other machines or clusters."
 ---
 
 # H800 Monitoring Jobs
@@ -44,12 +44,12 @@ Known signatures on this cluster:
 | `out of memory at cumem_allocator.cpp` | sleep/wake engine race at tight memory budgets | Check utilization settings; CI-proportional slack differs on 79 GiB cards |
 | `the NVIDIA driver on your system is too old` | compat exports missing from that shell | Add the LD_LIBRARY_PATH cuda-compat prefix |
 
-## Precedence
-
-Cluster physics override repo docs; repo-specific test semantics belong to the repo's own guides.
-
 ## Cleanup checklist after every run
 
 1. `pgrep -f ray::` → 0 (or `ray stop --force`).
 2. Free the GPUs you used back to 0 MiB (`nvidia-smi`).
 3. Confirm the runner's final `=== done (job=$RC) ===` line exists (every runner script prints one at completion) — its absence means the script died mid-way.
+
+## Precedence
+
+Cluster physics override repo docs; repo-specific test semantics belong to the repo's own guides.

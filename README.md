@@ -8,7 +8,7 @@ Personal agent skills — harness-agnostic (pi, OpenCode, Claude Code), self-con
 |---|---|---|
 | `coding-style` | before touching any code or any git action (commit / amend / push / PR) | edit conventions, approval-gated git actions, fresh-review commit gate |
 | `code-review` | before reviewing a PR or a review branch | deep, comprehensive review; may span multiple dispatched agents; drafted to a `review_*.md` file, never posted |
-| `survey` | before any intensive, broad investigation | typed decomposition, budgets, claim-based findings, evidence-audit tier, synthesis schema |
+| `survey` | before any intensive, broad investigation | typed decomposition, budgets, claim-based findings, optional evidence audit, synthesis schema |
 | `h800-env-setup` | before creating or repairing a Python/GPU env on the H800 cluster | conda + cuda-compat, uv vs pip, flashinfer JIT toolkit |
 | `h800-run-jobs` | before launching any long-running GPU job | ssh-detach launch pattern, compat exports, GPU selection |
 | `h800-monitor-jobs` | while any long-running GPU job is in flight | polling cadence, failure signatures, cleanup checklist |

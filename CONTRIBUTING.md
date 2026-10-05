@@ -9,7 +9,7 @@
 
 ## Structure (house style)
 
-- Frontmatter: `name` (kebab-case, ≤64 chars, matching the directory) and `description` (≤1024 chars) shaped as: *"MUST load before `<trigger>`. `<nature of the work>`. Not for `<carve-out>`."* — or an equivalent closing boundary (`Defers to …`, `For general tasks …`). The description is the only routing surface; trigger words belong in its first sentence.
+- Frontmatter: `name` (kebab-case, ≤64 chars, matching the directory) and `description` (≤1024 chars) shaped as: *"MUST load before/while `<trigger>`. `<nature of the work>`. Not for `<carve-out>`."* — or an equivalent closing boundary (`Defers to …`, `For general tasks …`). The description is the only routing surface; trigger words belong in its first sentence.
 - Body: a bold load line under the H1 (usual, not universal), then `##` sections by concern — never numbered procedures. Standard shape: `## Scope — <boundary>` stating the carve-out, the concern sections, `## Precedence` (near the end — the precedence rule itself is not optional, the heading placement is).
 - Mirror the sibling skills (`code-review`, `survey`) for tone and density.
 

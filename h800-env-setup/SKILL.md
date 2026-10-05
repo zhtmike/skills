@@ -1,6 +1,6 @@
 ---
 name: h800-env-setup
-description: "MUST load before creating or repairing any Python/GPU environment on the H800 cluster (driver 535 / CUDA 12.2, no /usr/local/cuda). Covers conda + cuda-compat forward compatibility, the CUDA toolkit for flashinfer JIT, uv vs pip resolution, and mirror-accelerated installs. For general tasks — the constraints are the cluster's, not any repo's."
+description: "MUST load before creating or repairing any Python/GPU environment on the H800 cluster (driver 535 / CUDA 12.2, no /usr/local/cuda). Covers conda + cuda-compat forward compatibility, the CUDA toolkit for flashinfer JIT, uv vs pip resolution, and mirror-accelerated installs. Not for other machines or clusters."
 ---
 
 # H800 Environment Setup
@@ -17,7 +17,7 @@ The user typically has an existing, activated conda env for the task at hand. **
 - NVIDIA H800 nodes (datacenter, compute cap 9.0), driver 535.161.08 → natively CUDA 12.2 only. GPU count per allocation varies (check `nvidia-smi` / `squeue`).
 - No usable `/usr/local/cuda` (only a stubs-only `cuda-12.2` — headers/nvml, no nvcc, no `bin/`). Any CUDA 13 stack needs forward compatibility.
 - PyPI via direct connection is slow/flaky — always route through the tuna mirror.
-- GPUs are usually free, but foreign processes (another user's server) sometimes hold some. **If you see GPUs held by processes outside this user's Slurm job, tell the user immediately** — it may be a leaked or misbehaving job the user can raise with its owner; don't silently route around it.
+- GPUs are usually free, but foreign processes (another user's server) sometimes hold some — tell the user immediately; never silently route around them.
 
 ## The CUDA 13 stack on the 535 driver (cuda-compat)
 
@@ -48,7 +48,7 @@ uv pip install --python "$CONDA_PREFIX/bin/python" -e ".[extras]"
 
 Pre-fetch big wheels (torch cu130 ~500MB) into a local wheelhouse and add `UV_FIND_LINKS=<dir>` when the network stalls — uv honors it.
 
-## Toolkit for flashinfer JIT (reward/rollout servers)
+## Toolkit for flashinfer JIT
 
 vLLM's flashinfer sampling JIT-compiles on first non-greedy request — needs a complete toolkit:
 
@@ -61,10 +61,10 @@ export CUDA_HOME=$CONDA_PREFIX
 
 Piecemeal toolkits fail on missing header families (`cuda_runtime.h`, then `curand.h`); nvcc alone is not enough. A cold `trtllm_mnnvl_comm` build may fail on system-glibc `_FloatN` guards — run the build once from an activated shell (conda's sysroot config rescues it); the cache then serves all later runs.
 
-## Precedence
-
-Cluster physics override repo docs; repo-specific install quirks belong to the repo's own guides.
-
 ## Guard against `set -u` in conda scripts
 
 conda's cuda-nvcc activate hooks crash under `set -u` (`NVCC_PREPEND_FLAGS: unbound variable`). Export `NVCC_PREPEND_FLAGS="${NVCC_PREPEND_FLAGS:-}"` before `conda activate` in any strict-mode script.
+
+## Precedence
+
+Cluster physics override repo docs; repo-specific install quirks belong to the repo's own guides.

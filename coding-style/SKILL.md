@@ -1,15 +1,11 @@
 ---
 name: coding-style
-description: "MUST load before touching any code and before any git action — commit, amend/rebase, push, PR. The user's conventions for edits and change structure — any language or repo: minimal diffs (big refactors need prior approval), no commit/push/PR without explicit approval; a commit request triggers a fresh single-dispatch review against these rules. PRs drafted as pr_<branch-slug>.md and submitted by the user. Defers to built-in and project-specific skills."
+description: "MUST load before touching any code and before any git action — commit, amend/rebase, push, PR. The user's conventions for edits and change structure, any language or repo: minimal diffs, approval-gated git actions, fresh-review commit gate. Defers to built-in and project-specific skills."
 ---
 
 # Personal Coding Style
 
 **Load this before any code modification or git action.** These rules are also the rubric for the fresh review at commit time (see "Fresh review" below).
-
-## Precedence
-
-Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) always win. This skill covers only what they don't — baseline personal taste, carried across repos.
 
 ## Core Principle
 
@@ -41,7 +37,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers — the code itself carries the explanation. Comments stay rare; each must earn its line (a tracked `TODO(owner)` counts). If the code says it plainly, no comment.
 - Comment only the non-trivial. WHY, not WHAT. Cross-reference the invariant or upstream behavior: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one.
-- Prevent comment erosion: comments rot as code drifts, and fewer comments = less surface to rot — rare ≠ none; keep the comments that pin real invariants. When a diff changes behavior, update or delete the comments it invalidates in the same PR, on touched lines and anywhere it orphaned them. An inaccurate comment is worse than none.
+- Prevent comment erosion: update or delete the comments a behavior change invalidates, in the same PR — an inaccurate comment is worse than none.
 
 ### Tests ship with the change
 - Every behavior change gets a test in the same PR. Prefer cheap CPU tests (`importorskip`, `monkeypatch`) over heavy e2e; never fake import systems or mock what you could really construct.
@@ -62,7 +58,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Follow the repo's own commit convention when it defines one. Otherwise: `[modules] type: subject (#PR)` — modules comma-listed, type in `feat|fix|chore|refactor|test`. Prepend `[BREAKING]` when APIs change.
 - Body = root-cause narrative with numbers and issue links, not a diff restatement.
 - Review fixes: title `address review` + bullet list of changed areas.
-- Trailers: `AI-assistance: <agent> (<model> via <provider>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by:`. Verify model and provider from whatever the session exposes (harness metadata, model/provider env vars) before writing — never assume the vendor. If the provider is unverifiable, drop the `via <provider>` segment and the `noreply@…` email entirely (a bare `Co-authored-by: <agent>` is valid); a false attribution is worse than none.
+- Trailers: `AI-assistance: <agent> (<model> via <provider>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by:`. Verify model and provider from what the session exposes before writing — never assume the vendor; a false attribution is worse than none. If a segment is unverifiable, drop it (a bare `Co-authored-by: <agent>` is valid).
 
 ## Git actions — approval-gated
 
@@ -90,3 +86,7 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 - Every new hook, protection, or abstraction must justify its existence — default to not adding it.
 - Make things general: solve the class of problem, not one instance; reuse existing infra instead of building parallel new paths.
 - Fix formally at the source (ideally upstream) instead of patching around it locally.
+
+## Precedence
+
+Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) always win. This skill covers only what they don't — baseline personal taste, carried across repos.
