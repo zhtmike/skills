@@ -18,7 +18,7 @@
 - grep the skill body for other skills' names **and their concepts** — zero hits.
 - grep for harness specifics (CLI flags, harness paths, exit-code semantics) — zero hits.
 - The description states exactly one trigger, disjoint from every other skill's trigger.
-- The fresh-review commit gate (`coding-style`) runs before any commit.
+- The fresh-review commit gate (`commit-gate`) runs before any commit.
 
 ## Template
 

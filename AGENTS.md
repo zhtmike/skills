@@ -6,4 +6,4 @@ Personal agent skills — one `<name>/SKILL.md` per skill. Before adding or edit
 - h800-* carry H800-cluster facts (driver 535 / CUDA 12.2) — verify against the cluster, not general CUDA docs.
 - Nothing else lives here: no scripts, no harness config — install wiring (symlinks, dispatch mechanics) belongs to each harness's setup, not this repo.
 - Installs are symlinks: renaming or deleting a skill directory breaks installed machines — call it out in the commit message.
-- Commits go through the fresh-review gate (the global coding-style skill); draft the full message first.
+- Commits go through the fresh-review gate (the global commit-gate skill); draft the full message first.
