@@ -13,7 +13,7 @@ Any language, any repo.
 
 ## Core Principle
 
-Write code that fails fast, explains why it exists, and ships with proof. No silent fallbacks, no dead code. Prefer explicit and linear over clever and compact.
+Write code that fails fast, carries its own explanation, and ships with proof. No silent fallbacks, no dead code. Prefer explicit and linear over clever and compact.
 
 ## Rules
 
@@ -39,9 +39,12 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 
 ### Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers — the code itself carries the explanation. Comments stay rare; each must earn its line (a tracked `TODO(owner)` counts). If the code says it plainly, no comment.
-- Comment only the non-trivial. WHY, not WHAT. Cross-reference the invariant or upstream behavior: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
+- Comment only the non-trivial. WHY, not WHAT — and WHY means an invariant, never provenance: no comment cites a PR, issue, or commit number (`# handle #1234`, `// see PR #567` are both wrong); the sole exception is `# TODO(owner): ... — tracked in <issue>` with a real issue. Cross-reference the invariant or upstream behavior instead: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
+- One line per comment; two lines is the hard ceiling even for a non-obvious invariant — anything longer belongs in a docstring, never more comment. A comment that narrates what the next lines do gets deleted, not written.
+- Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from sync to async`, `# fixed the race`. Patch-time justification lives in the commit/PR description or the reply, not the code; applying a patch earns no more comment allowance than writing the file fresh.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one.
 - Prevent comment erosion: update or delete the comments a behavior change invalidates, in the same PR — an inaccurate comment is worse than none.
+- Self-check before finishing: rescan your own diff — delete or rewrite any comment that cites a PR/issue number, narrates the edit, or paraphrases code instead of stating an invariant.
 
 ### Tests ship with the change
 - Every behavior change gets a test in the same PR. Prefer cheap CPU tests (`importorskip`, `monkeypatch`) over heavy e2e; never fake import systems or mock what you could really construct.
@@ -66,4 +69,6 @@ Write code that fails fast, explains why it exists, and ships with proof. No sil
 
 ## Precedence
 
-Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) always win. This skill covers only what they don't — baseline personal taste, carried across repos.
+Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) win. This skill covers only what they don't — baseline personal taste, carried across repos.
+
+One exception: the comment rules above — no PR/issue/commit citations, the comment length cap — hold even when the repo's own code comments otherwise; don't imitate local comment style on these two points.
