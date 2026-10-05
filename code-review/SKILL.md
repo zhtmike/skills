@@ -1,9 +1,11 @@
 ---
 name: code-review
-description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, comprehensive review — necessity-first, scope-disciplined, zero tolerance for fallback shims, evidence-backed claims; spans multiple dispatched agents when the target is large. Not for pre-commit self-checks. Lower priority than project-specific skills."
+description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, necessity-first review, spanning dispatched agents when the target is large. Not for pre-commit self-checks. Lower priority than project-specific skills."
 ---
 
 # Personal Code Review
+
+**Load this before reviewing a PR or a review branch on the user's behalf.**
 
 ## Scope — PRs and review branches only
 
@@ -32,8 +34,8 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 - Write the review to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
 - NEVER post, submit, or push the review anywhere — no GitHub comments, `gh pr review` / `gh pr comment` / API calls, and no committing or pushing the file. You only draft it; the user pastes it personally or reviews by hand.
 - Keep it compact: ≤ 30 lines. One-line verdict, then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link (a one-liner fix snippet is fine when it's the point). No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
-- Severity by verb choice, not labels — blocking: "drop the fallback", "fix it", "non-readable. Fix it."; suggestion: "consider…", "better to…", "I think…". When you know the fix, name the exact functions/APIs. Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
-- End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — agent/model/provider verified from whatever the session exposes (harness metadata, model/provider env vars), never assumed; if unverifiable, name only what is verified and omit the rest.
+- Severity by verb choice, not labels — blocking: "drop the fallback", "fix it"; suggestion: "consider…", "I think…". When you know the fix, name the exact functions/APIs. Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
+- End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — verified from what the session exposes, never assumed; omit what's unverified.
 
 ## Review order — flag in this priority
 

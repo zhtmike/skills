@@ -1,6 +1,6 @@
 ---
 name: h800-run-jobs
-description: "MUST load before launching any long-running GPU job (training, rollout, smoke tests) on the H800 cluster (driver 535 / CUDA 12.2). Covers the ssh-detach launch pattern (local background jobs get reaped), the cuda-compat exports every launcher needs, GPU selection on the shared box, and job script hygiene. For general tasks — the constraints are the cluster's, not any repo's."
+description: "MUST load before launching any long-running GPU job (training, rollout, smoke tests) on the H800 cluster (driver 535 / CUDA 12.2). Covers the ssh-detach launch pattern (local background jobs get reaped), the cuda-compat exports every launcher needs, GPU selection on the shared box, and job script hygiene. Not for other machines or clusters."
 ---
 
 # H800 Running Jobs
@@ -37,12 +37,12 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 
 - Check `nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader` first. If GPUs are held by processes outside this user's Slurm job, **report it to the user immediately** (foreign/leaked jobs should be raised with their owner, not routed around); otherwise take what's verified free.
 - Pin free devices explicitly: `CUDA_VISIBLE_DEVICES=2,3` + match `NUM_GPUS=2`.
-- Some test harnesses compute GPU-role counts arithmetically from `NUM_GPUS` (e.g. `num_gpus - fixed_overhead`) — running a many-GPU-default test on fewer GPUs can produce nonsense configs (negative counts, empty data files). Check the script's assumptions before adapting GPU counts.
+- Check the script's GPU-count assumptions before adapting them — many-GPU defaults can produce nonsense configs on fewer GPUs.
 
 ## Job script hygiene
 
 - `set -u` scripts must export `NVCC_PREPEND_FLAGS="${NVCC_PREPEND_FLAGS:-}"` before `conda activate` (hook crashes otherwise).
-- Stop shared cluster services (e.g. ray) between sequential jobs; skip only for parallel groups on disjoint devices, via the harness's own opt-out if it has one.
+- Stop shared cluster services (e.g. ray) between sequential jobs; skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.
 - Capture exit codes per job and print a final `=== done (job=$RC) ===` line — polling greps for it.
 
 ## Precedence

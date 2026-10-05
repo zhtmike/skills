@@ -1,6 +1,6 @@
 ---
 name: survey
-description: "MUST load before any intensive, broad investigation — a question spanning too many sources, subsystems, or papers for a single context. Many focused, independent lanes dispatched concurrently through the harness's native sub-agent/dispatch mechanism; claim-based findings, adversarial verification for high-stakes answers, one synthesized answer with confidence and remaining uncertainty. Not for single-context questions."
+description: "MUST load before any intensive, broad investigation — a question spanning too many sources, subsystems, or papers for a single context. Decomposes into concurrent dispatched lanes; claim-based findings, one confidence-rated answer. Not for single-context questions."
 ---
 
 # Survey
