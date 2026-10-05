@@ -16,7 +16,7 @@ This skill reviews exactly two kinds of target, on the user's request:
 
 It is a **deep and comprehensive** review: read the whole diff, trace call paths, verify every behavioral claim, sweep the repo for the same defect class. Out of scope: the agent's pre-commit self-check of its own staged change — do not reach for this skill to self-check a commit.
 
-Precedence: project-specific skills and repo conventions (`AGENTS.md`, review templates) win where they define a rubric; this skill covers the rest.
+Precedence: project-specific skills and repo conventions (`AGENTS.md`, review templates) win where they define a rubric; this skill covers the rest. One exception: the provenance-citation ban and comment length cap hold even in comment-heavy repos — don't let local comment style excuse them.
 
 ## Working-tree isolation
 
@@ -45,7 +45,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 4. **Generality & reuse** — Does this solve only one model/case? Prefer extending existing infra over introducing parallel mechanisms. Check duplication against already-landed work.
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
 6. **Tests & evidence** — New behavior needs a test; prefer cheap CPU tests, and flag tests that materially increase CI cost. Lightweight CPU tests may run locally (real output only); GPU claims are checked by plausibility, never asserted as run. Evidence (curves, counts) must be plausible — sanity-check the data itself, not just its presence.
-7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it. Flag names that hide intent. Comments: self-documenting code is the bar — flag WHAT-comments, section banners, and comments the diff just orphaned (comment erosion); only WHY-comments earn their line. New or changed public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers) must document every parameter and return (`Args:` / `Returns:`); flag undocumented public surface.
+7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it. Flag names that hide intent. Comments: self-documenting code is the bar — flag WHAT-comments, section banners, and comments the diff just orphaned (comment erosion); only WHY-comments earn their line, capped at two lines. WHY means an invariant, never provenance — flag comments citing PR/issue/commit numbers (a tracked `TODO(owner)` excepted) and edit-narration (`# now retries`, `# changed from X`). New or changed public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers) must document every parameter and return (`Args:` / `Returns:`); flag undocumented public surface.
 8. **Workaround hygiene** — Temporary code must carry `TODO(owner)` + a tracking issue (+ upstream link if applicable).
 9. **Docs sync** — README/docs updated in the same PR, dates aligned.
 10. **Same defect, elsewhere** — When a finding lands, check whether the same pattern or risk exists elsewhere in the diff or repo; flag the class ("this same unchecked-NaN pattern appears in 3 more places"), not just the instance found.
