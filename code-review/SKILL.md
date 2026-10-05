@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, necessity-first review, spanning dispatched agents when the target is large. Not for pre-commit self-checks. Lower priority than project-specific skills."
+description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, necessity-first review, spanning dispatched agents when the target is large. Lower priority than project-specific skills."
 ---
 
 # Personal Code Review
