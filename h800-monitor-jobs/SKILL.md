@@ -52,6 +52,8 @@ Known signatures on this cluster:
 2. Free the GPUs you used back to 0 MiB (`nvidia-smi`).
 3. Confirm the runner's final `=== done (job=$RC) ===` line exists (every runner script prints one at completion) — its absence means the script died mid-way.
 
+Kill leftovers by PID from `nvidia-smi --query-compute-apps=pid` / `pgrep` output (verify the PID is not your own shell's) — never `pkill -f <pattern>` where your own shell's command line could contain the pattern (it matches and kills the tool shell itself; the symptom is the call dying with exit 137/143 and the pkills only partially applied).
+
 ## Precedence
 
 Cluster physics override repo docs; repo-specific test semantics belong to the repo's own guides.
