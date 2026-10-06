@@ -42,6 +42,8 @@ Known signatures on this cluster:
 | `_Float128/_Float32x ... invalid combination of type specifiers` | nvcc EDG vs system glibc on cold JIT build | Pre-warm the build from an activated shell once |
 | `DistNetworkError ... EADDRINUSE` | torch.distributed ephemeral port collision (parallel smoke groups) | Rerun; a flake, not a code bug |
 | `out of memory at cumem_allocator.cpp` | sleep/wake engine race at tight memory budgets | Check utilization settings; CI-proportional slack differs on 79 GiB cards |
+| `No available memory for the cache blocks` at engine init | engine-budget floor: `U × GPU` cannot hold weights + activation/graph overhead + KV — the opposite end of the cumem wake ceiling above; bracket U from both sides | Raise `gpu_memory_utilization`, or shrink the engine (max_num_seqs, cudagraph sizes) |
+| wandb `CommError <no message>` at `wandb.init` | stale `~/.netrc` wandb key: detached runners skip `.bashrc`, so the valid `WANDB_API_KEY` env never reaches the job and wandb falls back to netrc; the real error is HTTP 401 in `wandb/run-*/logs/debug-internal.log` | Update the netrc password to the current key (or export `WANDB_API_KEY` in the runner) |
 | `the NVIDIA driver on your system is too old` | compat exports missing from that shell | Add the LD_LIBRARY_PATH cuda-compat prefix |
 
 ## Cleanup checklist after every run
