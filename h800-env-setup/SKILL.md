@@ -1,6 +1,6 @@
 ---
 name: h800-env-setup
-description: "MUST load before creating or repairing any Python/GPU environment on the H800 cluster (driver 535 / CUDA 12.2, no /usr/local/cuda). Covers conda + cuda-compat forward compatibility, the CUDA toolkit for flashinfer JIT, uv vs pip resolution, and mirror-accelerated installs. Not for other machines or clusters."
+description: "MUST load before creating or repairing any Python/GPU environment on the H800 cluster (driver 535 / CUDA 12.2, no /usr/local/cuda). Covers conda + cuda-compat forward compatibility, the CUDA toolkit for flashinfer JIT, uv vs pip resolution, mirror-accelerated installs, and outbound-egress workarounds (PyPI mirrors, github over 443/https). Not for other machines or clusters."
 ---
 
 # H800 Environment Setup
@@ -17,6 +17,7 @@ The user typically has an existing, activated conda env for the task at hand. **
 - NVIDIA H800 nodes (datacenter, compute cap 9.0), driver 535.161.08 → natively CUDA 12.2 only. GPU count per allocation varies (check `nvidia-smi` / `squeue`).
 - No usable `/usr/local/cuda` (only a stubs-only `cuda-12.2` — headers/nvml, no nvcc, no `bin/`). Any CUDA 13 stack needs forward compatibility.
 - PyPI via direct connection is slow/flaky — always route through the tuna mirror.
+- ssh/22 to github.com times out — `git@github.com` remotes can neither fetch nor push. Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (transparent for existing remotes), or go over https: public repos fetch anonymously, private repos and pushes take gh as the credential helper (`git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`).
 - GPUs are usually free, but foreign processes (another user's server) sometimes hold some — tell the user immediately; never silently route around them.
 
 ## The CUDA 13 stack on the 535 driver (cuda-compat)
