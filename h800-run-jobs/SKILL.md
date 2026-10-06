@@ -42,6 +42,7 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 ## Job script hygiene
 
 - `set -u` scripts must export `NVCC_PREPEND_FLAGS="${NVCC_PREPEND_FLAGS:-}"` before `conda activate` (hook crashes otherwise).
+- Detached runners do not source `.bashrc`: credential env vars (e.g. `WANDB_API_KEY`) are absent and tools fall back to `~/.netrc` — keep it current or export the key in the runner.
 - Stop shared cluster services (e.g. ray) between sequential jobs; skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.
 - Capture exit codes per job and print a final `=== done (job=$RC) ===` line — polling greps for it.
 
