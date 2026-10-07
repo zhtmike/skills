@@ -6,7 +6,7 @@ Personal agent skills — harness-agnostic (pi, OpenCode, Claude Code), self-con
 
 | Skill | Load when | Scope |
 |---|---|---|
-| `coding-style` | before touching any code — any edit, any language, any repo | edit conventions: minimal diffs, fail-fast, comment hygiene, tests with the change |
+| `coding-style` | before touching any code — any edit, any language, any framework, any repo | edit conventions: minimal diffs, fail-fast, comment hygiene, tests with the change |
 | `commit-gate` | before any git action (commit / amend / push / PR) | approval-gated actions on the fork, commit-message conventions, fresh-review commit gate |
 | `code-review` | before reviewing a PR or a review branch | deep, comprehensive review; may span multiple dispatched agents; drafted to a `review_*.md` file, never posted |
 | `survey` | before any intensive, broad investigation | typed decomposition, budgets, claim-based findings, optional evidence audit, synthesis schema |
