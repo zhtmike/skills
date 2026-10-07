@@ -18,7 +18,7 @@ timeout 20 ssh -o BatchMode=yes localhost \
   'cd <workdir> && nohup bash runner.sh > runner.log 2>&1 < /dev/null & echo launched'
 ```
 
-Do not mix the launch with sleeps/polls in the same tool call — launch-only commands survive; compound ones get reaped with the shell.
+Do not mix the launch with sleeps/polls in the same tool call — launch-only commands survive; compound ones get reaped with the shell. One detached job per ssh call: a second `nohup ... &` inside the same remote command does not reliably survive ssh exit.
 
 ## Every launcher needs the compat exports
 
