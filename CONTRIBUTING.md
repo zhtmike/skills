@@ -5,7 +5,8 @@
 1. **One skill, one concern** — a single clean trigger; everything else is out of scope, and the skill says so explicitly.
 2. **Self-contained** — no references to other skills, by name or by concept; a skill loads alone and must make sense alone. Never "see the X skill" — inline the needed fact or drop it.
 3. **Harness-agnostic** — no pi/OpenCode/Claude-specific paths, flags, or mechanics. Delegation is referenced as "whatever agent-dispatch mechanism your harness provides"; harness specifics live in the harness's own setup, never here.
-4. **Compact** — rules, not scripts; every line earns its place. Deep process lives in harness mechanics, not skill prose.
+4. **Framework-agnostic where it costs nothing** — state mechanisms without naming the framework (engine init timeouts, supervisor-respawned workers, not vllm/ray specifics); exact log signatures and cluster-bound commands stay concrete as grep handles.
+5. **Compact** — rules, not scripts; every line earns its place. Deep process lives in harness mechanics, not skill prose.
 
 ## Structure (house style)
 
