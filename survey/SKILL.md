@@ -17,14 +17,15 @@ Gate the question first: if it is underspecified (missing goal, constraints, or 
 
 - One focused, non-overlapping lane per source, subsystem, or sub-question — typically 3–6, more when the question is genuinely wide; never merge two questions into one lane. Prefer more narrow lanes over fewer broad ones — focus makes findings deep, and cheap lanes keep breadth affordable.
 - Let the question type pick the angles: comparative → one lane per candidate; evaluative → criteria plus candidates; exploratory → landscape sweep; investigative → one lane per hypothesis; quantitative → measurement methodology. Always add a contrarian/skeptical lane whose job is to attack the leading or conventional answer.
-- Budget before launching — lanes and per-lane effort (sources to read, time) — and stop when the budget is spent. Budgets are the stopping criterion; without them surveys sprawl.
+- Budget before launching — lanes and per-lane effort (sources to read, time) — and stop when the budget is spent. Budgets are the stopping criterion; without them surveys sprawl. API-hitting lanes are launched write-capable and rewrite their artifact as data accumulates (a timeout must still leave partial results); prefer batch endpoints over per-item GETs — per-item loops die on rate limits with nothing to show.
 - Show the lane plan and launch without waiting — ask first only if genuinely ambiguous.
 
 ## Lane briefs
 
 - Self-contained: goal, known context (repo, versions, constraints), scope, expected deliverable with output format, and what not to do — the lane must execute on the brief alone. When a source must be read at a pinned version, say how: `git show <ref>:<path>` / `git diff <old>..<new>` in the owning repo — never its working tree, which can sit at a different ref.
-- Each lane is independent: own context, read-only, answers exactly its brief and nothing else.
+- Each lane is independent: own context, read-only toward what it investigates, answers exactly its brief and nothing else.
 - Where the harness dispatches via files, briefs are files in the session's work directory; where it dispatches native sub-agents, the brief is the sub-agent's prompt.
+- The brief's output instruction must match the lane's launch mode: stdout-captured lanes are told their final message **is** the full deliverable; write-capable lanes name their single output file. Never point stdout at a path the lane also writes — the final-message write at exit clobbers the artifact.
 - Dispatch all lanes concurrently — cheap/fast model per lane where the harness allows. A failed or empty lane: rerun it alone; rate-limited provider: run lanes sequentially.
 
 ## Lane findings — claims, not prose
@@ -35,7 +36,7 @@ Gate the question first: if it is underspecified (missing goal, constraints, or 
 
 ## Verification — high-stakes answers only
 
-Default: no verification lane — budgets already bound the work. When the answer gates a risky decision, dispatch a separate evidence-audit lane that tries to **refute** each central claim against its sources — skeptical by default, refuted when uncertain. Outcomes are confirmed / refuted / unverified, and all three ship in the report. A lane that failed to run is an infra failure, not a finding — report it as "retry", never as "nothing found".
+Default: no verification lane — budgets already bound the work. When the answer gates a risky decision, dispatch a separate evidence-audit lane that tries to **refute** each central claim against its sources — skeptical by default, refuted when uncertain. The audit re-verifies existence claims — code repos, venue labels, withdrawn versions — the collection round mis-attributes these. Outcomes are confirmed / refuted / unverified, and all three ship in the report. A lane that failed to run is an infra failure, not a finding — report it as "retry", never as "nothing found".
 
 ## Synthesis
 
