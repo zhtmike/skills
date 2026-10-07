@@ -6,7 +6,8 @@
 2. **Self-contained** — no references to other skills, by name or by concept; a skill loads alone and must make sense alone. Never "see the X skill" — inline the needed fact or drop it.
 3. **Harness-agnostic** — no pi/OpenCode/Claude-specific paths, flags, or mechanics. Delegation is referenced as "whatever agent-dispatch mechanism your harness provides"; harness specifics live in the harness's own setup, never here.
 4. **Framework-agnostic where it costs nothing** — state mechanisms without naming the framework (engine init timeouts, supervisor-respawned workers, not vllm/ray specifics); exact log signatures and cluster-bound commands stay concrete as grep handles.
-5. **Compact** — rules, not scripts; every line earns its place. Deep process lives in harness mechanics, not skill prose.
+5. **Incident-agnostic** — the skill body states the generic rule; the incident that motivated it (repo, PR/issue numbers, codebase symbols) lives in the commit message only. Environment-specific facts are reserved to skills whose trigger is that environment (`h800-*`).
+6. **Compact** — rules, not scripts; every line earns its place. Deep process lives in harness mechanics, not skill prose.
 
 ## Structure (house style)
 
@@ -18,6 +19,7 @@
 
 - grep the skill body for other skills' names **and their concepts** — zero hits.
 - grep for harness specifics (CLI flags, harness paths, exit-code semantics) — zero hits.
+- grep the changed skill body for incident specifics — repo names, PR/issue numbers, symbols from the motivating codebase — zero hits outside environment-bound skills (`h800-*`).
 - The description states exactly one trigger, disjoint from every other skill's trigger.
 - The fresh-review commit gate (`commit-gate`) runs before any commit.
 
