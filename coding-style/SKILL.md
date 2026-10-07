@@ -29,6 +29,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Raise with actionable messages: `raise ValueError(f"Invalid backend: {x}. Must be one of {sorted(valid)}")`
 - A silent downgrade (catch-and-continue, default substitution) hides broken setups.
 - If a fallback is genuinely temporary: `# TODO(owner): drop this and raise instead — tracked in <issue>` plus a real tracking issue. No permanent workarounds.
+- When the upstream fix lands — typically riding a dependency or pin bump — delete the workaround in that same change; one that outlives its fix, or gets rewritten instead of dropped, is new debt.
 - Chain exceptions: `raise ImportError(...) from e`.
 
 ### Be explicit
@@ -44,7 +45,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - One line per comment; two lines is the hard ceiling even for a non-obvious invariant — anything longer belongs in a docstring, never more comment. A comment that narrates what the next lines do gets deleted, not written.
 - Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from sync to async`, `# fixed the race`. Patch-time justification lives in the commit/PR description or the reply, not the code; applying a patch earns no more comment allowance than writing the file fresh.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one. Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers) go further: document every parameter and return, plus error conditions when real — a caller should never need to read the body.
-- Prevent comment erosion: update or delete the comments a behavior change invalidates, in the same PR — an inaccurate comment is worse than none.
+- Prevent comment erosion: update or delete the comments a behavior change invalidates, in the same PR — version-dated comments ("as of X…") die with X — an inaccurate comment is worse than none.
 - Self-check before finishing: rescan your own diff — delete or rewrite any comment that cites a PR/issue number, narrates the edit, or paraphrases code instead of stating an invariant.
 
 ### Tests ship with the change
@@ -59,6 +60,8 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ### Prune relentlessly
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
+- No legacy code: when the supported floor moves — dependency or pin bump, a dropped platform or version — delete the compat branch, its dead callers, and its tests in the same change; code kept for unsupported versions is debt, not safety.
+- No duplicated functions: two copies of the same logic is a bug factory (deliberate test-fixture copies excepted) — when a diff touches one copy, extract the shared helper or delete the duplicate; byte-identical helpers are the loudest smell.
 - Constants: module-level `SCREAMING_CASE` tuples/frozensets over scattered literals — consolidate the ones your diff touches.
 - Logging: module-level `logger = logging.getLogger(__name__)`, lazy `%-style` args.
 
