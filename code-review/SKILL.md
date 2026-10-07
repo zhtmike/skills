@@ -26,16 +26,18 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 ## Depth — verify everything; span agents when needed
 
 - Every finding is verified before it is written: read the surrounding code, trace the call path, check the test actually asserts the behavior. No skimming, no speculative findings.
+- Never hand the author a verification the reviewer could have run — consumer greps, upstream reads, reachability checks. "Verify or justify X" in a draft means the check wasn't done: run it, then ask with the evidence or drop the item. Only what needs a real run (GPU, live engine) goes to the author, naming exactly what a run alone can show.
 - Large or multi-subsystem targets: dispatch parallel read-only agents, one per subsystem or file group, through whatever agent-dispatch mechanism your harness provides. Each hands back findings with `file:line` evidence; merge and dedupe, re-verify borderline findings yourself, then write the single review file.
 - One review file per target, no matter how many agents contributed.
 
 ## Output contract — never post
 
+- A re-review accounts for every prior-round finding — verified fixed, withdrawn with evidence, or re-flagged; none silently vanishes.
 - Write the review to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file. Delete it only once the user confirms the review is posted or otherwise consumed — the agent never posts, so the file waits for the user's word; a stale `review_*.md` misleads fresh sessions.
 - When the round ends, written or not, remove every other artifact it created — the throwaway worktree, saved diffs, dispatched agents' briefs and outputs; the review file is the only deliberate leftover, per the bullet above.
 - NEVER post, submit, or push the review anywhere — no GitHub comments, `gh pr review` / `gh pr comment` / API calls, and no committing or pushing the file. You only draft it; the user pastes it personally or reviews by hand.
 - Keep it compact: ≤ 30 lines. One-line verdict, then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link (a one-liner fix snippet is fine when it's the point). No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
-- Severity by verb choice, not labels — blocking: "drop the fallback", "fix it"; suggestion: "consider…", "I think…". When you know the fix, name the exact functions/APIs. Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
+- Severity by verb choice, not labels — blocking: "drop the fallback", "fix it"; a cleanup you have grounded gets the same imperative however small; "consider…", "I think…" are reserved for genuine taste calls where either shape is defensible. When you know the fix, name the exact functions/APIs. Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
 - End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — verified from what the session exposes, never assumed; omit what's unverified.
 
 ## Review order — flag in this priority
