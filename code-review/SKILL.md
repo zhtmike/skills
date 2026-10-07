@@ -21,7 +21,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 ## Working-tree isolation
 
 - Never switch, create, or rebase the current branch for a review — reviews of different targets may run in parallel.
-- When repo-wide context is needed (grep, call paths, the defect-class sweep): use a throwaway detached worktree at the target head — fetch the head if needed, then `git worktree add --detach <tmpdir> <head>` (PRs: `git fetch <base-remote> pull/<N>/head && git worktree add --detach <tmpdir> FETCH_HEAD`, where `<base-remote>` is the remote pointing at the PR's base repo — `git remote -v` first: fork setups often name it `upstream` or `official`, not `origin`) — and `git worktree remove <tmpdir>` after writing the review.
+- When repo-wide context is needed (grep, call paths, the defect-class sweep): use a throwaway detached worktree at the target head — fetch the head if needed, then `git worktree add --detach <tmpdir> <head>` (PRs: `git fetch <base-remote> pull/<N>/head && git worktree add --detach <tmpdir> FETCH_HEAD`, where `<base-remote>` is the remote pointing at the PR's base repo — `git remote -v` first: fork setups often name it `upstream` or `official`, not `origin`) — and `git worktree remove <tmpdir>` when the round ends, written or not.
 
 ## Depth — verify everything; span agents when needed
 
@@ -31,7 +31,8 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 
 ## Output contract — never post
 
-- Write the review to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
+- Write the review to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file. Delete it only once the user confirms the review is posted or otherwise consumed — the agent never posts, so the file waits for the user's word; a stale `review_*.md` misleads fresh sessions.
+- When the round ends, written or not, remove every other artifact it created — the throwaway worktree, saved diffs, dispatched agents' briefs and outputs; the review file is the only deliberate leftover, per the bullet above.
 - NEVER post, submit, or push the review anywhere — no GitHub comments, `gh pr review` / `gh pr comment` / API calls, and no committing or pushing the file. You only draft it; the user pastes it personally or reviews by hand.
 - Keep it compact: ≤ 30 lines. One-line verdict, then a numbered list — each finding 1–3 lines: `file:line` + imperative ask + at most one fact or cross-link (a one-liner fix snippet is fine when it's the point). No preamble, tables, praise/evidence sections, or `[verified]` tags; verify silently first, cite a run/artifact inline only when it carries the finding. Over ~7 findings: keep the top, one-line or drop the rest.
 - Severity by verb choice, not labels — blocking: "drop the fallback", "fix it"; suggestion: "consider…", "I think…". When you know the fix, name the exact functions/APIs. Cross-link issues/PRs; assign an owner; re-flag ignored feedback.
