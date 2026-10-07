@@ -21,7 +21,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 ## Working-tree isolation
 
 - Never switch, create, or rebase the current branch for a review — reviews of different targets may run in parallel.
-- When repo-wide context is needed (grep, call paths, the defect-class sweep): use a throwaway detached worktree at the target head — fetch the head if needed, then `git worktree add --detach <tmpdir> <head>` (PRs: `git fetch origin pull/<N>/head && git worktree add --detach <tmpdir> FETCH_HEAD`) — and `git worktree remove <tmpdir>` after writing the review.
+- When repo-wide context is needed (grep, call paths, the defect-class sweep): use a throwaway detached worktree at the target head — fetch the head if needed, then `git worktree add --detach <tmpdir> <head>` (PRs: `git fetch <base-remote> pull/<N>/head && git worktree add --detach <tmpdir> FETCH_HEAD`, where `<base-remote>` is the remote pointing at the PR's base repo — `git remote -v` first: fork setups often name it `upstream` or `official`, not `origin`) — and `git worktree remove <tmpdir>` after writing the review.
 
 ## Depth — verify everything; span agents when needed
 
