@@ -15,12 +15,19 @@
 - Body: a bold load line under the H1 (usual, not universal), then `##` sections by concern — never numbered procedures. Standard shape: `## Scope — <boundary>` stating the carve-out, the concern sections, `## Precedence` (near the end — the precedence rule itself is not optional, the heading placement is).
 - Mirror the sibling skills (`code-review`, `survey`) for tone and density.
 
+## Growth — compress, then split
+
+- Ceiling: 100 lines / 1600 words per body. From ~80 lines or ~1300 words, additions pay for themselves — tighten or replace existing lines instead of appending (Compact as a discipline, not an aspiration).
+- Split when a section serves a different trigger than the frontmatter — a reader loading the skill for X should not carry half a body about Y. Precedent: coding-style was split into coding-style + commit-gate once commit gating accreted its own trigger.
+- A split is a new skill: own directory and trigger (Principle 1), README row added, both bodies self-contained (Principle 2); name the install step in the commit message — new directories neither break existing symlinks nor propagate to installed machines.
+
 ## Invariants — check before committing
 
 - grep the skill body for other skills' names **and their concepts** — zero hits.
 - grep for harness specifics (CLI flags, harness paths, exit-code semantics) — zero hits.
 - grep the changed skill body for incident specifics — repo names, PR/issue numbers, symbols from the motivating codebase — zero hits outside environment-bound skills (`h800-*`).
 - The description states exactly one trigger, disjoint from every other skill's trigger.
+- No body over the ceiling (100 lines / 1600 words); from ~80 lines or ~1300 words, additions must tighten what is there — and split when a section serves a different trigger, per Growth.
 - The fresh-review commit gate (`commit-gate`) runs before any commit.
 
 ## Template
