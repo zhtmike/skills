@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, necessity-first review, spanning dispatched agents when the target is large. Lower priority than project-specific skills."
+description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, necessity-first review — every claim verified, every cited link resolved, every hunk held to the target's scope — spanning dispatched agents when the target is large. Lower priority than project-specific skills."
 ---
 
 # Personal Code Review
@@ -27,6 +27,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 
 - Every finding is verified before it is written: read the surrounding code, trace the call path, check the test actually asserts the behavior. No skimming, no speculative findings.
 - Never hand the author a verification the reviewer could have run — consumer greps, upstream reads, reachability checks. "Verify or justify X" in a draft means the check wasn't done: run it, then ask with the evidence or drop the item. Only what needs a real run (GPU, live engine) goes to the author, naming exactly what a run alone can show.
+- Every external reference the diff, its code comments, or the commit messages cite — issues, PRs, upstream commits, release assets — is resolved and checked to exist and to cover what the citation claims (scope, state, in-tag); a link is a claim, not proof. A `tracked in #X` whose issue's scope doesn't match the TODO is a finding.
 - Large or multi-subsystem targets: dispatch parallel read-only agents, one per subsystem or file group, through whatever agent-dispatch mechanism your harness provides. Each hands back findings with `file:line` evidence; merge and dedupe, re-verify borderline findings yourself, then write the single review file.
 - One review file per target, no matter how many agents contributed.
 
@@ -43,7 +44,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 ## Review order — flag in this priority
 
 1. **Necessity** — For every addition ask: why does this exist? Hooks, protections, abstractions, and defensive checks must justify themselves. Default answer: delete it.
-2. **Scope** — Anything unrelated to the target's purpose: drop it. Change too huge? Split it — interface/RFC first PR, implementation second.
+2. **Scope** — Anything unrelated to the target's purpose: drop it. Read the file list before the hunks: files outside the purpose are findings before their content is; in a fix round, every hunk must map to a requested finding or follow directly from one — unrequested refactors or behavior changes riding along get flagged however defensible they look. Change too huge? Split it — interface/RFC first PR, implementation second.
 3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades: drop them and fix formally. Never wave through "fallback plan" code. A dependency or pin bump is the drop deadline: audit every tracked workaround whose upstream fix rode the bump — it must be deleted, not rewritten.
 4. **Generality & reuse** — Does this solve only one model/case? Prefer extending existing infra over introducing parallel mechanisms. Check duplication against already-landed work; duplicated functions — byte-identical or near-identical copies — must become one.
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
