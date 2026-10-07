@@ -22,7 +22,7 @@ Gate the question first: if it is underspecified (missing goal, constraints, or 
 
 ## Lane briefs
 
-- Self-contained: goal, known context (repo, versions, constraints), scope, expected deliverable with output format, and what not to do — the lane must execute on the brief alone.
+- Self-contained: goal, known context (repo, versions, constraints), scope, expected deliverable with output format, and what not to do — the lane must execute on the brief alone. When a source must be read at a pinned version, say how: `git show <ref>:<path>` / `git diff <old>..<new>` in the owning repo — never its working tree, which can sit at a different ref.
 - Each lane is independent: own context, read-only, answers exactly its brief and nothing else.
 - Where the harness dispatches via files, briefs are files in the session's work directory; where it dispatches native sub-agents, the brief is the sub-agent's prompt.
 - Dispatch all lanes concurrently — cheap/fast model per lane where the harness allows. A failed or empty lane: rerun it alone; rate-limited provider: run lanes sequentially.
