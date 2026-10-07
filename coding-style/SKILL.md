@@ -1,6 +1,6 @@
 ---
 name: coding-style
-description: "MUST load before touching any code — any edit, any language, any repo. The user's conventions for edits and change structure: minimal diffs, fail-fast over silent fallbacks, comment hygiene, tests shipped with the change."
+description: "MUST load before touching any code — any edit, any language, any framework, any repo. The user's conventions for edits and change structure: minimal diffs, fail-fast over silent fallbacks, comment hygiene, tests shipped with the change."
 ---
 
 # Personal Coding Style
@@ -9,7 +9,7 @@ description: "MUST load before touching any code — any edit, any language, any
 
 ## Scope — how code is written
 
-Any language, any repo.
+Any language, any framework, any repo.
 
 ## Core Principle
 
