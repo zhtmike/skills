@@ -43,6 +43,7 @@ Known signatures on this cluster:
 | `DistNetworkError ... EADDRINUSE` | torch.distributed ephemeral port collision (parallel smoke groups) | Rerun; a flake, not a code bug |
 | `out of memory at cumem_allocator.cpp` | sleep/wake engine race at tight memory budgets | Check utilization settings; CI-proportional slack differs on 79 GiB cards |
 | `No available memory for the cache blocks` at engine init | engine-budget floor: `U × GPU` cannot hold weights + activation/graph overhead + KV — the opposite end of the cumem wake ceiling above; bracket U from both sides | Raise `gpu_memory_utilization`, or shrink the engine (max_num_seqs, cudagraph sizes) |
+| `Orchestrator did not become ready within 600s` | vllm-omni stage-engine init exceeded the orchestrator timeout (cold JIT/autotune/cudagraph passes on large models) | Raise `+actor_rollout_ref.rollout.engine_kwargs.vllm_omni.init_timeout` (and `stage_init_timeout`); warm caches often mask it |
 | wandb `CommError <no message>` at `wandb.init` | stale `~/.netrc` wandb key: detached runners skip `.bashrc`, so the valid `WANDB_API_KEY` env never reaches the job and wandb falls back to netrc; the real error is HTTP 401 in `wandb/run-*/logs/debug-internal.log` | Update the netrc password to the current key (or export `WANDB_API_KEY` in the runner) |
 | `the NVIDIA driver on your system is too old` | compat exports missing from that shell | Add the LD_LIBRARY_PATH cuda-compat prefix |
 
@@ -53,6 +54,8 @@ Known signatures on this cluster:
 3. Confirm the runner's final `=== done (job=$RC) ===` line exists (every runner script prints one at completion) — its absence means the script died mid-way.
 
 Kill leftovers by PID from `nvidia-smi --query-compute-apps=pid` / `pgrep` output (verify the PID is not your own shell's) — never `pkill -f <pattern>` where your own shell's command line could contain the pattern (it matches and kills the tool shell itself; the symptom is the call dying with exit 137/143 and the pkills only partially applied).
+
+Before relaunching after a crash, re-verify the GPUs read 0 MiB — `ray stop --force` does not reliably reap vLLM stage workers (their supervisors respawn them); launching into dirty GPUs just OOMs on the memory being freed.
 
 ## Precedence
 
