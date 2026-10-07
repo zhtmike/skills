@@ -5,19 +5,23 @@ description: "MUST load before creating or repairing any Python/GPU environment 
 
 # H800 Environment Setup
 
-**Load this before creating or repairing any Python environment on this cluster.**
+**Load this before creating or repairing any Python/GPU environment on this cluster.**
+
+## Scope — this cluster's environments only
+
+Creating or repairing Python/GPU environments on the H800 cluster; everything below assumes its cluster facts. Not for other machines or clusters.
 
 ## Reuse first — env and package mutations need approval
 
 The user typically has an existing, activated conda env for the task at hand. **Default to it.** Creating a new env (`conda create`), installing packages (`conda install`, `uv pip install`, `pip install`), or modifying existing ones (upgrade, remove, symlink into `$CONDA_PREFIX`) are all approval-gated actions — ask the user first unless they explicitly requested that change. Silent env mutation can break working setups that took hours to build.
 
-## Cluster facts (verify with `nvidia-smi`, assume stale otherwise)
+## Cluster facts (verify hardware with `nvidia-smi`; assume stale otherwise)
 
-- The interactive session is typically a Slurm allocation (`srun --partition=<p> --gres=gpu:N --cpus-per-gpu=24 --mem-per-cpu=8G --pty bash`; check `squeue -u $(whoami)` for the job), usually reached through tmux — incidental context only; it explains session persistence across network drops, nothing else. `ssh localhost` works from inside it — that's what the run pattern relies on.
+- The interactive session is typically a Slurm allocation (`srun --partition=<p> --gres=gpu:N --cpus-per-gpu=24 --mem-per-cpu=8G --pty bash`; check `squeue -u $(whoami)` for the job), usually reached through tmux — incidental context only; it explains session persistence across network drops, nothing else. `ssh localhost` works from inside it.
 - NVIDIA H800 nodes (datacenter, compute cap 9.0), driver 535.161.08 → natively CUDA 12.2 only. GPU count per allocation varies (check `nvidia-smi` / `squeue`).
 - No usable `/usr/local/cuda` (only a stubs-only `cuda-12.2` — headers/nvml, no nvcc, no `bin/`). Any CUDA 13 stack needs forward compatibility.
-- PyPI via direct connection is slow/flaky — always route through the tuna mirror.
-- ssh/22 to github.com times out — `git@github.com` remotes can neither fetch nor push. Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (transparent for existing remotes), or go over https: public repos fetch anonymously, private repos and pushes take gh as the credential helper (`git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`; pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`).
+- PyPI: direct is slow from the login node (~7s vs ~1.1s via mirror), fine from compute nodes — default to the tuna mirror.
+- From compute nodes, ssh/22 to github.com times out (login node: fine) — `git@github.com` remotes can neither fetch nor push there. Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (transparent for existing remotes), or go over https: public repos fetch anonymously, private repos and pushes take gh as the credential helper (`git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`; pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`).
 - GPUs are usually free, but foreign processes (another user's server) sometimes hold some — tell the user immediately; never silently route around them.
 
 ## The CUDA 13 stack on the 535 driver (cuda-compat)
@@ -62,9 +66,9 @@ export CUDA_HOME=$CONDA_PREFIX
 
 Piecemeal toolkits fail on missing header families (`cuda_runtime.h`, then `curand.h`); nvcc alone is not enough. A cold `trtllm_mnnvl_comm` build may fail on system-glibc `_FloatN` guards — run the build once from an activated shell (conda's sysroot config rescues it); the cache then serves all later runs.
 
-## Guard against `set -u` in conda scripts
+## `set -u` and conda activate
 
-conda's cuda-nvcc activate hooks crash under `set -u` (`NVCC_PREPEND_FLAGS: unbound variable`). Export `NVCC_PREPEND_FLAGS="${NVCC_PREPEND_FLAGS:-}"` before `conda activate` in any strict-mode script.
+conda's cuda hook scripts are not `set -u`-clean — `conda activate` crashes on unbound `NVCC_PREPEND_FLAGS` / `CUDAARCHS_BACKUP`, and pre-exporting them does not save it (a hook unsets, then references). In strict-mode scripts: `set +u` before `conda activate`, restore `set -u` after.
 
 ## Precedence
 
