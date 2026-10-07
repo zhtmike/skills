@@ -7,13 +7,15 @@ description: "MUST load while monitoring or debugging any long-running GPU job i
 
 **Load this while any long-running GPU job is in flight.**
 
-Context: the session lives inside tmux → Slurm; both are incidental to job mechanics — jobs are launched ssh-detached with their own logs. Two recovery uses: `tmux capture-pane -p` retrieves the tool shell's own scrollback (a foreground command whose output redirect was lost), and Slurm persistence means a "disappeared" job is usually still running (`squeue`, `pgrep -f` before assuming death).
+## Scope — in-flight jobs; tmux/Slurm are incidental
+
+The session lives inside tmux → Slurm; both are incidental to job mechanics — jobs are launched ssh-detached with their own logs. Two recovery uses: `tmux capture-pane -p` retrieves the tool shell's own scrollback (a foreground command whose output redirect was lost), and Slurm persistence means a "disappeared" job is usually still running (`squeue`, `pgrep -f` before assuming death).
 
 ## Delegate the monitoring (when the harness can delegate)
 
 Long monitoring loops burn the session's context — if your harness can dispatch agents or run background tasks, delegate the polling to one instead of checking yourself; otherwise poll directly at the cadence below. Whoever polls: one retry max per failure, and close with a final report (PASS/FAIL tally, durations, root causes) — read the verdict, not the stream.
 
-- Hand the delegate: the runner log path, the done-marker line, the poll cadence (adaptive 30s→10m, below), and the known-failure table below.
+- Hand the delegate: the runner log path, the done-marker line, the poll cadence (adaptive 15s→10m, below), and the known-failure table below.
 - Reuse the same delegate for follow-up rounds when the harness allows; it retains the log layouts.
 
 ## Polling cadence (for the delegate, or direct checks)
@@ -38,20 +40,20 @@ Known signatures on this cluster:
 
 | Signature | Meaning | Action |
 |---|---|---|
-| `Could not find nvcc` / `cuda_home doesn't exist` | flashinfer JIT without toolkit | Install the JIT toolkit into the env (conda-forge `cuda-nvcc`/`cuda-cudart-dev`/`libcurand-dev`/`cuda-cccl`, version-matched pins), set `CUDA_HOME=$CONDA_PREFIX`, rerun |
+| `Could not find nvcc` / `cuda_home doesn't exist` | flashinfer JIT without toolkit | Env repair (approval-gated): complete JIT toolkit — conda-forge `cuda-nvcc`/`cuda-cudart-dev`/`libcurand-dev`/`cuda-cccl` at matched pins, header symlinks into `$CONDA_PREFIX/include`, `lib64 → targets/x86_64-linux/lib`, `CUDA_HOME=$CONDA_PREFIX` — rerun |
 | `_Float128/_Float32x ... invalid combination of type specifiers` | nvcc EDG vs system glibc on cold JIT build | Pre-warm the build from an activated shell once |
 | `DistNetworkError ... EADDRINUSE` | torch.distributed ephemeral port collision (parallel smoke groups) | Rerun; a flake, not a code bug |
-| `out of memory at cumem_allocator.cpp` | sleep/wake engine race at tight memory budgets | Check utilization settings; CI-proportional slack differs on 79 GiB cards |
+| `out of memory at cumem_allocator.cpp` | sleep/wake engine race at tight memory budgets | Check utilization settings; slack tuned on smaller cards does not transfer to 79 GiB budgets |
 | `No available memory for the cache blocks` at engine init | engine-budget floor: `U × GPU` cannot hold weights + activation/graph overhead + KV — the opposite end of the cumem wake ceiling above; bracket U from both sides | Raise `gpu_memory_utilization`, or shrink the engine (max_num_seqs, cudagraph sizes) |
 | `Orchestrator did not become ready within 600s` | engine init exceeded its startup timeout (cold JIT/compile/warmup passes on large models) | Raise the engine's init-timeout knob(s); warm caches often mask it |
 | wandb `CommError <no message>` at `wandb.init` | stale `~/.netrc` wandb key: detached runners skip `.bashrc`, so the valid `WANDB_API_KEY` env never reaches the job and wandb falls back to netrc; the real error is HTTP 401 in `wandb/run-*/logs/debug-internal.log` | Update the netrc password to the current key (or export `WANDB_API_KEY` in the runner) |
-| `the NVIDIA driver on your system is too old` | compat exports missing from that shell | Add the LD_LIBRARY_PATH cuda-compat prefix |
+| `the NVIDIA driver on your system is too old` | compat exports missing from that shell | Add the cuda-compat exports (LD_LIBRARY_PATH + LIBRARY_PATH) |
 
 ## Cleanup checklist after every run
 
-1. `pgrep -f ray::` → 0 (or `ray stop --force`).
-2. Free the GPUs you used back to 0 MiB (`nvidia-smi`).
-3. Confirm the runner's final `=== done (job=$RC) ===` line exists (every runner script prints one at completion) — its absence means the script died mid-way.
+- `pgrep -f ray::` → 0 (or `ray stop --force`).
+- Free the GPUs you used back to 0 MiB (`nvidia-smi`).
+- Confirm the runner's final `=== done (job=$RC) ===` line exists — runners following that convention print it at completion; its absence means the script died mid-way.
 
 Kill leftovers by PID from `nvidia-smi --query-compute-apps=pid` / `pgrep` output (verify the PID is not your own shell's) — never `pkill -f <pattern>` where your own shell's command line could contain the pattern (it matches and kills the tool shell itself; the symptom is the call dying with exit 137/143 and the pkills only partially applied).
 

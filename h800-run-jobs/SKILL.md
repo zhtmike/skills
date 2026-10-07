@@ -1,13 +1,15 @@
 ---
 name: h800-run-jobs
-description: "MUST load before launching any long-running GPU job (training, rollout, smoke tests) on the H800 cluster (driver 535 / CUDA 12.2). Covers the ssh-detach launch pattern (local background jobs get reaped), the cuda-compat exports every launcher needs, GPU selection on the shared box, and job script hygiene. Not for other machines or clusters."
+description: "MUST load before launching any long-running GPU job (training, rollout, smoke tests) on the H800 cluster (driver 535 / CUDA 12.2) — or diagnosing a launch that left no job running. Covers the ssh-detach launch pattern (local background jobs get reaped), the cuda-compat exports every launcher needs, GPU selection on the shared box, and job script hygiene. Not for other machines or clusters."
 ---
 
 # H800 Running Jobs
 
-**Load this before launching training runs, smoke tests, or any long-lived GPU process.**
+**Load this before launching training runs, smoke tests, or any long-lived GPU process — and when a launch leaves no job running.**
 
-Context: the interactive session happens to live inside tmux → Slurm — that is incidental. Do NOT launch jobs via tmux (no `tmux new-window`/`send-keys`); the ssh-detach pattern below is the launch mechanism, full stop. tmux only explains why the session survives network drops.
+## Scope — the launch mechanism, not tmux
+
+The interactive session happens to live inside tmux → Slurm — that is incidental. Do NOT launch jobs via tmux (no `tmux new-window`/`send-keys`); the ssh-detach pattern below is the launch mechanism, full stop. tmux only explains why the session survives network drops.
 
 ## The ssh-detach pattern (the cluster's #1 operational rule)
 
@@ -41,7 +43,7 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 
 ## Job script hygiene
 
-- `set -u` scripts must export `NVCC_PREPEND_FLAGS="${NVCC_PREPEND_FLAGS:-}"` before `conda activate` (hook crashes otherwise).
+- `set -u` scripts: `set +u` around `conda activate` (cuda hooks crash on unbound vars; pre-exporting them does not save it).
 - Detached runners do not source `.bashrc`: credential env vars (e.g. `WANDB_API_KEY`) are absent and tools fall back to `~/.netrc` — keep it current or export the key in the runner.
 - Stop shared cluster services (e.g. ray) between sequential jobs; skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.
 - Capture exit codes per job and print a final `=== done (job=$RC) ===` line — polling greps for it.
