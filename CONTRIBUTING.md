@@ -24,7 +24,7 @@
 
 ## Post-task updates — the incident loop
 
-Most bodies here grew from session incidents, encoded after the fact. The agent-initiated half of that loop is bounded by the `self-learn` skill: wind-down checkpoint only (task settled, not to be redone soon), a real-defect bar, the edit proposed to the user before it lands — and the edit is one file, the owning skill's body, never a guide or scaffolding here. Human-instructed edits follow this guide directly; those bars don't bind them. Retirement is human: a periodic, human-initiated prune — `git blame` shows each auto-added line's landing — retires lines whose firing reports never showed a fire.
+Most bodies here grew from session incidents, encoded after the fact. The agent-initiated half of that loop is bounded by the `self-learn` skill: wind-down checkpoint only (task settled, not to be redone soon), a real-defect bar, the edit proposed to the user before it lands — and the edit is one file, the owning skill's body, never a guide or scaffolding here. Human-instructed edits follow this guide directly; those bars don't bind them. Auto-update commits carry a `Learned-By: self-learn` trailer, so history distinguishes the loop's own edits from human-instructed ones (which carry no marker). Retirement is human: a periodic, human-initiated prune — `git blame` shows each auto-added line's landing — retires lines whose firing reports never showed a fire.
 
 ## Invariants — check before committing
 
