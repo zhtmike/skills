@@ -59,7 +59,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ### Prune relentlessly
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
-- No legacy code: when the upstream fix lands or the supported floor moves — dependency or pin bump, a dropped platform or version — delete the workaround/compat branch, its dead callers, and its tests in the same change; code kept past its fix or floor, or a workaround rewritten instead of dropped, is new debt, not safety.
+- No legacy code: place interim patches on the earliest, narrowest hook that runs before the failing mechanism (post-init hooks cannot fix compile-time failures), reusing existing hooks; when the upstream fix lands or the supported floor moves — dependency or pin bump, a dropped platform or version — delete the workaround/compat branch, its dead callers, and its tests in the same change. Code kept past its fix or floor, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions: two copies of the same logic is a bug factory (deliberate test-fixture copies excepted) — when a diff touches one copy, extract the shared helper or delete the duplicate; byte-identical helpers are the loudest smell.
 - Constants: module-level `SCREAMING_CASE` tuples/frozensets over scattered literals — consolidate the ones your diff touches.
 - Logging: module-level `logger = logging.getLogger(__name__)`, lazy `%-style` args.
