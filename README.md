@@ -10,6 +10,7 @@ Personal agent skills — harness-agnostic (pi, OpenCode, Claude Code), self-con
 | `commit-gate` | before any git action (commit / amend / push / PR) | approval-gated actions on the fork, commit-message conventions, fresh-review commit gate |
 | `code-review` | before reviewing a PR or a review branch | deep, necessity-first review — every claim and cited link verified, every hunk held to scope; may span multiple dispatched agents; drafted to a `review_*.md` file, never posted |
 | `survey` | before any intensive, broad investigation | typed decomposition, budgets, claim-based findings, optional evidence audit, synthesis schema |
+| `self-learn` | at a task's wind-down — the work settled: done, verified or accepted, nothing pending, no rework soon — and a real defect in an owning skill surfaced; zhtmike's setups only | proposes a one-file edit in the real source repo: scar verbatim, falsifier, firing report, full gates — never new skills |
 | `h800-env-setup` | before creating or repairing a Python/GPU env on the H800 cluster | conda + cuda-compat, uv vs pip, flashinfer JIT toolkit |
 | `h800-run-jobs` | before launching any long-running GPU job — or diagnosing a launch that left no job running | ssh-detach launch pattern, compat exports, GPU selection |
 | `h800-monitor-jobs` | while any long-running GPU job is in flight | polling cadence, failure signatures, cleanup checklist |
@@ -21,7 +22,7 @@ The `h800-*` skills apply only on H800 cluster nodes (driver 535 / CUDA 12.2) �
 skills CLI (installs as symlinks; `skills update` propagates):
 
 ```bash
-npx skills add zhtmike/skills --global -a <agent> --skill coding-style --skill commit-gate --skill code-review --skill survey
+npx skills add zhtmike/skills --global -a <agent> --skill coding-style --skill commit-gate --skill code-review --skill survey --skill self-learn
 ```
 
 Or manually:
