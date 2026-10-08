@@ -20,6 +20,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Branches on the fork use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`, `fix/port-bind-fail-fast`.
 - PRs are always submitted by the user — never by the agent. When the change is pushed, write `pr_<branch-slug>.md` in the project root (branch's kebab-case slug: `feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop. Writing or later editing that file is not a gated action.
 - Follow the repo's PR template if one exists; paste-ready: what/why, root-cause narrative, test commands + real results, cross-links, required disclosures (AI assistance, duplicate-work checks).
+- When the work settles (change shipped, PR in the user's hands, artifacts cleaned), check out the repo's default branch and fast-forward it to the remote — never leave the session parked on the feature branch; a fresh session must not inherit a stale checkout.
 
 ## Commit messages
 
