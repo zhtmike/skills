@@ -31,6 +31,7 @@ description: "Load at a task's wind-down — the work is settled: done and verif
 
 - One defect, one skill — the skill whose trigger covered the task; never fan one incident across bodies.
 - State the generic rule, stripped of the incident — repos, PRs, symbols, and session details belong in the commit message, never the body.
+- The commit message states the edit's origin: agent-initiated edits carry a `Learned-By: self-learn` trailer; human-instructed edits carry none — the history stays readable as who initiated what.
 - One file, and only that file: the body of the owning skill. An auto-update never edits this skill itself, the authoring guide, agent instructions, README, or any other file in the source repo; everything beyond the one owning-skill body is human-edit territory.
 - Direction is tightening: no agent-initiated edit weakens or waives a rule — loosening is a human decision, taken explicitly.
 - Additions pay for themselves: tighten or replace existing lines instead of appending; a body near its ceiling trades rather than grows.
