@@ -10,7 +10,7 @@ Personal agent skills — harness-agnostic (pi, OpenCode, Claude Code), self-con
 | `commit-gate` | before any git action (commit / amend / push / PR) | approval-gated actions on the fork, commit-message conventions, fresh-review commit gate |
 | `code-review` | before reviewing a PR or a review branch | deep, necessity-first review — every claim and cited link verified, every hunk held to scope; may span multiple dispatched agents; drafted to a `review_*.md` file, never posted |
 | `survey` | before any intensive, broad investigation | typed decomposition, budgets, claim-based findings, optional evidence audit, synthesis schema |
-| `self-learn` | at a task's wind-down — the work settled: done, verified or accepted, nothing pending, no rework soon — and a real defect in an owning skill surfaced; zhtmike's setups only | proposes a one-file edit in the real source repo: scar verbatim, falsifier, firing report, full gates — never new skills |
+| `self-learn` | in exactly two cases — a settled task's wind-down with a scar in an owning skill (surfaced by that skill's wind-down handoff, never wind-down alone), or the user's explicit call ("update the skills if necessary"); zhtmike's setups only | proposes a one-file edit to a skill owned by this repo only (repo-bundled, harness-default, third-party skills are reported, never edited): scar verbatim, falsifier, firing report, full gates — never new skills |
 | `h800-env-setup` | before creating or repairing a Python/GPU env on the H800 cluster | conda + cuda-compat, uv vs pip, flashinfer JIT toolkit |
 | `h800-run-jobs` | before launching any long-running GPU job — or diagnosing a launch that left no job running | ssh-detach launch pattern, compat exports, GPU selection |
 | `h800-monitor-jobs` | while any long-running GPU job is in flight | polling cadence, failure signatures, cleanup checklist |
@@ -37,4 +37,4 @@ ln -sfn ~/gitlocal/skills/coding-style ~/.agents/skills/coding-style   # repeat 
 
 ## Authoring
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) — trigger-first descriptions, sections by concern, self-containment, harness-agnostic wording. Every skill change goes through the fresh-review commit gate (`commit-gate`).
+See [CONTRIBUTING.md](CONTRIBUTING.md) — trigger-first descriptions, sections by concern, self-containment (one exception: the standard wind-down handoff to `self-learn` closing every body but its own), harness-agnostic wording. Every skill change goes through the fresh-review commit gate (`commit-gate`).
