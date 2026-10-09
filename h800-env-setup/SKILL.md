@@ -73,3 +73,10 @@ conda's cuda hook scripts are not `set -u`-clean — `conda activate` crashes on
 ## Precedence
 
 Cluster physics override repo docs; repo-specific install quirks belong to the repo's own guides.
+
+## Wind-down handoff
+
+At the task's wind-down, one question: did a skill's guidance misfire — wrong, misleading, or silent where it hurt?
+
+- **No — end here.** A wind-down alone never loads `self-learn`.
+- **Yes — load `self-learn` and hand it the misfire.** Its bar and ownership boundary take it from there: this repo's skills may get a proposed edit; external ones (repo-bundled, harness-default, third-party) come back as a report — never an edit, and never by your own hand.
