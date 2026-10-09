@@ -1,6 +1,6 @@
 ---
 name: self-learn
-description: "MUST load in exactly two cases — (1) a settled task's wind-down with a scar in an owning skill (settled — verified or accepted, nothing pending, no rework soon), via that skill's wind-down handoff, never wind-down alone; (2) the user's explicit call ('update the skills if necessary'). Bar and ownership bind both: only this repo's skills get edits; external ones (repo-bundled, harness-default, third-party) get a report, never an edit. zhtmike's setups only; not for new skills or fully user-specified edits."
+description: "MUST load when a task's lessons are to be encoded into an owning skill: either the wind-down pass — the task settled, an owning skill misfired, surfaced by its closing handoff, never by the wind-down alone — or the user's explicit request, whatever the wording. Real-defect bar, proposal first, one file under full gates; only this repo's skills get edits — external ones get a report, never an edit. zhtmike's setups only; not for new skills or fully user-specified edits."
 ---
 
 # Self-Learn
