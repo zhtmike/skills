@@ -14,12 +14,12 @@
 - Frontmatter: `name` (kebab-case, ≤64 chars, matching the directory) and `description` (≤512 chars — the description rides in every routing context; earn every char) shaped as: *"MUST load before/while `<trigger>`. `<nature of the work>`. Not for `<carve-out>`."* — or an equivalent closing boundary (`Defers to …`, `For general tasks …`). The description is the only routing surface; trigger words belong in its first sentence.
 - Body: a bold load line under the H1 (usual, not universal), then `##` sections by concern — never numbered procedures. Standard shape: `## Scope — <boundary>` stating the carve-out, the concern sections, `## Precedence` (near the end — the precedence rule itself is not optional, the heading placement is).
 - Rules and entry conditions are general conditions: concrete scenarios (a PR open, an environment set up, a job stable) appear only as examples, never as the definition — a rule that needs its example list to apply is miswritten.
-- Closing block: every body but `self-learn`'s ends with the standard wind-down handoff, verbatim, as its last section (a no-op where `self-learn` is not installed; structural, so it never counts against the Growth trade):
+- Closing block: every body but `self-learn`'s ends with the standard wind-down handoff, verbatim, as its last section (the block itself gates wind-down-only and states the skip where `self-learn` is absent; structural, so it never counts against the Growth trade):
 
   ```markdown
   ## Wind-down handoff
 
-  At the task's wind-down, one question: did a skill's guidance misfire — wrong, misleading, or silent where it hurt?
+  Only at the task's wind-down — never earlier — and only where `self-learn` is installed; otherwise skip this section. One question: did a skill's guidance misfire — wrong, misleading, or silent where it hurt?
 
   - **No — end here.** A wind-down alone never loads `self-learn`.
   - **Yes — load `self-learn` and hand it the misfire.** Its bar and ownership boundary take it from there: this repo's skills may get a proposed edit; external ones (repo-bundled, harness-default, third-party) come back as a report — never an edit, and never by your own hand.

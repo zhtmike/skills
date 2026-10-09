@@ -47,7 +47,7 @@ Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, con
 
 ## Wind-down handoff
 
-At the task's wind-down, one question: did a skill's guidance misfire — wrong, misleading, or silent where it hurt?
+Only at the task's wind-down — never earlier — and only where `self-learn` is installed; otherwise skip this section. One question: did a skill's guidance misfire — wrong, misleading, or silent where it hurt?
 
 - **No — end here.** A wind-down alone never loads `self-learn`.
 - **Yes — load `self-learn` and hand it the misfire.** Its bar and ownership boundary take it from there: this repo's skills may get a proposed edit; external ones (repo-bundled, harness-default, third-party) come back as a report — never an edit, and never by your own hand.
