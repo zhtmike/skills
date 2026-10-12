@@ -9,18 +9,21 @@ description: "MUST load before launching any long-running GPU job (training, rol
 
 ## Scope — the launch mechanism, not tmux
 
-The interactive session happens to live inside tmux → Slurm — that is incidental. Do NOT launch jobs via tmux (no `tmux new-window`/`send-keys`); the ssh-detach pattern below is the launch mechanism, full stop. tmux only explains why the session survives network drops.
+The interactive session happens to live inside tmux → Slurm — that is incidental.
+- Do NOT launch jobs via tmux (no `tmux new-window`/`send-keys`); the ssh-detach pattern below is the launch mechanism, full stop.
+- tmux only explains why the session survives network drops.
 
 ## The ssh-detach pattern (the cluster's #1 operational rule)
-
-Agent/tool shells reap locally-detached children — `setsid`, `nohup`, and `&` from the tool shell all die with it. Long-running jobs MUST be launched via ssh so sshd owns them:
+- Agent/tool shells reap locally-detached children — `setsid`, `nohup`, and `&` from the tool shell all die with it.
+- Long-running jobs MUST be launched via ssh so sshd owns them:
 
 ```bash
 timeout 20 ssh -o BatchMode=yes localhost \
   'cd <workdir> && nohup bash runner.sh > runner.log 2>&1 < /dev/null & echo launched'
 ```
 
-Do not mix the launch with sleeps/polls in the same tool call — launch-only commands survive; compound ones get reaped with the shell. One detached job per ssh call: a second `nohup ... &` inside the same remote command does not reliably survive ssh exit.
+- Do not mix the launch with sleeps/polls in the same tool call — launch-only commands survive; compound ones get reaped with the shell.
+- One detached job per ssh call: a second `nohup ... &` inside the same remote command does not reliably survive ssh exit.
 
 ## Every launcher needs the compat exports
 
@@ -36,13 +39,13 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 ```
 
 ## GPU selection on the shared box
-
-- Check `nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader` first. If GPUs are held by processes outside this user's Slurm job, **report it to the user immediately** (foreign/leaked jobs should be raised with their owner, not routed around); otherwise take what's verified free.
+- Check `nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader` first.
+  - GPUs held by processes outside this user's Slurm job: **report it to the user immediately** — foreign/leaked jobs get raised with their owner, not routed around.
+  - Otherwise take what's verified free.
 - Pin free devices explicitly: `CUDA_VISIBLE_DEVICES=2,3` + match `NUM_GPUS=2`.
 - Check the script's GPU-count assumptions before adapting them — many-GPU defaults can produce nonsense configs on fewer GPUs.
 
 ## Job script hygiene
-
 - `set -u` scripts: `set +u` around `conda activate` (cuda hooks crash on unbound vars; pre-exporting them does not save it).
 - Detached runners do not source `.bashrc`: credential env vars (e.g. `WANDB_API_KEY`) are absent and tools fall back to `~/.netrc` — keep it current or export the key in the runner.
 - Stop shared cluster services (e.g. ray) between sequential jobs; skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.

@@ -9,23 +9,26 @@ description: "MUST load while monitoring or debugging any long-running GPU job i
 
 ## Scope — in-flight jobs; tmux/Slurm are incidental
 
-The session lives inside tmux → Slurm; both are incidental to job mechanics — jobs are launched ssh-detached with their own logs. Two recovery uses: `tmux capture-pane -p` retrieves the tool shell's own scrollback (a foreground command whose output redirect was lost), and Slurm persistence means a "disappeared" job is usually still running (`squeue`, `pgrep -f` before assuming death).
+The session lives inside tmux → Slurm; both are incidental to job mechanics — jobs are launched ssh-detached with their own logs.
+- `tmux capture-pane -p` retrieves the tool shell's own scrollback (a foreground command whose output redirect was lost).
+- Slurm persistence means a "disappeared" job is usually still running — check `squeue`, `pgrep -f` before assuming death.
 
 ## Delegate the monitoring (when the harness can delegate)
 
 Long monitoring loops burn the session's context — if your harness can dispatch agents or run background tasks, delegate the polling to one instead of checking yourself; otherwise poll directly at the cadence below. Whoever polls: one retry max per failure, and close with a final report (PASS/FAIL tally, durations, root causes) — read the verdict, not the stream.
-
 - Hand the delegate: the runner log path, the done-marker line, the poll cadence (adaptive 15s→10m, below), and the known-failure table below.
 - Reuse the same delegate for follow-up rounds when the harness allows; it retains the log layouts.
 
 ## Polling cadence (for the delegate, or direct checks)
 
 **Adaptive interval — poll tight early, back off when stable:**
-
-- Start at 15–30s during engine startup (the ramp phase where JIT builds, port binds, and import errors surface). A failure caught in the first minute saves the whole run.
-- Each check where the log grows and no error appears: increase the interval (30s → 1m → 2m → 5m → 10m), capped at 10 minutes. Any error, stall (log frozen but process alive), or GPU-memory anomaly: drop back to 30s to track the failure as it develops.
+- Start at 15–30s during engine startup (the ramp phase where JIT builds, port binds, and import errors surface).
+  - A failure caught in the first minute saves the whole run.
+- Each clean check (log grows, no error) increases the interval 30s → 1m → 2m → 5m → 10m, capped at 10 minutes.
+  - Any error, stall (log frozen but process alive), or GPU-memory anomaly: drop back to 30s to track the failure as it develops.
 - State the current interval in each report so the stability trend stays visible.
-- Watch: the runner log's size/freshness (`stat -c %Y`), `nvidia-smi` memory+util, and process liveness (`pgrep -f`). A frozen log + idle GPU + live process = investigate; a growing log = healthy.
+- Watch: the runner log's size/freshness (`stat -c %Y`), `nvidia-smi` memory+util, process liveness (`pgrep -f`).
+  - A frozen log + idle GPU + live process = investigate; a growing log = healthy.
 - GPUs climbing 0 → 3 MiB → 1.3 GB → 20+ GB is the normal engine-startup ramp; 0% util during it is expected (minutes, not hours).
 
 ## Root-cause extraction
@@ -50,14 +53,13 @@ Known signatures on this cluster:
 | `the NVIDIA driver on your system is too old` | compat exports missing from that shell | Add the cuda-compat exports (LD_LIBRARY_PATH + LIBRARY_PATH) |
 
 ## Cleanup checklist after every run
-
 - `pgrep -f ray::` → 0 (or `ray stop --force`).
 - Free the GPUs you used back to 0 MiB (`nvidia-smi`).
-- Confirm the runner's final `=== done (job=$RC) ===` line exists — runners following that convention print it at completion; its absence means the script died mid-way.
-
-Kill leftovers by PID from `nvidia-smi --query-compute-apps=pid` / `pgrep` output (verify the PID is not your own shell's) — never `pkill -f <pattern>` where your own shell's command line could contain the pattern (it matches and kills the tool shell itself; the symptom is the call dying with exit 137/143 and the pkills only partially applied).
-
-Before relaunching after a crash, re-verify the GPUs read 0 MiB — force-stopping the cluster runtime does not reliably reap engine workers (their supervisors respawn them); launching into dirty GPUs just OOMs on the memory being freed.
+- Confirm the runner's final `=== done (job=$RC) ===` line exists — its absence means the script died mid-way.
+- Kill leftovers by PID from `nvidia-smi --query-compute-apps=pid` / `pgrep` output (verify the PID is not your own shell's).
+  - Never `pkill -f <pattern>` where your own shell's command line could contain the pattern — it matches and kills the tool shell itself (symptom: the call dies with exit 137/143, pkills only partially applied).
+- Before relaunching after a crash, re-verify the GPUs read 0 MiB.
+  - Force-stopping the cluster runtime does not reliably reap engine workers (their supervisors respawn them); launching into dirty GPUs just OOMs on the memory being freed.
 
 ## Precedence
 

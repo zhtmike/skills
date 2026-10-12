@@ -12,16 +12,25 @@ description: "MUST load before creating or repairing any Python/GPU environment 
 Creating or repairing Python/GPU environments on the H800 cluster; everything below assumes its cluster facts. Not for other machines or clusters.
 
 ## Reuse first — env and package mutations need approval
-
-The user typically has an existing, activated conda env for the task at hand. **Default to it.** Creating a new env (`conda create`), installing packages (`conda install`, `uv pip install`, `pip install`), or modifying existing ones (upgrade, remove, symlink into `$CONDA_PREFIX`) are all approval-gated actions — ask the user first unless they explicitly requested that change. Silent env mutation can break working setups that took hours to build.
+- The user typically has an existing, activated conda env for the task at hand — **default to it**.
+- Creating a new env, installing packages, or modifying existing ones is approval-gated — ask first unless the user explicitly requested that change.
+  - Gated: `conda create`, `conda install`, `uv pip install`, `pip install`, upgrades/removals, symlinks into `$CONDA_PREFIX`.
+  - Silent env mutation can break working setups that took hours to build.
 
 ## Cluster facts (verify hardware with `nvidia-smi`; assume stale otherwise)
-
-- The interactive session is typically a Slurm allocation (`srun --partition=<p> --gres=gpu:N --cpus-per-gpu=24 --mem-per-cpu=8G --pty bash`; check `squeue -u $(whoami)` for the job), usually reached through tmux — incidental context only; it explains session persistence across network drops, nothing else. `ssh localhost` works from inside it.
-- NVIDIA H800 nodes (datacenter, compute cap 9.0), driver 535.161.08 → natively CUDA 12.2 only. GPU count per allocation varies (check `nvidia-smi` / `squeue`).
-- No usable `/usr/local/cuda` (only a stubs-only `cuda-12.2` — headers/nvml, no nvcc, no `bin/`). Any CUDA 13 stack needs forward compatibility.
+- The interactive session is typically a Slurm allocation, usually reached through tmux — incidental context only; it explains session persistence across network drops, nothing else.
+  - `srun --partition=<p> --gres=gpu:N --cpus-per-gpu=24 --mem-per-cpu=8G --pty bash`; check `squeue -u $(whoami)` for the job.
+  - `ssh localhost` works from inside it.
+- NVIDIA H800 nodes (datacenter, compute cap 9.0), driver 535.161.08 → natively CUDA 12.2 only.
+  - GPU count per allocation varies (check `nvidia-smi` / `squeue`).
+- No usable `/usr/local/cuda` — only a stubs-only `cuda-12.2` (headers/nvml, no nvcc, no `bin/`).
+  - Any CUDA 13 stack needs forward compatibility.
 - PyPI: direct is slow from the login node (~7s vs ~1.1s via mirror), fine from compute nodes — default to the tuna mirror.
-- From compute nodes, ssh/22 to github.com times out (login node: fine) — `git@github.com` remotes can neither fetch nor push there. Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (transparent for existing remotes), or go over https: public repos fetch anonymously, private repos and pushes take gh as the credential helper (`git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`; pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`). Update local branches the same way — `git fetch <url> <branch>` then `git merge --ff-only FETCH_HEAD` (fetching `<url> <branch>:<branch>` is refused on a checked-out branch).
+- From compute nodes, ssh/22 to github.com times out (login node: fine) — `git@github.com` remotes can neither fetch nor push there.
+  - Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (transparent for existing remotes).
+  - Or go over https: public repos fetch anonymously; private repos and pushes take gh as the credential helper — `git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`.
+  - Pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`.
+  - Update local branches the same way: `git fetch <url> <branch>` then `git merge --ff-only FETCH_HEAD` (fetching `<url> <branch>:<branch>` is refused on a checked-out branch).
 - GPUs are usually free, but foreign processes (another user's server) sometimes hold some — tell the user immediately; never silently route around them.
 
 ## The CUDA 13 stack on the 535 driver (cuda-compat)
@@ -64,11 +73,12 @@ ln -sfn targets/x86_64-linux/lib $CONDA_PREFIX/lib64   # NOT lib64/ — that tar
 export CUDA_HOME=$CONDA_PREFIX
 ```
 
-Piecemeal toolkits fail on missing header families (`cuda_runtime.h`, then `curand.h`); nvcc alone is not enough. A cold `trtllm_mnnvl_comm` build may fail on system-glibc `_FloatN` guards — run the build once from an activated shell (conda's sysroot config rescues it); the cache then serves all later runs.
+- Piecemeal toolkits fail on missing header families (`cuda_runtime.h`, then `curand.h`); nvcc alone is not enough.
+- A cold `trtllm_mnnvl_comm` build may fail on system-glibc `_FloatN` guards — run the build once from an activated shell (conda's sysroot config rescues it); the cache then serves all later runs.
 
 ## `set -u` and conda activate
-
-conda's cuda hook scripts are not `set -u`-clean — `conda activate` crashes on unbound `NVCC_PREPEND_FLAGS` / `CUDAARCHS_BACKUP`, and pre-exporting them does not save it (a hook unsets, then references). In strict-mode scripts: `set +u` before `conda activate`, restore `set -u` after.
+- conda's cuda hook scripts are not `set -u`-clean — `conda activate` crashes on unbound `NVCC_PREPEND_FLAGS` / `CUDAARCHS_BACKUP`, and pre-exporting them does not save it (a hook unsets, then references).
+- In strict-mode scripts: `set +u` before `conda activate`, restore `set -u` after.
 
 ## Precedence
 
