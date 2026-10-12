@@ -14,6 +14,7 @@
 - Frontmatter: `name` (kebab-case, ≤64 chars, matching the directory) and `description` (≤512 chars — the description rides in every routing context; earn every char) shaped as: *"MUST load before/while `<trigger>`. `<nature of the work>`. Not for `<carve-out>`."* — or an equivalent closing boundary (`Defers to …`, `For general tasks …`). The description is the only routing surface; trigger words belong in its first sentence.
 - Body: a bold load line under the H1 (usual, not universal), then `##` sections by concern — never numbered procedures. Standard shape: `## Scope — <boundary>` stating the carve-out, the concern sections, `## Precedence` (near the end — the precedence rule itself is not optional, the heading placement is).
 - Rules and entry conditions are general conditions: concrete scenarios (a PR open, an environment set up, a job stable) appear only as examples, never as the definition — a rule that needs its example list to apply is miswritten.
+- A rule states a behavior, not a spelling — which comment marker, formatter idiom, or logger incantation a project uses is its taste, pinned there and never here; spellings appear as examples at most (environment-bound skills keep their exact commands).
 - Closing block: every body but `self-learn`'s ends with the standard wind-down handoff, verbatim, as its last section (the block itself gates wind-down-only and states the skip where `self-learn` is absent; structural, so it never counts against the Growth trade):
 
   ```markdown
@@ -32,6 +33,10 @@
 - Split when a section serves a different trigger than the frontmatter — a reader loading the skill for X should not carry half a body about Y. Precedent: coding-style was split into coding-style + commit-gate once commit gating accreted its own trigger.
 - A split is a new skill: own directory and trigger (Principle 1), README row added, both bodies self-contained (Principle 2); name the install step in the commit message — new directories neither break existing symlinks nor propagate to installed machines. Name it at reference level (the README carries the literal commands) — local paths and per-node sync state stay out of history.
 
+## Paired bodies — coding-style ↔ code-review
+
+The rubric lives twice: `coding-style` states it for the writer, `code-review` checks it for the reviewer — self-containment forbids either body naming the other, so the pairing is maintained here. Paired = what a reviewer would flag as a finding in a foreign PR (necessity, fallback bans, analog shape, comment and public-surface behavior, tests-as-evidence, workaround/deadline hygiene); the writer-only remainder — spelling-level taste and local mechanics — is enforced where the writer is: the commit gate's fresh review receives the writer body itself. An edit that adds or changes a paired rule lands in both bodies — one change when hand-made, two when one side rides the incident loop (its one-file rule holds).
+
 ## Post-task updates — the incident loop
 
 Most bodies here grew from session incidents, encoded after the fact. The retrospective half of that loop is bounded by the `self-learn` skill: a wind-down checkpoint — task settled, not to be redone soon, or the user calling for it ("update the skills if necessary") — a real-defect bar, the edit proposed to the user before it lands — and the edit is one file, the owning skill's body from this repo only (skills bundled elsewhere — a working repo's own, harness defaults, third-party collections — are reported, never edited), never a guide or scaffolding here. Fully user-specified edits follow this guide directly; those bars don't bind them. Loop commits carry a `Learned-By: self-learn` trailer, so history distinguishes the loop's edits from fully user-specified ones (which carry no marker). Retirement is human: a periodic, human-initiated prune — `git blame` shows each auto-added line's landing — retires lines whose firing reports never showed a fire.
@@ -42,6 +47,7 @@ Most bodies here grew from session incidents, encoded after the fact. The retros
 - grep for harness specifics (CLI flags, harness paths, exit-code semantics) — zero hits.
 - grep the changed skill body for incident specifics — repo names, PR/issue numbers, symbols from the motivating codebase — zero hits outside environment-bound skills (`h800-*`).
 - The description routes exactly one concern, disjoint from every other skill's trigger, within ≤512 chars — several entry doors may serve that one concern, but they all lead to the same work.
+- A change that adds or changes a paired rule (Paired bodies) updates both bodies, or the commit message states why not.
 - Commit messages carry the incident, not the person or the machine: no quoted user instructions, session-habit narratives, node-state (what was linked where, when), or local paths beyond what the repo's own files already state.
 - No body over the ceiling (100 lines / 1600 words); from ~80 lines or ~1300 words, additions must tighten what is there — and split when a section serves a different trigger, per Growth.
 - The fresh-review commit gate (`commit-gate`) runs before any commit.

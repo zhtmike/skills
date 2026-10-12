@@ -37,15 +37,15 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - A module with a public surface declares it up front (`__all__` or the language's equivalent) and keeps implementation helpers below the public API, on code you write or modify.
 - Long linear functions are fine; dense code that needs a pause to parse is not.
 - Inline helpers, globals, and configs that are used exactly once.
-- Unused interface parameters are fine — the signature is the contract, and purity means the body does only its job: no `del`/`_ =` scrub statements for unused names. Drop such silencers in any function your change takes over.
-- Scripts: env-overridable defaults (`VAR=${VAR:-default}`); deprecated paths get a header naming the replacement.
+- Unused interface parameters are fine — the signature is the contract, and no code exists to appease a linter: no scrub statements for unused names, and any your change takes over get dropped.
+- Scripts: env-overridable defaults; a deprecated path names its replacement.
 
 ### Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers — the code itself carries the explanation. Comments stay rare; each must earn its line (a tracked `TODO(owner)` counts) — and public declarations (type aliases, module-level state, exported constants) get a what-they-hold comment that earns its line by being public. Otherwise, if the code says it plainly, no comment.
 - Comment only the non-trivial. WHY, not WHAT — and WHY means an invariant, never provenance: no comment cites a PR, issue, or commit number (`# handle #1234`, `// see PR #567` are both wrong); the sole exception is `# TODO(owner): ... — tracked in <issue>` with a real issue. Cross-reference the invariant or upstream behavior instead: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
 - One line per comment; two lines is the hard ceiling even for a non-obvious invariant — anything longer belongs in a docstring, never more comment. A comment that narrates what the next lines do gets deleted, not written.
 - Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from sync to async`, `# fixed the race`. Patch-time justification lives in the commit/PR description or the reply, not the code; applying a patch earns no more comment allowance than writing the file fresh.
-- Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one. Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers) go further: document every parameter and return, plus error conditions when real — a caller should never need to read the body. One file, one field-documentation style — plain per-field `#` comments (never doc-framework markers such as `#:`) or docstring field sections, never mixed across sibling classes.
+- Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one. Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers) go further: document every parameter and return, plus error conditions when real — a caller should never need to read the body. One file, one field-documentation style — the project's form where it has one (plain per-field comments or docstring fields), never mixed across sibling classes.
 - Prevent comment erosion: update or delete the comments a behavior change invalidates, in the same PR — version-dated comments ("as of X…") die with X — an inaccurate comment is worse than none.
 - Self-check before finishing: rescan your own diff against the comment rules above.
 
@@ -64,7 +64,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - No legacy code: place interim patches on the earliest, narrowest hook that runs before the failing mechanism (post-init hooks cannot fix compile-time failures), reusing existing hooks; when the upstream fix lands or the supported floor moves — dependency or pin bump, a dropped platform or version — delete the workaround/compat branch, its dead callers, and its tests in the same change. Code kept past its fix or floor, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions: two copies of the same logic is a bug factory (deliberate test-fixture copies excepted) — when a diff touches one copy, extract the shared helper or delete the duplicate; byte-identical helpers are the loudest smell.
 - Constants: module-level `SCREAMING_CASE` tuples/frozensets over scattered literals — consolidate the ones your diff touches. Single-use constants inline their literal at the consumer; shared ones join the file's constant block at the top — a constant never parks mid-file beside one call site.
-- Logging: module-level `logger = logging.getLogger(__name__)`, lazy `%-style` args.
+- Logging: the language's idiomatic module-level logger, lazy argument formatting.
 
 ## Design posture
 
@@ -77,7 +77,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) win. This skill covers only what they don't — baseline personal taste, carried across repos.
 
-One exception: the comment rules above — no PR/issue/commit citations, the comment length cap, the plain-# comment form — hold even when the repo's own code comments otherwise; don't imitate local comment style on these points.
+One exception: the comment rules above — no PR/issue/commit citations, the comment length cap — hold even when the repo's own code comments otherwise; don't imitate local comment style on these points.
 
 ## Wind-down handoff
 
