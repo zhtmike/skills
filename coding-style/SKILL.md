@@ -45,7 +45,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Comment only the non-trivial. WHY, not WHAT — and WHY means an invariant, never provenance: no comment cites a PR, issue, or commit number (`# handle #1234`, `// see PR #567` are both wrong); the sole exception is `# TODO(owner): ... — tracked in <issue>` with a real issue. Cross-reference the invariant or upstream behavior instead: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`
 - One line per comment; two lines is the hard ceiling even for a non-obvious invariant — anything longer belongs in a docstring, never more comment. A comment that narrates what the next lines do gets deleted, not written.
 - Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from sync to async`, `# fixed the race`. Patch-time justification lives in the commit/PR description or the reply, not the code; applying a patch earns no more comment allowance than writing the file fresh.
-- Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one. Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers) go further: document every parameter and return, plus error conditions when real — a caller should never need to read the body. One file, one field-documentation style — per-field comments or docstring field sections, never mixed across sibling classes.
+- Docstrings only on non-obvious or public functions; state the invariant or contract they pin, when there is one. Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers) go further: document every parameter and return, plus error conditions when real — a caller should never need to read the body. One file, one field-documentation style — plain per-field `#` comments (never doc-framework markers such as `#:`) or docstring field sections, never mixed across sibling classes.
 - Prevent comment erosion: update or delete the comments a behavior change invalidates, in the same PR — version-dated comments ("as of X…") die with X — an inaccurate comment is worse than none.
 - Self-check before finishing: rescan your own diff against the comment rules above.
 
@@ -77,7 +77,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) win. This skill covers only what they don't — baseline personal taste, carried across repos.
 
-One exception: the comment rules above — no PR/issue/commit citations, the comment length cap — hold even when the repo's own code comments otherwise; don't imitate local comment style on these two points.
+One exception: the comment rules above — no PR/issue/commit citations, the comment length cap, the plain-# comment form — hold even when the repo's own code comments otherwise; don't imitate local comment style on these points.
 
 ## Wind-down handoff
 
