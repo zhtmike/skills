@@ -15,6 +15,14 @@
 - Body: a bold load line under the H1 (usual, not universal), then `##` sections by concern — never numbered procedures. Standard shape: `## Scope — <boundary>` stating the carve-out, the concern sections, `## Precedence` (near the end — the precedence rule itself is not optional, the heading placement is).
 - Rules and entry conditions are general conditions: concrete scenarios (a PR open, an environment set up, a job stable) appear only as examples, never as the definition — a rule that needs its example list to apply is miswritten.
 - A rule states a behavior, not a spelling — which comment marker, formatter idiom, or logger incantation a project uses is its taste, pinned there and never here; spellings appear as examples at most (environment-bound skills keep their exact commands).
+- One line, one rule: a bullet states a single rule, readable at a glance.
+  - Conditions and exceptions nest one sub-level beneath their rule — never chain onto the line with em-dashes or semicolons.
+  - A line carrying its rule, its exception, and its spelling holds three rules — split it.
+- Backstop for rule lines: no more than ~40 words each.
+  - `awk 'NF>40' <body>` — every hit must be an exempt line: prose paragraph, table row, code fence, frontmatter, or the frozen handoff.
+- One body file per skill: obligations must be pushed whole, not pulled on demand.
+  - Subfiles suit reference-shaped skills — lookup material, read when the question is known — never rule lists.
+  - Decomposition follows triggers (Growth), never topics.
 - Closing block: every body but `self-learn`'s ends with the standard wind-down handoff, verbatim, as its last section (the block itself gates wind-down-only and states the skip where `self-learn` is absent; structural, so it never counts against the Growth trade):
 
   ```markdown
@@ -29,7 +37,11 @@
 
 ## Growth — compress, then split
 
-- Ceiling: 100 lines / 1600 words per body. From ~80 lines or ~1300 words, additions pay for themselves — tighten or replace existing lines instead of appending (Compact as a discipline, not an aspiration).
+- Ceiling: 130 lines / 1600 words per body, both hard — calibrated to density: overall lines average ~13 words, so 130 lines ≈ 1600 words.
+  - From ~105 lines or ~1300 words, an addition pays for itself by pruning weaker content (Compact as a discipline, not an aspiration).
+  - Preferred payment: extract the general rule — sibling rules sharing a principle merge into it, their specifics surviving as examples at most.
+  - Evict outright only what no general rule covers.
+  - Never pay by merging rules onto one line.
 - Split when a section serves a different trigger than the frontmatter — a reader loading the skill for X should not carry half a body about Y. Precedent: coding-style was split into coding-style + commit-gate once commit gating accreted its own trigger.
 - A split is a new skill: own directory and trigger (Principle 1), README row added, both bodies self-contained (Principle 2); name the install step in the commit message — new directories neither break existing symlinks nor propagate to installed machines. Name it at reference level (the README carries the literal commands) — local paths and per-node sync state stay out of history.
 
@@ -39,7 +51,7 @@ The rubric lives twice: `coding-style` states it for the writer, `code-review` c
 
 ## Post-task updates — the incident loop
 
-Most bodies here grew from session incidents, encoded after the fact. The retrospective half of that loop is bounded by the `self-learn` skill: a wind-down checkpoint — task settled, not to be redone soon, or the user calling for it ("update the skills if necessary") — a real-defect bar, the edit proposed to the user before it lands — and the edit is one file, the owning skill's body from this repo only (skills bundled elsewhere — a working repo's own, harness defaults, third-party collections — are reported, never edited), never a guide or scaffolding here. Fully user-specified edits follow this guide directly; those bars don't bind them. Loop commits carry a `Learned-By: self-learn` trailer, so history distinguishes the loop's edits from fully user-specified ones (which carry no marker). Retirement is human: a periodic, human-initiated prune — `git blame` shows each auto-added line's landing — retires lines whose firing reports never showed a fire.
+Most bodies here grew from session incidents, encoded after the fact. The retrospective half of that loop is bounded by the `self-learn` skill: a wind-down checkpoint — task settled, not to be redone soon, or the user calling for it ("update the skills if necessary") — a real-defect bar, the edit proposed to the user before it lands — and the edit is one file, the owning skill's body from this repo only (skills bundled elsewhere — a working repo's own, harness defaults, third-party collections — are reported, never edited), never a guide or scaffolding here. Fully user-specified edits follow this guide directly; those bars don't bind them. Loop commits carry a `Learned-By: self-learn` trailer, so history distinguishes the loop's edits from fully user-specified ones (which carry no marker). Retirement is human: a periodic, human-initiated prune — `git blame` shows each line's landing — retires lines whose firing reports never showed a fire.
 
 ## Invariants — check before committing
 
@@ -49,7 +61,8 @@ Most bodies here grew from session incidents, encoded after the fact. The retros
 - The description routes exactly one concern, disjoint from every other skill's trigger, within ≤512 chars — several entry doors may serve that one concern, but they all lead to the same work.
 - A change that adds or changes a paired rule (Paired bodies) updates both bodies, or the commit message states why not.
 - Commit messages carry the incident, not the person or the machine: no quoted user instructions, session-habit narratives, node-state (what was linked where, when), or local paths beyond what the repo's own files already state.
-- No body over the ceiling (100 lines / 1600 words); from ~80 lines or ~1300 words, additions must tighten what is there — and split when a section serves a different trigger, per Growth.
+- No body over the ceiling (130 lines / 1600 words); from ~105 lines / ~1300 words, additions pay per Growth.
+- No rule line over ~40 words in a changed body — every `awk 'NF>40'` hit must be exempt (prose, table row, code fence, frontmatter, frozen handoff).
 - The fresh-review commit gate (`commit-gate`) runs before any commit.
 
 ## Template
