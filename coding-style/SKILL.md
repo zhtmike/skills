@@ -36,6 +36,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - A module with a public surface declares it up front (`__all__` or the language's equivalent) and keeps implementation helpers below the public API, on code you write or modify.
 - Long linear functions are fine; dense code that needs a pause to parse is not.
 - Inline helpers, globals, and configs that are used exactly once.
+- Unused interface parameters are fine — the signature is the contract, and purity means the body does only its job: no `del`/`_ =` scrub statements for unused names. Drop such silencers in any function your change takes over.
 - Scripts: env-overridable defaults (`VAR=${VAR:-default}`); deprecated paths get a header naming the replacement.
 
 ### Comments & docstrings
@@ -51,7 +52,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Every behavior change gets a test in the same PR. Prefer cheap CPU tests (`importorskip`, `monkeypatch`) over heavy e2e; never fake import systems or mock what you could really construct.
 - No tautological asserts (asserting what the mock returns).
 - Defects that fail silently (no crash, plausible output) need the test to assert the observable signature of correct behavior — an exit-code-only smoke passes on the corrupted run.
-- Test runs: lightweight CPU tests (seconds-to-minutes, no GPU/network/downloads) may run locally — report only real observed output; if deps are missing, say so and list remote commands instead — don't install heavy stacks. GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
+- Test runs: lightweight CPU tests (seconds-to-minutes, no GPU/network/downloads) may run locally, on the user's clock — an explicit checkpoint ("until commit") moves verification there; between checkpoints state the last verified result rather than re-running per edit. Report only real observed output; if deps are missing, say so and list remote commands instead — don't install heavy stacks. GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
 
 ### Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
@@ -61,7 +62,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
 - No legacy code: place interim patches on the earliest, narrowest hook that runs before the failing mechanism (post-init hooks cannot fix compile-time failures), reusing existing hooks; when the upstream fix lands or the supported floor moves — dependency or pin bump, a dropped platform or version — delete the workaround/compat branch, its dead callers, and its tests in the same change. Code kept past its fix or floor, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions: two copies of the same logic is a bug factory (deliberate test-fixture copies excepted) — when a diff touches one copy, extract the shared helper or delete the duplicate; byte-identical helpers are the loudest smell.
-- Constants: module-level `SCREAMING_CASE` tuples/frozensets over scattered literals — consolidate the ones your diff touches.
+- Constants: module-level `SCREAMING_CASE` tuples/frozensets over scattered literals — consolidate the ones your diff touches. Single-use constants inline their literal at the consumer; shared ones join the file's constant block at the top — a constant never parks mid-file beside one call site.
 - Logging: module-level `logger = logging.getLogger(__name__)`, lazy `%-style` args.
 
 ## Design posture
