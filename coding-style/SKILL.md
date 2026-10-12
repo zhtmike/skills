@@ -29,6 +29,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Raise with actionable messages: `raise ValueError(f"Invalid backend: {x}. Must be one of {sorted(valid)}")`
 - A silent downgrade (catch-and-continue, default substitution) hides broken setups.
 - If a fallback is genuinely temporary: `# TODO(owner): drop this and raise instead — tracked in <issue>` plus a real tracking issue. No permanent workarounds.
+- Validate at the declaration — dataclass `__post_init__`, class-definition hooks; a use-site check of the same invariant is duplication.
 - Chain exceptions: `raise ImportError(...) from e`.
 
 ### Be explicit
@@ -68,8 +69,8 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 ## Design posture
 
 - Iterate on a verified working example over perfect upfront design; state Goals / Non-Goals for big changes, phase them.
-- Every new hook, protection, or abstraction must justify its existence — default to not adding it.
-- Make things general: solve the class of problem, not one instance; reuse existing infra instead of building parallel new paths.
+- Every new hook, protection, or abstraction must justify its existence — default to not adding it. Before designing a new module's public surface, find the repo's closest existing analog and mirror its shape (a registry → its registry pattern); a wider surface than the analog needs justification.
+- Make things general: solve the class of problem, not one instance; reuse existing infra instead of building parallel new paths. A helper with no domain words in it lives in the repo's utils layer, not the domain module — and an upstream dependency may already ship it; search before writing a copy.
 - Fix formally at the source (ideally upstream) instead of patching around it locally.
 
 ## Precedence
