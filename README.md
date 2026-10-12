@@ -6,7 +6,8 @@ Personal agent skills — harness-agnostic (pi, OpenCode, Claude Code), self-con
 
 | Skill | Load when | Scope |
 |---|---|---|
-| `coding-style` | before touching any code — any edit, any language, any framework, any repo | edit conventions: minimal diffs, fail-fast, comment hygiene, tests with the change |
+| `spike` | before building anything unproven — new feature, POC, prototype, tricky change | exploration license: make it work, demonstrate with a real run, defer polish and abstraction |
+| `coding-style` | before any edit to code that already works, and before a demonstrated change is declared done | the finishing pass: minimal diffs, fail-fast, comment hygiene, tests and docs with the change |
 | `commit-gate` | before any git action (commit / amend / push / PR) | approval-gated actions on the fork, commit-message conventions, fresh-review commit gate |
 | `code-review` | before reviewing a PR or a review branch | deep, necessity-first review — every claim and cited link verified, every hunk held to scope; may span multiple dispatched agents; drafted to a `review_*.md` file, never posted |
 | `survey` | before any intensive, broad investigation | typed decomposition, budgets, claim-based findings, optional evidence audit, synthesis schema |
@@ -22,7 +23,7 @@ The `h800-*` skills apply only on H800 cluster nodes (driver 535 / CUDA 12.2) �
 skills CLI (installs as symlinks; `skills update` propagates):
 
 ```bash
-npx skills add zhtmike/skills --global -a <agent> --skill coding-style --skill commit-gate --skill code-review --skill survey --skill self-learn
+npx skills add zhtmike/skills --global -a <agent> --skill spike --skill coding-style --skill commit-gate --skill code-review --skill survey --skill self-learn
 ```
 
 Or manually:

@@ -1,15 +1,17 @@
 ---
 name: coding-style
-description: "MUST load before touching any code — any edit, any language, any framework, any repo. The user's conventions for edits and change structure: minimal diffs, fail-fast over silent fallbacks, comment hygiene, tests shipped with the change."
+description: "MUST load before any edit to code that already works, and before a demonstrated change is declared done — any language, any framework, any repo. The finishing pass: minimal diffs, fail-fast over silent fallbacks, comment hygiene, tests and docs shipped with the change. Not for unproven builds."
 ---
 
 # Personal Coding Style
 
-**Load this before any code modification.** Nearly every rule here is diff-checkable — a reviewer can hold a change against them.
+**Load this before editing working code, and before a demonstrated change is declared done.**
 
-## Scope — how code is written
+## Scope — the finishing pass
 
-Any language, any framework, any repo.
+Edits to already-working code, and the pass that takes a demonstrated change to done — any language, any framework, any repo.
+
+- Taking a change to done starts from a change that demonstrably works: a real observed run or an executing test of the claimed behavior, never "should work".
 
 ## Core Principle
 
@@ -94,7 +96,6 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Design posture
 
-- Iterate on a verified working example over perfect upfront design; state Goals / Non-Goals for big changes, phase them.
 - Every new hook, protection, or abstraction must justify its existence — default to not adding it.
   - Before designing a new module's public surface, find the repo's closest existing analog and mirror its shape (a registry → its registry pattern).
   - A wider surface than the analog needs justification.
