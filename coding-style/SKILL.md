@@ -63,7 +63,6 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - One file, one field-documentation style — the project's form where it has one (plain per-field comments or docstring fields), never mixed across sibling classes.
 - Prevent comment erosion: update or delete comments a behavior change invalidates, in the same PR.
   - Version-dated comments ("as of X…") die with X; an inaccurate comment is worse than none.
-- Self-check before finishing: rescan your own diff against these comment rules.
 
 ### Tests ship with the change
 - Every behavior change gets a test in the same PR.
@@ -103,6 +102,10 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - A helper with no domain words lives in the repo's utils layer, not the domain module.
   - An upstream dependency may already ship it — search before writing a copy.
 - Fix formally at the source (ideally upstream) instead of patching around it locally.
+
+## Self-check before done
+
+- Rescan your own diff against every rule in this body once, before declaring the change done.
 
 ## Precedence
 
