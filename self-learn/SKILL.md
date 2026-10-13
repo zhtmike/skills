@@ -39,6 +39,7 @@ Entry is exactly one of two doors — nothing else loads this skill:
   - Without a scar it is preference, not defect; severity admits on one scar — a mild scar needs recurrence or the user's insistence.
 - Truly necessary: the proposed rule would have prevented that failure, and no existing line already covers it.
   - If a line already says it, the failure was loading or following, not the text.
+  - A line cited as covering the defect names its firing-report status in the claim — a rule that never fired did not engage the failure, and unengaged text is presence, not coverage.
 - Not defects: environment-only facts (they belong in skills bound to that environment); single-repo taste; a success that luck explains.
 
 ## Encode into the owning skill
