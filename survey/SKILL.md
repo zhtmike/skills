@@ -9,7 +9,7 @@ description: "MUST load before any intensive, broad investigation — a question
 
 ## Scope — one context is the boundary
 
-A question that fits a single session's focus needs no survey — answer it directly. A question spanning sources, subsystems, or papers gets decomposed into lanes and dispatched.
+A question that fits a single session's focus needs no survey — answer it directly, with every claim in that answer checked against the source that owns it. A question spanning sources, subsystems, or papers gets decomposed into lanes and dispatched.
 
 Gate the question first: if underspecified (missing goal, constraints, or decision context), ask 2–3 clarifying questions and weave the answers in before fanning out.
 - If the user says "just survey it", proceed with sensible defaults and say which.
@@ -19,8 +19,9 @@ Gate the question first: if underspecified (missing goal, constraints, or decisi
   - Prefer more narrow lanes over fewer broad ones — focus makes findings deep, and cheap lanes keep breadth affordable.
 - Let the question type pick the angles: comparative → one lane per candidate; evaluative → criteria plus candidates; exploratory → landscape sweep; investigative → one lane per hypothesis; quantitative → measurement methodology.
   - Always add a contrarian/skeptical lane whose job is to attack the leading or conventional answer.
-- Budget before launching — lanes and per-lane effort (sources to read, time) — and stop when the budget is spent.
+- Budget written before launch: maximum lanes (six unless genuinely wider), the harness's fast model per lane, per-lane effort, and the stop condition — stop when it is spent.
   - Budgets are the stopping criterion; without them surveys sprawl.
+  - The parent keeps each lane's claims; transcripts stay in the lane.
   - API-hitting lanes launch write-capable and rewrite their artifact as data accumulates (a timeout must still leave partial results).
   - Prefer batch endpoints over per-item GETs — per-item loops die on rate limits with nothing to show.
 - Show the lane plan and launch without waiting — ask first only if genuinely ambiguous.
@@ -35,6 +36,8 @@ Gate the question first: if underspecified (missing goal, constraints, or decisi
   - Never point stdout at a path the lane also writes — the final-message write at exit clobbers the artifact.
 - Dispatch all lanes concurrently — cheap/fast model per lane where the harness allows.
   - A failed or empty lane: rerun it alone; a rate-limited provider: run lanes sequentially.
+  - A lane failing twice stops the survey — reported as retry, never a silent empty result, never a third wave.
+  - No dispatch mechanism: run the lanes in this session one at a time, say so, keep the same budget.
 
 ## Lane findings — claims, not prose
 - Findings are falsifiable claims, each backed by a direct quote or citation from the source that owns it.
