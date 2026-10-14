@@ -15,7 +15,11 @@ The session lives inside tmux → Slurm; both are incidental to job mechanics �
 
 ## Delegate the monitoring (when the harness can delegate)
 
-Long monitoring loops burn the session's context — if your harness can dispatch agents or run background tasks, delegate the polling to one instead of checking yourself; otherwise poll directly at the cadence below. Whoever polls: one retry max per failure, and close with a final report (PASS/FAIL tally, durations, root causes) — read the verdict, not the stream.
+Long monitoring loops burn the session's context.
+- Delegate the poll to a dispatched agent or background task when the harness can run one; the parent reads the verdict, not the stream.
+- Otherwise poll directly at the cadence below.
+- Whoever polls: one retry max per failure — a second failure is the result.
+- Close with one final report: PASS/FAIL tally, durations, root causes — no log-stream paste.
 - Hand the delegate: the runner log path, the done-marker line, the poll cadence (adaptive 15s→10m, below), and the known-failure table below.
 - Reuse the same delegate for follow-up rounds when the harness allows; it retains the log layouts.
 

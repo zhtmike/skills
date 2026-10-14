@@ -14,7 +14,7 @@ Creating or repairing Python/GPU environments on the H800 cluster; everything be
 ## Reuse first — env and package mutations need approval
 - The user typically has an existing, activated conda env for the task at hand — **default to it**.
 - Creating a new env, installing packages, or modifying existing ones is approval-gated — ask first unless the user explicitly requested that change.
-  - Gated: `conda create`, `conda install`, `uv pip install`, `pip install`, upgrades/removals, symlinks into `$CONDA_PREFIX`.
+  - Gated: `conda create`, `conda install`, `uv pip install`, `pip install`, upgrades/removals, symlinks into `$CONDA_PREFIX` — and the account-changing steps: writing `~/.ssh/config`, changing git remotes, pushing.
   - Silent env mutation can break working setups that took hours to build.
 
 ## Cluster facts (verify hardware with `nvidia-smi`; assume stale otherwise)
@@ -27,8 +27,8 @@ Creating or repairing Python/GPU environments on the H800 cluster; everything be
   - Any CUDA 13 stack needs forward compatibility.
 - PyPI: direct is slow from the login node (~7s vs ~1.1s via mirror), fine from compute nodes — default to the tuna mirror.
 - From compute nodes, ssh/22 to github.com times out (login node: fine) — `git@github.com` remotes can neither fetch nor push there.
-  - Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (transparent for existing remotes).
-  - Or go over https: public repos fetch anonymously; private repos and pushes take gh as the credential helper — `git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`.
+  - Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (approval-gated) — transparent for existing remotes.
+  - Or go over https: public repos fetch anonymously; private repos and pushes (approval-gated) take gh as the credential helper — `git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`.
   - Pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`.
   - Update local branches the same way: `git fetch <url> <branch>` then `git merge --ff-only FETCH_HEAD` (fetching `<url> <branch>:<branch>` is refused on a checked-out branch).
 - GPUs are usually free, but foreign processes (another user's server) sometimes hold some — tell the user immediately; never silently route around them.
@@ -53,7 +53,8 @@ Without these, `import torch` fails with "the NVIDIA driver on your system is to
 
 ## uv vs pip — the resolver split
 
-Modern multi-pin repos (verl-omni et al.) carry git pins whose metadata conflicts (e.g. verl's `transformers<5.11` vs the repo's `>=5.13`). uv resolves these via `[tool.uv] override-dependencies` from the repo's pyproject; **plain pip cannot** — `pip install -e .` dies with `ResolutionImpossible`. Always use uv inside such repos:
+- Use uv inside repos whose pins override each other — resolved via `[tool.uv] override-dependencies` in the repo's pyproject; **plain pip cannot** there: `pip install -e .` dies with `ResolutionImpossible`.
+  - Example from this cluster's repos: verl-omni carries git pins whose metadata conflicts — verl's `transformers<5.11` vs the repo's `>=5.13`.
 
 ```bash
 export UV_DEFAULT_INDEX=https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
