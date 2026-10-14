@@ -40,7 +40,6 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
   - A change that reimplements a published method, or whose safety rests on another codebase's behavior, is verified against ground truth — the reference implementation, the dependency's own source — not the reviewed repo alone.
 - Large or multi-subsystem targets: dispatch parallel read-only agents, one per subsystem or file group, through whatever agent-dispatch mechanism your harness provides.
   - Each hands back `file:line` findings; merge, dedupe, re-verify the borderline, then write the single review file.
-- One review file per target, no matter how many agents contributed.
 
 ## Output contract — never post
 - A re-review accounts for every prior-round finding — verified fixed, withdrawn with evidence, or re-flagged; none silently vanishes.
@@ -76,7 +75,10 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
 6. **Tests & evidence** — new behavior needs a test; prefer cheap CPU tests; flag tests that materially increase CI cost.
    - Fail-silent fixes need the test to assert the observable signature of correct behavior, not just exit codes.
-   - Lightweight CPU tests may run locally (real output only); GPU claims are checked by plausibility, never asserted as run.
+   - CI-covered tests are read, not run: the user triggers CI after the review.
+   - A missing CI run is never a finding.
+   - A new test the CI job would not collect — naming, path filters — is a finding unless run locally (real output only).
+   - GPU claims are checked by plausibility, never asserted as run.
    - A red check is root-caused, not relayed — trace the failing frame via the run's artifacts; a validation claim deterministic CI contradicts is itself a finding.
    - Evidence (curves, counts) must be plausible — sanity-check the data itself, not just its presence.
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it; flag names that hide intent.
