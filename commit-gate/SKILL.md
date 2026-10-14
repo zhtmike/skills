@@ -56,6 +56,10 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Its job is a genuine review, not a style pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
   - Plus the conventions in force and this file's message rules (root-cause narrative, numbers, verified trailers).
   - What only editing time could show is out of scope — no speculating.
+- The brief names the artifact's characteristic failure — the defect class this artifact type systematically commits — and demands findings there before anywhere else.
+  - A claim-encoding artifact (skill body, guide, retrospective doc) carries its grounding: the incident it encodes, plus self-application — each rule run on its own motivating case; a rule or headline claim that fails or contradicts that case is blocking.
+- A pass whose findings are all checklist-visible — format, counts, message shape — did not engage the axis; the pass fails the gate, re-dispatch with the axis demanded first.
+  - An engaged clean pass stands.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review; self-review never satisfies the gate.
   - If the harness cannot dispatch an agent, stop and ask the user to review the diff — any qualified fresh pass, dispatched or the user's own, satisfies the gate.
