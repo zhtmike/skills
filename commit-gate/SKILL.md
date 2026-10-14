@@ -13,9 +13,8 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 ## Git actions — approval-gated
 - Never commit, push, or create a PR without the user's explicit approval.
-  - Silence is not approval; work being finished is not approval.
-  - A request naming an outcome that implies a commit ("merge main into the PR", "land it") states the goal, not the approval — approval is an explicit go on a presented diff and message.
-  - An instruction to read or check something approves reading, not acting on what it finds.
+  - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), or a request to read or check something.
+  - Approval is an explicit go on a presented diff and message.
   - Commit approval bundles exactly that commit and its push to the fork — never later commits.
 - Just before every commit, on every path (review-triggered or not): run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
   - Any diff those fixes produce joins the delta re-review.
@@ -23,14 +22,14 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Run the hook's check over the tracked tree; if that is clean, bypass that hook alone.
   - Disclose both the bypass and the proof in the commit body.
 - Pushes go to the user's fork remote only.
-  - Identify the fork remote before the first push (`git remote -v`, `gh repo view --json parent`); if ambiguous or no fork exists, ask.
+  - Identify the fork remote before the first push; if ambiguous or no fork exists, ask.
   - Never push upstream, even if it is `origin`.
 - Branches on the fork use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`, `fix/port-bind-fail-fast`.
 - PRs are always submitted by the user — never by the agent.
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
   - Writing or later editing that file is not a gated action.
 - Follow the repo's PR template if one exists; paste-ready: what/why, root-cause narrative, test commands + real results, cross-links, required disclosures (AI assistance, duplicate-work checks).
-- When the work settles (change shipped, PR in the user's hands, artifacts cleaned): check out the repo's default branch and fast-forward it to the remote.
+- When the work settles, check out the repo's default branch and fast-forward it to the remote.
   - Never leave the session parked on the feature branch; a fresh session must not inherit a stale checkout.
 
 ## Commit messages
@@ -56,10 +55,17 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Its job is a genuine review, not a style pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
   - Plus the conventions in force and this file's message rules (root-cause narrative, numbers, verified trailers).
   - What only editing time could show is out of scope — no speculating.
-- The brief names the artifact's characteristic failure — the defect class this artifact type systematically commits — and demands findings there before anywhere else.
-  - A claim-encoding artifact (skill body, guide, retrospective doc) carries its grounding: the incident it encodes, plus self-application — each rule run on its own motivating case; a rule or headline claim that fails or contradicts that case is blocking.
-- A pass whose findings are all checklist-visible — format, counts, message shape — did not engage the axis; the pass fails the gate, re-dispatch with the axis demanded first.
+- For each changed rule in a claim-encoding artifact, the brief states one case it must reject and one nearby case it must allow.
+  - The cases come from the incident, not from the rule's own sentence.
+  - Claim-encoding artifacts are skill bodies, guides, and retrospective docs.
+- The pass lists each of those cases and its verdict.
+  - A pass that does not list them has not engaged, whether its other findings are empty or only checklist items.
+  - Re-dispatch a pass that has not engaged, with those cases demanded first.
+- A pass whose findings are all checklist-visible — format, counts, message shape — did not engage, whatever the artifact; the pass fails the gate.
   - An engaged clean pass stands.
+- A rule that fails its must-allow case is blocking.
+- A headline that repeats a slogan the incident rejected is blocking.
+- A listed pass whose must-reject cases are rejected and whose must-allow cases hold is clean and stands.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review; self-review never satisfies the gate.
   - If the harness cannot dispatch an agent, stop and ask the user to review the diff — any qualified fresh pass, dispatched or the user's own, satisfies the gate.
