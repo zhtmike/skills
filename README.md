@@ -7,7 +7,7 @@ Personal agent skills — harness-agnostic (pi, OpenCode, Claude Code), self-con
 | Skill | Load when | Scope |
 |---|---|---|
 | `spike` | before building anything unproven — new feature, POC, prototype, tricky change | exploration license: make it work, demonstrate with a real run, defer polish and abstraction |
-| `propose` | before drafting or materially revising the design for a non-trivial change, and before writing its code | interface-first design gate: situate against precedent, minimal contract, checkable claims, weight-reviewed scope, converged before code |
+| `propose` | before drafting or materially revising the design for a non-trivial change | smallest behavior contract: pin what must hold, leave names provisional until a first exercise, verify claims, review weight as hard as correctness, then the first slice may start |
 | `coding-style` | before any edit to code that already works, and before a demonstrated change is declared done | the finishing pass: minimal diffs, fail-fast, comment hygiene, tests and docs with the change |
 | `commit-gate` | before any git action (commit / amend / push / PR) | approval-gated actions on the fork, commit-message conventions, fresh-review commit gate |
 | `code-review` | before reviewing a PR or a review branch | deep, necessity-first review — every claim and cited link verified, every hunk held to scope; may span multiple dispatched agents; drafted to a `review_*.md` file, never posted |
