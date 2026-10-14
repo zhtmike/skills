@@ -6,8 +6,8 @@ Personal agent skills — harness-agnostic (pi, OpenCode, Claude Code), self-con
 
 | Skill | Load when | Scope |
 |---|---|---|
-| `spike` | before building anything unproven — new feature, POC, prototype, tricky change | exploration license: make it work, demonstrate with a real run, defer polish and abstraction |
-| `propose` | before drafting or materially revising the design for a non-trivial change | smallest behavior contract: pin what must hold, leave names provisional until a first exercise, verify claims, review weight as hard as correctness, then the first slice may start |
+| `spike` | before building anything unproven — new feature, POC, prototype, tricky change, any code whose shape is still being learned | exploration license: make it work, demonstrate with a real run of the claimed behavior (that run is what settles the approach), defer polish and abstraction |
+| `propose` | before drafting or materially revising the design for a non-trivial change — interface, subsystem, refactor or migration, multi-PR series | smallest behavior contract: pin what must hold, leave names provisional until a first exercise, verify claims, review weight as hard as correctness; ends at the anchored, accepted text |
 | `coding-style` | before any edit to code that already works, and before a demonstrated change is declared done | the finishing pass: minimal diffs, fail-fast, comment hygiene, tests and docs with the change |
 | `commit-gate` | before any git action (commit / amend / push / PR) | approval-gated actions on the fork, commit-message conventions, fresh-review commit gate |
 | `code-review` | before reviewing a PR or a review branch on the user's behalf | deep, necessity-first review — every claim and cited link verified, every hunk held to scope; may span multiple dispatched agents; drafted to a `review_*.md` file, never posted |

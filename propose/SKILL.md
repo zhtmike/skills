@@ -1,6 +1,6 @@
 ---
 name: propose
-description: "MUST load before drafting or materially revising the design for a non-trivial change — interface, subsystem, migration, multi-PR series. Pin the smallest behavior contract others code against, keep machinery minimal behind it, verify claims against the code, and review scope for weight as hard as for correctness. Not for trivial edits, not for executing an already-agreed design, not for the proving build of that design."
+description: "MUST load before drafting or materially revising the design for a non-trivial change — interface, subsystem, refactor or migration, multi-PR series. Pin the smallest behavior contract others code against, keep machinery minimal behind it, verify claims against the code, and review scope for weight as hard as for correctness. Not for trivial edits, not for executing an already-agreed design, not for the proving build of that design."
 ---
 
 # Propose
@@ -9,7 +9,7 @@ description: "MUST load before drafting or materially revising the design for a 
 
 ## Scope — the design gate before code
 
-Fires when a change is big enough to need agreement first: a new interface or subsystem, a refactor or migration plan, a multi-step series.
+Fires for the changes that need agreement before code: a new interface or subsystem, a refactor or migration plan, a multi-step series. This skill ends when the user has accepted one short text — behavior pins, non-goals, the smallest first slice, its done-when — and that text is anchored; it does not write the slice.
 
 Out of scope: trivial edits; executing an already-agreed design; interrogating a person's plan at their request (a different concern); the proving build of an agreed approach.
 
@@ -27,7 +27,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Machinery behind the boundary may land minimal and harden later, provided the observable contract holds.
 - Design for the problem the code has today: a mode for a case not yet landed or an enum for a single caller is over-engineering even when internally consistent.
 - State goal and non-goals, constraints with evidence, the contract surface, the smallest first slice, and a testable done-when per slice.
-- Pin behaviors, not vocabulary: freeze what must hold — ordering, error and shutdown semantics; signatures, enums, and schemas stay provisional until a first implementation exercises them.
+- Pin behaviors, not vocabulary: freeze what must hold — ordering, error and shutdown semantics; signatures, enums, and schemas stay provisional until a first run of the behavior pins exercises them.
 - Every frozen surface names its payer — the concrete near-term exercise that types it. No payer, no freeze.
 - If an existing switch already expresses a behavior, extend it; never mint parallel vocabulary that then needs reconciling with the old.
 - Find the module that already owns the problem before designing a second owner for it.
@@ -47,16 +47,18 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 
 - Correctness reviews (consistency, implementability) always reward more specification — weight needs its own axis, asked out loud.
 - The weight question, verbatim in every review brief: should this be specified now — has a first exercise paid for freezing it?
-- Whatever agent-dispatch mechanism your harness provides, dispatched reviewers get that question in the brief.
+- A contract that fits one sitting is checked by its author against the tree.
+- Dispatch a weight review only when the claims span more than one subsystem or the text outgrows a sitting — one wave, on a cheap fast model, the parent keeping findings, never transcripts.
 - Each round re-verifies the previous round's fixes and stops when the weight pass's unresolved findings are empty.
 - A finding that asks to freeze a surface with no payer is resolved by cutting that surface.
 - A design that passes correctness while freezing unexercised surface is over-engineered: cut inside the accepted direction rather than restart.
 
-## Converged, then code
+## Anchor, then code
 
-- The behavior pins and the named first slice are enough to start that slice's code.
-- Freeze names in the first implementation's review, not in the design.
-- Anchor the design where the project anchors designs (its issue, RFC, or doc convention) before the first code lands.
+- Anchor the accepted text — behavior pins, non-goals, the smallest first slice, its done-when — where the project anchors designs (its issue, RFC, or doc convention); this skill stops at the anchor.
+- Acceptance is the user's yes on that text — an empty weight-finding list is a clean review, not agreement.
+- After the anchor, the behavior pins and the named first slice are enough to start that slice's code.
+- Names stay provisional through the proving run and freeze in the finishing pass, after a run of the behavior pins — not in the design, not after a scratch script of a narrower question.
 
 ## Precedence
 
