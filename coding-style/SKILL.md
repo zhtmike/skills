@@ -23,6 +23,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Touch only what the task needs — small diffs make personal review fast.
   - No drive-by reformat or rename of untouched lines.
 - A refactor or any big change: ask first, get the go-ahead before starting.
+- The same check failing twice stops the edit: report both results and the wrong hypothesis. A third try needs a new hypothesis, stated before the edit.
 
 ### Fix the class, not just the instance
 - After fixing a bug, check whether the same pattern or risk exists elsewhere — same root cause means the fix applies there too.
@@ -49,7 +50,6 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
 - Comments stay rare; each earns its line — code that says it plainly gets none.
   - A tracked `TODO(owner)` counts as earning its line.
-  - Public declarations (type aliases, module-level state, exported constants) get a what-they-hold comment.
 - Comment only the non-trivial; WHY means an invariant, never provenance.
   - No comment cites a PR, issue, or commit number (`# handle #1234`, `// see PR #567` are both wrong); the sole exception is `# TODO(owner): … — tracked in <issue>` with a real issue.
   - Cross-reference the invariant or upstream behavior instead: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`.
@@ -105,7 +105,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Self-check before done
 
-- Rescan your own diff against every rule in this body once, before declaring the change done.
+- Rescan your own diff once, before declaring the change done, against the rules it can trip — diff size, fallbacks, comments, tests, docs, public surface, pruning — not every rule in this body.
 
 ## Precedence
 
