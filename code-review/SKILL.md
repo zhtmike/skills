@@ -37,7 +37,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
   - Only what needs a real run (GPU, live engine) goes to the author, naming what a run alone can show.
 - Every external reference the diff, its comments, or its commit messages cite — issues, PRs, upstream commits, release assets — is resolved and checked to exist and to cover the claim (scope, state, in-tag).
   - A link is a claim, not proof: `tracked in #X` whose issue's scope doesn't match the TODO is a finding.
-  - A change that reimplements a published method, or whose safety rests on another codebase's behavior, is verified against ground truth — the reference implementation, the dependency's own source — not the reviewed repo alone.
+  - A change that reimplements a published method, or one resting on another codebase's behavior, is verified against ground truth — the reference implementation, the dependency's source — not the reviewed repo alone.
 - Large or multi-subsystem targets: dispatch parallel read-only agents, one per subsystem or file group, through whatever agent-dispatch mechanism your harness provides.
   - Each hands back `file:line` findings; merge, dedupe, re-verify the borderline, then write the single review file.
 
@@ -65,7 +65,6 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 2. **Scope** — anything unrelated to the target's purpose: drop it.
    - Read the file list before the hunks: files outside the purpose are findings before their content is.
    - In a fix round, every hunk must map to a requested finding or follow directly from one — unrequested refactors or behavior changes riding along get flagged however defensible.
-   - Change too huge? Split it — interface/RFC first PR, implementation second.
 3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades: drop them and fix formally. Never wave through "fallback plan" code.
    - A dependency or pin bump is the drop deadline: every tracked workaround whose upstream fix rode the bump is deleted, not rewritten.
 4. **Generality & reuse** — does this solve only one model/case? Prefer extending existing infra over parallel mechanisms.
@@ -75,7 +74,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
 6. **Tests & evidence** — new behavior needs a test; prefer cheap CPU tests; flag tests that materially increase CI cost.
    - Fail-silent fixes need the test to assert the observable signature of correct behavior, not just exit codes.
-   - CI-covered tests are read, not run: the user triggers CI after the review.
+   - CI-covered tests are read, not run — the user triggers CI.
    - A missing CI run is never a finding.
    - A new test the CI job would not collect — naming, path filters — is a finding unless run locally (real output only).
    - GPU claims are checked by plausibility, never asserted as run.
@@ -90,7 +89,7 @@ Precedence: project-specific skills and repo conventions (`AGENTS.md`, review te
 8. **Workaround hygiene** — temporary code must carry `TODO(owner)` + a tracking issue (+ upstream link if applicable).
 9. **Docs sync** — README/docs updated in the same PR, dates aligned.
 10. **Same defect, elsewhere** — when a finding lands, check whether the same pattern or risk exists elsewhere in the diff or repo.
-    - Flag the class ("this unchecked-NaN pattern appears in 3 more places"), not just the instance found.
+    - Flag the class, not just the instance found.
 
 **Skip / low priority:** formatting, typing style, docstring formatting (not content), naming bikeshedding, commit hygiene, micro-performance.
 
@@ -102,5 +101,5 @@ A target is approvable when nothing in it is unnecessary, nothing is temporary-w
 
 Only at the task's wind-down — never earlier — and only where `self-learn` is installed; otherwise skip this section. One question: did a skill's guidance misfire — wrong, misleading, or silent where it hurt?
 
-- **No — end here.** A wind-down alone never loads `self-learn`.
+- **No — end here.** One line per skill this session actually loaded — fired and helped / fired and hurt / never fired, each with one session quote or the words 'no quote'. A wind-down alone never loads `self-learn`.
 - **Yes — load `self-learn` and hand it the misfire.** Its bar and ownership boundary take it from there: this repo's skills may get a proposed edit; external ones (repo-bundled, harness-default, third-party) come back as a report — never an edit, and never by your own hand.

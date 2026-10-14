@@ -12,7 +12,7 @@ description: "MUST load when a task's lessons are to be encoded into an owning s
 Entry is exactly one of two doors — nothing else loads this skill:
 - **Wind-down with a scar.** The work is settled and an owning skill's guidance misfired this session.
   - Settled = deliverable done and verified or accepted, nothing pending on you, no rework expected soon.
-  - This repo's skills surface this door through their closing wind-down handoff: no misfire, no handoff — and a wind-down alone never loads this skill.
+  - This repo's skills surface this door through their closing wind-down handoff: no misfire, no handoff to this skill — and a wind-down alone never loads it.
 - **The user's explicit call.** "Update the skills if necessary", "encode what you learned" — wording varies.
   - The call is itself the checkpoint: its timing is the user's to choose, and it does not lower the bar.
   - "if necessary" delegates the judgment, never waives it; "nothing qualifies" is a valid answer.
@@ -30,30 +30,37 @@ Entry is exactly one of two doors — nothing else loads this skill:
   - The user says go or no; no unasked edits.
 - Include a falsifier: the nearest case earlier in this session where the proposed rule would have fired but nothing went wrong, or an explicit statement that none exists.
   - The independent review checks the falsifier first.
+  - A rule that would spend — dispatches, model tier, retries — is falsified by the case where the session's cheaper action was already right.
 - Attach a firing report to every proposal: one line per rule of the owning skill this session actually loaded — fired and helped / fired and hurt / never fired.
   - Reports are the only record that landed rules earn their lines; retirement is a human decision informed by these reports.
+- A paired-concern defect (a rule a reviewer would flag in a foreign PR: necessity, fallbacks, analog shape, comments, tests, workaround deadlines) names the sibling body and the line the one-file edit leaves stale.
+  - The commit message says the sibling is untouched and why; the sibling changes only when you specify that edit.
+- Where the repo's agent instructions or authoring guide state a looser trigger than the handoff's two doors, say so in the proposal and stop — the guides are human-edit territory, never something to code around.
 
 ## The bar — real defect, truly necessary
 - Real defect, with a scar the session can show: the guidance was wrong, misleading, or silent where a warning belonged, and something concrete went wrong.
   - Scar examples: iterations burned, a wrong outcome caught late, a correction, or a user challenge accepted with a changed result.
   - Without a scar it is preference, not defect; severity admits on one scar — a mild scar needs recurrence or the user's insistence.
+  - A correction that only changes taste or naming inside one repo is not a defect; one that shows the guidance itself was wrong, plus recurrence or an explicit demand for a rule, is.
+  - Iterations burned count only when the final result was wrong or the user had to stop the agent — extra steps that still landed right are not a scar.
 - Truly necessary: the proposed rule would have prevented that failure, and no existing line already covers it.
+  - "Would have prevented" means: with the line loaded, the failed step would have been a different step — a line that only adds a warning the agent could have ignored changes nothing.
   - If a line already says it, the failure was loading or following, not the text.
   - A line cited as covering the defect names its firing-report status in the claim — a rule that never fired did not engage the failure, and unengaged text is presence, not coverage.
 - Not defects: environment-only facts (they belong in skills bound to that environment); single-repo taste; a success that luck explains.
 
 ## Encode into the owning skill
 - One defect, one skill — the skill whose trigger covered the task; never fan one incident across bodies.
-- State the generic rule, stripped of the incident — repos, PRs, symbols, and session details belong in the commit message, never the body.
+- State the generic rule, stripped of the incident — repos, PRs, and symbols stay out of the body; the message states the incident (what failed, where, which rule changed), never quoted user instructions.
 - The commit message states the edit's origin: edits that ride this loop carry a `Learned-By: self-learn` trailer, whoever called the checkpoint; fully user-specified edits carry none.
 - One file, and only that file: the body of the owning skill.
   - It never edits this skill itself, the authoring guide, agent instructions, README, or any other file — those are human-edit territory.
 - Direction is tightening: no edit that rides this loop weakens or waives a rule — loosening is a human decision, taken explicitly.
-- Additions pay for themselves: a new rule takes a new line, paid for by pruning weaker content.
+- Additions pay for themselves: a new rule takes a new line and names its load — every time that skill loads, or a rare path inside it. No named payer, no rule.
+  - A line on the every-load path pays by deleting or narrowing at least as many words as it adds; a rare-path rule still pays inside the body's ceilings.
   - Prefer extracting the general rule — sibling rules merge into it, specifics surviving as examples at most.
   - Evict only what no general rule covers.
   - Never merge rules onto one line to pay.
-  - A body near its ceiling trades rather than grows.
 
 ## Owning skills are yours only
 - An owning skill must live in the personal skills repo — the same version-controlled repo this skill itself is sourced from.

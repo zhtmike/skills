@@ -30,7 +30,7 @@
 
   Only at the task's wind-down — never earlier — and only where `self-learn` is installed; otherwise skip this section. One question: did a skill's guidance misfire — wrong, misleading, or silent where it hurt?
 
-  - **No — end here.** A wind-down alone never loads `self-learn`.
+  - **No — end here.** One line per skill this session actually loaded — fired and helped / fired and hurt / never fired, each with one session quote or the words 'no quote'. A wind-down alone never loads `self-learn`.
   - **Yes — load `self-learn` and hand it the misfire.** Its bar and ownership boundary take it from there: this repo's skills may get a proposed edit; external ones (repo-bundled, harness-default, third-party) come back as a report — never an edit, and never by your own hand.
   ```
 - Mirror the sibling skills (`code-review`, `survey`) for tone and density.
@@ -51,7 +51,7 @@ The rubric lives twice: `coding-style` states it for the writer, `code-review` c
 
 ## Post-task updates — the incident loop
 
-Most bodies here grew from session incidents, encoded after the fact. The retrospective half of that loop is bounded by the `self-learn` skill: a wind-down checkpoint — task settled, not to be redone soon, or the user calling for it ("update the skills if necessary") — a real-defect bar, the edit proposed to the user before it lands — and the edit is one file, the owning skill's body from this repo only (skills bundled elsewhere — a working repo's own, harness defaults, third-party collections — are reported, never edited), never a guide or scaffolding here. Fully user-specified edits follow this guide directly; those bars don't bind them. Loop commits carry a `Learned-By: self-learn` trailer, so history distinguishes the loop's edits from fully user-specified ones (which carry no marker). Retirement is human: a periodic, human-initiated prune — `git blame` shows each line's landing — retires lines whose firing reports never showed a fire.
+Most bodies here grew from session incidents, encoded after the fact. The retrospective half of that loop is bounded by the `self-learn` skill: it opens on one of two doors — the wind-down handoff surfacing a misfire at a settled task, or the user calling for it ("update the skills if necessary") — and a wind-down alone never opens it. Behind either door: a real-defect bar, the edit proposed to the user before it lands — and the edit is one file, the owning skill's body from this repo only (skills bundled elsewhere — a working repo's own, harness defaults, third-party collections — are reported, never edited), never a guide or scaffolding here. Fully user-specified edits follow this guide directly; those bars don't bind them. Loop commits carry a `Learned-By: self-learn` trailer, so history distinguishes the loop's edits from fully user-specified ones (which carry no marker). Retirement is human: a periodic, human-initiated prune — `git blame` shows each line's landing — retires lines whose firing reports (the handoff's report lines included) never showed a fire.
 
 ## Invariants — check before committing
 
