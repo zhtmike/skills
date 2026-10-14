@@ -66,6 +66,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ### Tests ship with the change
 - Every behavior change gets a test in the same PR.
+  - Where the repo's CI runs tests, ship each test matched to its collection — naming pattern, path filters.
   - Prefer cheap CPU tests (`importorskip`, `monkeypatch`) over heavy e2e; never fake import systems or mock what you could really construct.
 - No tautological asserts — asserting what the mock returns.
 - Fail-silent defects (no crash, plausible output) need the test to assert the observable signature of correct behavior.
@@ -87,7 +88,6 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - Code kept past its fix, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions — two copies of the same logic is a bug factory (deliberate test-fixture copies excepted).
   - When a diff touches one copy: extract the shared helper or delete the duplicate.
-  - Byte-identical helpers are the loudest smell.
 - Constants: module-level `SCREAMING_CASE` collections over scattered literals — consolidate the ones your diff touches.
   - Single-use constants inline their literal at the consumer.
   - Shared ones join the file's constant block at the top — a constant never parks mid-file beside one call site.
