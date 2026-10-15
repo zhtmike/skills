@@ -36,8 +36,8 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 
 ## Make it checkable
 
-- Every factual claim is checked against the tree before review: line anchors, counts, method names.
-- A claim that an existing symbol, config key, or call site exists fails when the tree lacks it.
+- Every factual claim is verified against the tree before review, semantics included — an existing symbol, config key, or call site is not its behavior or keying.
+  - A claim imported from a dispatched lane is not verification — re-verify it at its owning symbol.
   - A name the design introduces is marked as a proposal.
 - Every constraint is checkable — a rule you cannot test, or a validator you cannot write, is not a constraint.
 - Every non-obvious inherited mechanism carries its why, where it is cited — unexplained plumbing trips every reviewer the way it tripped the author.
