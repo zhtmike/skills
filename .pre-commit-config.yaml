@@ -1,0 +1,12 @@
+# The commit gate: one local hook running scripts/check.sh — no third-party
+# linters, and skill bodies are never auto-formatted. Wired per clone with
+# `pre-commit install` (scripts/README.md is the tool menu).
+repos:
+  - repo: local
+    hooks:
+      - id: skills-check
+        name: skills repo invariant gate
+        entry: scripts/check.sh
+        language: system
+        pass_filenames: false
+        always_run: true

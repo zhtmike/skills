@@ -39,4 +39,4 @@ ln -sfn ~/gitlocal/skills/coding-style ~/.agents/skills/coding-style   # repeat 
 
 ## Authoring
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) — trigger-first descriptions, sections by concern, self-containment (one exception: the standard wind-down handoff to `self-learn` closing every body but its own), harness-agnostic wording, rules that state behavior rather than spelling, atomic one-rule lines. Every skill change goes through the fresh-review commit gate (`commit-gate`).
+See [CONTRIBUTING.md](CONTRIBUTING.md) — trigger-first descriptions, sections by concern, self-containment (one exception: the standard wind-down handoff to `self-learn` closing every body but its own), harness-agnostic wording, rules that state behavior rather than spelling, atomic one-rule lines. Every skill change passes `scripts/check.sh` (wired via pre-commit; see CONTRIBUTING) and the fresh-review commit gate (`commit-gate`).
