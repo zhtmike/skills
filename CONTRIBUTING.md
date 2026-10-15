@@ -6,7 +6,7 @@
 2. **Self-contained** — no references to other skills, by name or by concept; a skill loads alone and must make sense alone. Never "see the X skill" — inline the needed fact or drop it. Sole exception: the standard wind-down handoff (canonical block under Structure) closing every body but `self-learn`'s — the repo's one sanctioned cross-reference, funnelling wind-down lessons through the loop so no skill gets a hand edit.
 3. **Harness-agnostic** — no pi/OpenCode/Claude-specific paths, flags, or mechanics. Delegation is referenced as "whatever agent-dispatch mechanism your harness provides"; harness specifics live in the harness's own setup, never here.
 4. **Framework-agnostic where it costs nothing** — state mechanisms without naming the framework (engine init timeouts, supervisor-respawned workers, not vllm/ray specifics); skills bound to that environment (see Incident-agnostic) keep their framework names, pins, and signatures — the rest stay mechanism-level, with exact log signatures and cluster-bound commands concrete as grep handles.
-5. **Incident-agnostic** — the skill body states the generic rule; the incident that motivated it (repo, PR/issue numbers, codebase symbols) lives in the commit message only. Environment-specific facts are reserved to skills whose trigger is that environment (`h800-*`).
+5. **Incident-agnostic** — body and commit message both state the generic rule: the message carries the incident's shape (what failed, which rule changed), never repo, project, or PR/issue identifiers. Environment-specific facts are reserved to skills whose trigger is that environment (`h800-*`).
 6. **Compact** — rules, not scripts; every line earns its place. Deep process lives in harness mechanics, not skill prose.
 7. **Capacity is priced where it's spent** — a fan-out, a model tier, a retry loop, and a rule that will load again are costs; the skill that performs the action states the cap — never a new skill for it, never a pasted cost section.
 
@@ -62,6 +62,7 @@ Most bodies here grew from session incidents, encoded after the fact. The retros
 - The description routes exactly one concern, disjoint from every other skill's trigger, within ≤512 chars — several entry doors may serve that one concern, but they all lead to the same work.
 - A change that adds or changes a paired rule (Paired bodies) updates both bodies, or the commit message states why not.
 - Commit messages carry the incident, not the person or the machine: no quoted user instructions, session-habit narratives, node-state (what was linked where, when), or local paths beyond what the repo's own files already state.
+  - Nor the place: no repo, project, PR/issue, or commit-SHA identifiers naming where the work happened.
 - No body over the ceiling (130 lines / 1600 words); from ~105 lines / ~1300 words, additions pay per Growth.
 - No rule line over ~40 words in a changed body — every `awk 'NF>40'` hit must be exempt (prose, table row, code fence, frontmatter, frozen handoff).
 - The fresh-review commit gate (`commit-gate`) runs before any commit.

@@ -51,7 +51,7 @@ Entry is exactly one of two doors — nothing else loads this skill:
 
 ## Encode into the owning skill
 - One defect, one skill — the skill whose trigger covered the task; never fan one incident across bodies.
-- State the generic rule, stripped of the incident — repos, PRs, and symbols stay out of the body; the message states the incident (what failed, where, which rule changed), never quoted user instructions.
+- State the generic rule, stripped of the incident — repos, PRs, and symbols stay out of the body, and repo/project/PR identifiers out of its commit message; the message states what failed and which rule changed, never quoted user instructions.
 - The commit message states the edit's origin: edits that ride this loop carry a `Learned-By: self-learn` trailer, whoever called the checkpoint; fully user-specified edits carry none.
 - One file, and only that file: the body of the owning skill.
   - It never edits this skill itself, the authoring guide, agent instructions, README, or any other file — those are human-edit territory.

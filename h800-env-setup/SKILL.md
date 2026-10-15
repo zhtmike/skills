@@ -54,7 +54,7 @@ Without these, `import torch` fails with "the NVIDIA driver on your system is to
 ## uv vs pip — the resolver split
 
 - Use uv inside repos whose pins override each other — resolved via `[tool.uv] override-dependencies` in the repo's pyproject; **plain pip cannot** there: `pip install -e .` dies with `ResolutionImpossible`.
-  - Example from this cluster's repos: verl-omni carries git pins whose metadata conflicts — verl's `transformers<5.11` vs the repo's `>=5.13`.
+  - Example from this cluster's repos: one repo carries git pins whose metadata conflicts — an upstream pin's `transformers<5.11` vs the repo's `>=5.13`.
 
 ```bash
 export UV_DEFAULT_INDEX=https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
