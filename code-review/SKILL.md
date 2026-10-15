@@ -12,7 +12,7 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 Two target kinds, both on the user's request:
 
 1. **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout.
-   - Read the full conversation each round — comments, reviews, threads, replies.
+   - Read the full conversation each round — comments, reviews, threads.
    - Feedback newer than the head commit is unaddressed; a summary's claims are checked against what it summarizes.
 2. **Review branches** — changes pending review, local or remote, read from `git diff <base>...<head>`.
 
@@ -23,7 +23,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
 ## Working-tree isolation
 - Never switch, create, or rebase the current branch for a review — different targets' reviews run in parallel.
 - Repo-wide context (grep, call paths, defect-class sweep) runs in a throwaway detached worktree at the target head.
-  - Fetch the head if needed, then `git worktree add --detach <tmpdir> <head>`; PRs fetch `pull/<N>/head` from the base remote (`git remote -v` — often `upstream`, not `origin`), worktree-add `FETCH_HEAD`.
+  - Fetch the head if needed (PRs: `pull/<N>/head` from the base remote), then `git worktree add --detach <tmpdir> <head>`.
 
 ## Depth — verify everything; span agents when needed
 - Every finding is verified before it is written — read the surrounding code, trace the call path, check the test asserts the behavior; no skimming, no speculative findings.
@@ -42,7 +42,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
 - Write to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
   - Delete it once consumed — a stale `review_*.md` misleads fresh sessions.
 - When the round ends, written or not, remove every other artifact — worktree, saved diffs, briefs, lane outputs; the review file and handover drafts (patch, upstream issue) are the only leftovers, deleted once consumed.
-- NEVER post, submit, or push the review — no `gh pr review` / `gh pr comment` / API calls, no GitHub comments, no committing or pushing the file; you draft it, the user posts it.
+- NEVER post, submit, or push the review — no review/comment/API calls anywhere, no committing or pushing the file; you draft it, the user posts it.
 - Keep it compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
   - No preamble, tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries the finding.
@@ -64,7 +64,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - Drop deadline is the author's: when the fix lands or the floor moves (pin bump, dropped platform or version), the workaround, its dead callers, and its tests are deleted in that change — not rewritten.
 4. **Generality & reuse** — does this solve only one case? Prefer extending existing infra over parallel mechanisms.
    - Duplication against already-landed work: identical or near-identical copies must become one — deliberate test-fixture copies excepted.
-   - A new public surface is held to the repo's closest existing analog — flag a shape that departs from it, or width without justification.
+   - A new public surface is held to the closest analog — the repo's or the dependency's same-kind equivalent — flag departures with no align-or-diverge decision, or width without justification.
    - Domain-free helpers in domain modules belong in the utils layer — or an upstream dependency may ship them.
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
 6. **Tests & evidence** — every behavior change needs a test in the same PR; prefer cheap CPU tests; never fake an import system or mock what you could construct.
@@ -78,6 +78,8 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - Self-documenting code is the bar — flag WHAT-comments, section banners, version-dated comments outliving their version, and comments the diff orphaned (comment erosion).
    - Only WHY-comments earn their line, capped at two; WHY means an invariant, never provenance.
    - Flag comments citing PR/issue/commit numbers (a tracked `TODO(owner)` excepted) and edit-narration (`# now retries`, `# changed from X`).
+     - Status declarations of the artifact (frozen, superseded, slated for migration) are provenance's one exception — flag the missing or duplicated one, and schedule prose.
+   - Flag design-document vocabulary or document links in code or docs — the artifact names things for a reader who never saw the document.
    - New or changed public/open APIs (exported names, entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — flag undocumented surface.
    - New or changed modules declare that surface up front (`__all__` or equivalent), helpers below it — flag the undeclared or inverted layout, and constants parked mid-file.
 8. **Docs sync** — README/docs updated in the same PR, dates aligned.
@@ -85,10 +87,6 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - Flag the class, not just the instance found.
 
 **Skip / low priority:** formatting, typing style, docstring formatting (not content), naming bikeshedding, commit hygiene, micro-performance.
-
-## Verdict heuristic
-
-A target is approvable when nothing is unnecessary, nothing is temporary-without-a-tracker, and every behavioral claim has evidence; these block — citation-ban and comment-cap violations too — and formatting or style nits don't.
 
 ## Precedence
 
