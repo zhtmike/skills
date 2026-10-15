@@ -16,9 +16,9 @@ Two target kinds, both on the user's request:
    - Feedback newer than the head commit is unaddressed; a summary's claims are checked against what it summarizes.
 2. **Review branches** — changes pending review, local or remote, read from `git diff <base>...<head>`.
 
-It is a **deep and comprehensive** review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
+A **deep and comprehensive** review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
 
-Out of scope: the agent's pre-commit self-check of its own staged change.
+Out of scope: the agent's pre-commit self-check of its staged change.
 
 ## Working-tree isolation
 - Never switch, create, or rebase the current branch for a review — different targets' reviews run in parallel.
@@ -28,20 +28,21 @@ Out of scope: the agent's pre-commit self-check of its own staged change.
 ## Depth — verify everything; span agents when needed
 - Every finding is verified before it is written — read the surrounding code, trace the call path, check the test asserts the behavior; no skimming, no speculative findings.
 - Never hand the author a verification the reviewer could run — consumer greps, upstream reads, reachability checks; only what needs a real run (GPU, live engine) goes to the author, naming what a run alone can show.
-- Every external reference the diff, its comments, or commit messages cite — issues, PRs, upstream commits, release assets — is resolved, checked to exist and to cover the claim (scope, state, in-tag).
+- Every external reference the diff, its comments, or commit messages cite — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
   - A link is a claim, not proof — `tracked in #X` against a mismatched issue scope is a finding.
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — the reference implementation, the dependency's source — not the reviewed repo alone.
 - Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem or file group, on a cheap fast model — whatever agent-dispatch mechanism your harness provides.
-  - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline — keeping findings, never transcripts.
-  - No dispatch mechanism: review in this session, say so, narrow to the files that fit — files kept in scope are still read, never skimmed.
+  - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline — findings, never transcripts.
+  - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
 ## Output contract — never post
-- A re-review accounts for every prior-round finding — verified fixed, withdrawn with evidence, or re-flagged; none silently vanishes.
+- A re-review accounts for every prior-round finding — verified fixed, re-flagged, or retracted with evidence; none silently vanishes from the author-facing file.
+  - A reviewer-side withdrawal — scope or taste, not an author action — drops from the author-facing file; internal accounting only.
   - Verified-fixed findings may share a line — accounting outranks the cap.
 - Write to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
   - Delete it once consumed — a stale `review_*.md` misleads fresh sessions.
-- When the round ends, written or not, remove every other artifact — worktree, saved diffs, briefs, lane outputs; the review file and the round's handover drafts (patch, upstream issue) are the only leftovers, deleted once consumed.
-- NEVER post, submit, or push the review anywhere — no `gh pr review` / `gh pr comment` / API calls, no GitHub comments, no committing or pushing the file; you draft it, the user posts it.
+- When the round ends, written or not, remove every other artifact — worktree, saved diffs, briefs, lane outputs; the review file and handover drafts (patch, upstream issue) are the only leftovers, deleted once consumed.
+- NEVER post, submit, or push the review — no `gh pr review` / `gh pr comment` / API calls, no GitHub comments, no committing or pushing the file; you draft it, the user posts it.
 - Keep it compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
   - No preamble, tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries the finding.
@@ -56,8 +57,8 @@ Out of scope: the agent's pre-commit self-check of its own staged change.
 1. **Necessity** — for every addition ask: why does this exist? Hooks, protections, abstractions, defensive checks must justify themselves. Default answer: delete it.
    - An unused parameter on a public signature stays — the signature is the contract; a defensive check of an invariant already validated at the declaration is the deletion.
 2. **Scope** — anything unrelated to the target's purpose: drop it.
-   - Read the file list before the hunks — files outside the purpose are findings before their content is.
-   - In a fix round, every hunk must map to a requested finding or follow directly from one — unrequested refactors or behavior changes riding along get flagged however defensible.
+   - Read the file list before the hunks — files outside the purpose are findings.
+   - In a fix round, every hunk must map to a requested finding or follow from one — unrequested refactors or behavior changes riding along get flagged however defensible.
    - Sibling fixes of the same defect class are in scope on the original change; on a fix round they map to a requested finding or get reported — an unasked expansion past a many-site sweep is itself a finding.
 3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades, any fallback with no `TODO(owner)` and no real tracking issue: drop them and fix formally.
    - Drop deadline is the author's: when the fix lands or the floor moves (pin bump, dropped platform or version), the workaround, its dead callers, and its tests are deleted in that change — not rewritten.
