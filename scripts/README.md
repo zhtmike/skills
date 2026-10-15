@@ -66,3 +66,9 @@ re-check what the producer's gate never saw:
 ```sh
 scripts/commit-msg.sh --audit <old-head>..origin/main
 ```
+
+CI (`.github/workflows/gate.yml`) is the clone-independent backstop: every
+push re-runs `check.sh` on the tree and audits the pushed range's trailers
+(`pull_request` audits the PR's commits; a new-branch push audits its head
+message). A clone that never installed the hooks still cannot land ungated
+commits silently — the run log names the range and the failing commit.

@@ -1,0 +1,35 @@
+# The remote backstop: what a clone without local hooks pushed still cannot
+# slip past. The tree gate runs on the pushed tree; the trailer audit runs on
+# the pushed range — local hooks block before history exists, this gates the
+# push (scripts/README.md is the tool menu).
+name: gate
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: tree gate
+        run: scripts/check.sh
+      - name: trailer audit (push)
+        if: github.event_name == 'push'
+        run: |
+          BEFORE="${{ github.event.before }}"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            git log -1 --format=%B > /tmp/ci-msg
+            scripts/commit-msg.sh /tmp/ci-msg
+          else
+            printf 'trailer audit range: %s..%s\n' "$BEFORE" "${{ github.sha }}"
+            scripts/commit-msg.sh --audit "$BEFORE..${{ github.sha }}"
+          fi
+      - name: trailer audit (PR)
+        if: github.event_name == 'pull_request'
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          printf 'trailer audit range: origin/%s..HEAD\n' "$BASE"
+          scripts/commit-msg.sh --audit "origin/$BASE..HEAD"
