@@ -18,12 +18,12 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
     - "Commit this" with no diff and message on the table is not yet approval — present both and wait.
   - Commit approval bundles exactly that commit and its push to the user's own remote — never later commits.
 - Just before every commit, on every path (review-triggered or not): run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
+  - Confirm the commit landed via the log — a piped hook's output masks the commit's own exit status.
   - Any diff those fixes produce joins the delta re-review.
 - A hook failing only on files outside the change and outside git history (untracked scratch, another task's workspace) is an environment failure, not a change failure.
   - Run the hook's check over the tracked tree; if that is clean, bypass that hook alone.
   - Disclose both the bypass and the proof in the commit body.
-- Pushes go to the user's own remote — a fork's push target, or the standalone repo's origin.
-  - Identify it before the first push; ask only when ownership is ambiguous.
+- Pushes go to the user's own remote — a fork's push target, or the standalone repo's origin; identify it before the first push, asking only when ownership is ambiguous.
   - Never push upstream, even if it is `origin`.
 - Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
 - PRs are the user's by default: the agent opens one only on an explicit ask to open it.
@@ -42,7 +42,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Trailers: `AI-assistance: <agent> (<model> via <provider>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by: <user's name and email from git config>`.
   - The default set: a trailer the edited file's own rules require rides along too, never dropped for being off-list.
   - Sign-off only where the repo expects it — DCO check or docs.
-  - Verify model and provider from what the session exposes before writing — never assume the vendor; a false attribution is worse than none.
+  - Verify agent identity, model, and provider from what the session exposes before writing — never assume the vendor; a false attribution is worse than none.
   - If a segment is unverifiable, drop it (a bare `Co-authored-by: <agent>` is valid).
 
 ## Fresh review — the commit gate
