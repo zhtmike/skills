@@ -1,6 +1,6 @@
 ---
 name: commit-gate
-description: "MUST load before any git action — commit, amend/rebase, push, PR. Approval-gated actions on the user's fork, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
+description: "MUST load before any git action — commit, amend/rebase, push, PR. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
 ---
 
 # Commit Gate
@@ -16,16 +16,16 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), or a request to read or check something.
   - Approval is an explicit go on a presented diff and message.
     - "Commit this" with no diff and message on the table is not yet approval — present both and wait.
-  - Commit approval bundles exactly that commit and its push to the fork — never later commits.
+  - Commit approval bundles exactly that commit and its push to the user's own remote — never later commits.
 - Just before every commit, on every path (review-triggered or not): run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
   - Any diff those fixes produce joins the delta re-review.
 - A hook failing only on files outside the change and outside git history (untracked scratch, another task's workspace) is an environment failure, not a change failure.
   - Run the hook's check over the tracked tree; if that is clean, bypass that hook alone.
   - Disclose both the bypass and the proof in the commit body.
-- Pushes go to the user's fork remote only.
-  - Identify the fork remote before the first push; if ambiguous or no fork exists, ask.
+- Pushes go to the user's own remote — a fork's push target, or the standalone repo's origin.
+  - Identify it before the first push; ask only when ownership is ambiguous.
   - Never push upstream, even if it is `origin`.
-- Branches on the fork use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`, `fix/port-bind-fail-fast`.
+- Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
 - PRs are the user's by default: the agent opens one only on an explicit ask to open it.
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
   - Writing or later editing that file is not a gated action.
