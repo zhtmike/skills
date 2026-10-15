@@ -34,6 +34,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Raise with actionable messages: `raise ValueError(f"Invalid backend: {x}. Must be one of {sorted(valid)}")`.
 - A silent downgrade (catch-and-continue, default substitution) hides broken setups.
 - Validate at the declaration — dataclass `__post_init__`, class-definition hooks; a use-site check of the same invariant is duplication.
+- Chain exceptions: `raise ImportError(...) from e`.
 - A genuinely temporary fallback carries `# TODO(owner): drop this and raise instead — tracked in <issue>` plus a real tracking issue. No permanent workarounds.
 
 ### Be explicit
@@ -43,6 +44,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Inline helpers, globals, and configs that are used exactly once.
 - Unused interface parameters are fine — the signature is the contract.
   - No code exists to appease a linter: no scrub statements for unused names; drop any your change takes over.
+- Scripts: env-overridable defaults; a deprecated path names its replacement.
 
 ### Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
