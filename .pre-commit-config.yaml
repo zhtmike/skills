@@ -1,6 +1,8 @@
-# The commit gate: one local hook running scripts/check.sh — no third-party
-# linters, and skill bodies are never auto-formatted. Wired per clone with
-# `pre-commit install` (scripts/README.md is the tool menu).
+# The commit gate: two local hooks — check.sh on the tree (pre-commit stage),
+# commit-msg.sh on the drafted message's attribution trailers (commit-msg
+# stage) — no third-party linters, and skill bodies are never auto-formatted.
+# Wired per clone with `pre-commit install --hook-type pre-commit
+# --hook-type commit-msg` (scripts/README.md is the tool menu).
 repos:
   - repo: local
     hooks:
@@ -10,3 +12,10 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+        stages: [pre-commit]
+      - id: skills-commit-msg
+        name: skills repo trailer gate
+        entry: scripts/commit-msg.sh
+        language: system
+        always_run: true
+        stages: [commit-msg]

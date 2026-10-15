@@ -53,7 +53,7 @@ registry() {
   for row in $(grep -oE '^\| `[a-z0-9-]+`' README.md | tr -d '|` '); do
     [ -d "$row" ] || fail_ "registry: README row '$row' has no skill directory"
   done
-  EXPECTED='README.md check.sh common.sh content.sh handoff.sh report.sh structure.sh'
+  EXPECTED='README.md check.sh common.sh commit-msg.sh content.sh handoff.sh report.sh structure.sh'
   for e in $EXPECTED; do
     [ -f "scripts/$e" ] || fail_ "registry: scripts/$e missing"
   done

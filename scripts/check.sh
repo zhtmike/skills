@@ -8,7 +8,8 @@
 # Each tool also runs alone, optionally scoped to one skill
 # (scripts/<tool>.sh spike); this runner takes the same optional argument.
 #
-# Hook wiring, once per clone:  pre-commit install  (root .pre-commit-config.yaml)
+# Hook wiring, once per clone:  pre-commit install --hook-type pre-commit --hook-type commit-msg
+#                             (root .pre-commit-config.yaml; scripts/commit-msg.sh gates messages)
 
 # bootstrap: locate the repo, then the shared harness
 ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || ROOT=$(cd "$(dirname "$0")/.." && pwd)
