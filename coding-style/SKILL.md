@@ -34,7 +34,6 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Raise with actionable messages: `raise ValueError(f"Invalid backend: {x}. Must be one of {sorted(valid)}")`.
 - A silent downgrade (catch-and-continue, default substitution) hides broken setups.
 - Validate at the declaration — dataclass `__post_init__`, class-definition hooks; a use-site check of the same invariant is duplication.
-- Chain exceptions: `raise ImportError(...) from e`.
 - A genuinely temporary fallback carries `# TODO(owner): drop this and raise instead — tracked in <issue>` plus a real tracking issue. No permanent workarounds.
 
 ### Be explicit
@@ -44,10 +43,10 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Inline helpers, globals, and configs that are used exactly once.
 - Unused interface parameters are fine — the signature is the contract.
   - No code exists to appease a linter: no scrub statements for unused names; drop any your change takes over.
-- Scripts: env-overridable defaults; a deprecated path names its replacement.
 
 ### Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
+- The artifact is written for a reader who never saw its design document — invented vocabulary and document links stay in the document; the code and its docs name things plainly.
 - Comments stay rare; each earns its line — code that says it plainly gets none.
   - A tracked `TODO(owner)` counts as earning its line.
 - Comment only the non-trivial; WHY means an invariant, never provenance.
@@ -57,6 +56,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - A comment that narrates what the next lines do gets deleted, not written.
 - Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from sync to async`, `# fixed the race`.
   - Patch-time justification lives in the commit/PR description or the reply, not the code.
+  - Status declarations of the artifact itself (frozen, superseded, slated for migration) are provenance's one shipping exception — one per artifact, at the artifact, never its schedule.
   - Applying a patch earns no more comment allowance than writing the file fresh.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin.
   - Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — a caller never needs the body.
@@ -78,7 +78,6 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ### Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
-- Claims need plausible evidence — no numbers or curves that look wrong.
 
 ### Prune relentlessly
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
@@ -96,7 +95,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 ## Design posture
 
 - Every new hook, protection, or abstraction must justify its existence — default to not adding it.
-  - Before designing a new module's public surface, find the repo's closest existing analog and mirror its shape (a registry → its registry pattern).
+  - Before designing a new module's public surface, read the closest existing analog — the repo's or the pinned dependency's same-kind equivalent — and decide align-or-diverge per shared rule; a registry checks the dependency's registries.
   - A wider surface than the analog needs justification.
 - Make things general: solve the class of problem; reuse existing infra over parallel new paths.
   - A helper with no domain words lives in the repo's utils layer, not the domain module.
@@ -105,6 +104,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Self-check before done
 
+- Verify the artifact, not the tool's success message: an edit whose direction matters (add vs remove) gets its region re-read in the file.
 - Rescan your own diff once, before declaring the change done, against the rules it can trip — diff size, fallbacks, comments, tests, docs, public surface, pruning — not every rule in this body.
 
 ## Precedence
