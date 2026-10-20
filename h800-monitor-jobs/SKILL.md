@@ -61,6 +61,7 @@ Known signatures on this cluster:
 - Free the GPUs you used back to 0 MiB (`nvidia-smi`).
 - Confirm the runner's final `=== done (job=$RC) ===` line exists — its absence means the script died mid-way.
 - Kill leftovers by PID from `nvidia-smi --query-compute-apps=pid` / `pgrep` output (verify the PID is not your own shell's).
+  - A PID outside this user's Slurm job is reported, with its owner, and is not killed — the list includes other users' processes.
   - Never `pkill -f <pattern>` where your own shell's command line could contain the pattern — it matches and kills the tool shell itself (symptom: the call dies with exit 137/143, pkills only partially applied).
 - Before relaunching after a crash, re-verify the GPUs read 0 MiB.
   - Force-stopping the cluster runtime does not reliably reap engine workers (their supervisors respawn them); launching into dirty GPUs just OOMs on the memory being freed.
