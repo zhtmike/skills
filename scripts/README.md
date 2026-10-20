@@ -68,7 +68,11 @@ scripts/commit-msg.sh --audit <old-head>..origin/main
 ```
 
 CI (`.github/workflows/gate.yml`) is the clone-independent backstop: every
-push re-runs `check.sh` on the tree and audits the pushed range's trailers
-(`pull_request` audits the PR's commits; a new-branch push audits its head
-message). A clone that never installed the hooks still cannot land ungated
-commits silently — the run log names the range and the failing commit.
+push that changes a ref re-runs `check.sh` on the tree and audits the
+pushed range's trailers — `pull_request` audits the PR's commits, a
+new-branch push audits `origin/<default>..HEAD`, and the first push of the
+default branch itself audits its head message only, so pre-convention
+history is not failed in one go (a branch delete has no tree to check out
+and skips the job). A clone that never installed the hooks still cannot
+land ungated commits silently — the run log names the range and the
+failing commit.
