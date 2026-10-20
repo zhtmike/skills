@@ -1,6 +1,6 @@
 ---
 name: spike
-description: "MUST load before building anything unproven — new feature, POC, prototype, tricky change, any code whose shape is still being learned — proved only by an observed run or an executing test of the claimed behavior. Make it work first and demonstrate it with a real run; polish, generality, and docs are deferred until it does. Not for the finishing pass of a demonstrated change."
+description: "MUST load before building anything unproven — new feature, POC, prototype, tricky change, any code whose shape is still being learned — proved only by an observed run or an executing test of the claimed behavior. Make it work first and demonstrate it with a real run; polish, generality, and docs are deferred until it does. Not for the finishing pass of a demonstrated change, nor for drafting a non-trivial design — new interface, subsystem, refactor, migration, multi-step series — until accepted."
 ---
 
 # Spike
@@ -15,8 +15,7 @@ New features, POCs, prototypes, tricky changes — code written to learn what th
 
 - A messy example that demonstrates beats clean code that might: speed over polish while the approach is unproven.
 - Iterate on a verified working example over perfect upfront design.
-  - State Goals / Non-Goals for big changes.
-  - Deliver big changes in phases.
+  - State Goals / Non-Goals for the spike's one question, never a design: one line of goal, one line of non-goal.
 - Add no hook, protection, or abstraction the working example doesn't yet demand.
 - Fix the root cause, not the symptom: reproduce, understand, then change.
 - Fail loudly while building: raise on the unexpected.
