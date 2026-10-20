@@ -15,7 +15,6 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Never commit, push, or create a PR without the user's explicit approval.
   - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), or a request to read or check something.
   - Approval is an explicit go on a presented diff and message.
-    - "Commit this" with no diff and message on the table is not yet approval — present both and wait.
   - Commit approval bundles exactly that commit and its push to the user's own remote — never later commits.
 - Just before every commit, on every path (review-triggered or not): run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
   - Confirm the commit landed via the log — a piped hook's output masks the commit's own exit status.
@@ -55,7 +54,8 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - An approval inferred from the task rather than stated by the user is not an approval event.
 - Post-review edits don't re-fire this trigger — they follow the loop below.
 
-**Single dispatch, real review.** Dispatch exactly ONE read-only agent (no edit tools — the reviewer must not touch what it reviews; use whatever agent-dispatch mechanism your harness provides).
+**Single dispatch, real review.** Dispatch exactly ONE read-only agent (no edit tools; use whatever agent-dispatch mechanism your harness provides).
+- A lane granted execution — it must run checks or fixtures — gets an outright destructive-command ban in its brief, and the repo is snapshotted before dispatch.
 - Hand it the convention rules in force (project `AGENTS.md` and contributing guides supersede), the final diff, the full drafted commit message, and the writer rules this diff can trip, quoted from the body that governed the edit.
   - Comments if comments changed, tests if behavior changed, fallbacks if control flow changed — never every personal rule, never none.
 - Its job is a genuine review, not a style pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
