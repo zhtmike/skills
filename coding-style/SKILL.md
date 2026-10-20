@@ -40,7 +40,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 ### Be explicit
 - Modern idiomatic typing on code you write or modify — the language's current union/generic spellings — and annotated non-obvious locals.
 - On code you write or modify, a module with a public surface declares it up front (`__all__` or the language's equivalent) and keeps helpers below the public API.
-- Long linear functions are fine; dense code that needs a pause to parse is not.
+- A name still marked provisional is frozen in this pass, once a run has exercised the behavior it names.
 - Inline helpers, globals, and configs that are used exactly once.
 - Unused interface parameters are fine — the signature is the contract.
   - No code exists to appease a linter: no scrub statements for unused names; drop any your change takes over.
