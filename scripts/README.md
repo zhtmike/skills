@@ -38,7 +38,7 @@ before rewording a correct body:
 | Concern | False negatives | False positives |
 |---|---|---|
 | `frontmatter` | a description routing multiple concerns (semantic); duplicate `name:`/`description:` lines beyond the first | an opener other than "MUST load" only warns, though CONTRIBUTING allows equivalent boundaries |
-| `ceiling` | none — exact count, terminal newline included | none |
+| `ceiling` | none — exact count of the body above the frozen handoff, terminal newline included | none |
 | `registry` | a README row's content beyond the name cell; duplicate rows for one skill; stray top-level directories (deliberately unflagged — local untracked dirs would collide) | none |
 | `crossrefs` | concept references without the name ("see the reviewing skill") — the invariant bans concepts too; capitalized mentions (the match is case-sensitive — a case-insensitive one false-positives on verbs like a "Propose, then edit" heading) | hyphenated prose collisions: "a code-review pass" (adjective) reads as a skill reference |
 | `harness` | vocabulary beyond the list — new harness names, paraphrases ("the print flag") | "exit code N" describing a non-harness tool's semantics (h800 bodies discuss cluster commands) |

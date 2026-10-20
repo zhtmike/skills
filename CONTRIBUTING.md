@@ -38,7 +38,7 @@
 
 ## Growth — compress, then split
 
-- Ceiling: 130 lines / 1600 words per body, both hard — calibrated to density: overall lines average ~13 words, so 130 lines ≈ 1600 words.
+- Ceiling: 130 lines / 1600 words per body, both hard — the frozen wind-down handoff is structural: excluded from both counts, and it never pays for an addition. Calibrated to density: content lines average ~13 words, so 130 lines ≈ 1600 words.
   - From ~105 lines or ~1300 words, an addition pays for itself by pruning weaker content (Compact as a discipline, not an aspiration).
   - Preferred payment: extract the general rule — sibling rules sharing a principle merge into it, their specifics surviving as examples at most.
   - Evict outright only what no general rule covers.
@@ -66,7 +66,7 @@ Most bodies here grew from session incidents, encoded after the fact. The retros
 - A change that adds or changes a paired rule (Paired bodies) updates both bodies, or the commit message states why not.
 - Commit messages carry the incident, not the person or the machine: no quoted user instructions, session-habit narratives, node-state (what was linked where, when), or local paths beyond what the repo's own files already state.
   - Nor the place: no repo, project, PR/issue, or commit-SHA identifiers naming where the work happened.
-- No body over the ceiling (130 lines / 1600 words); from ~105 lines / ~1300 words, additions pay per Growth.
+- No body over the ceiling (130 lines / 1600 words, the frozen handoff excluded from both counts); from ~105 lines / ~1300 words, additions pay per Growth.
 - No rule line over ~40 words in a changed body — every `awk 'NF>40'` hit must be exempt (prose, table row, code fence, frontmatter, frozen handoff).
 - The fresh-review commit gate (`commit-gate`) runs before any commit.
 

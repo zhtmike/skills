@@ -3,7 +3,9 @@
 #
 #   frontmatter  name matches its directory, kebab-case, <=64 chars;
 #                description <=512 chars, opening with the trigger phrase (warn)
-#   ceiling      body <=130 lines / <=1600 words; from 105/1300 it warns (Growth)
+#   ceiling      content <=130 lines / <=1600 words, the frozen wind-down
+#                handoff excluded (self-learn has none — whole file counts);
+#                from 105/1300 it warns (Growth)
 #   registry     one SKILL.md per directory, a README row per skill and back;
 #                scripts/ holds only this checker set (repo-wide parts skip
 #                when scoped)
@@ -28,16 +30,21 @@ frontmatter() {
   done
 }
 
-# ceiling: bodies stay compact; the warn zone is where Growth payment bites
+# ceiling: bodies stay compact; the warn zone is where Growth payment bites.
+# The frozen wind-down handoff is structural — excluded from both counts.
 ceiling() {
   for s in $SKILLS; do
     f=$s/SKILL.md
-    lines=$(awk 'END{print NR}' "$f") words=$(wc -w < "$f" | tr -d '[:space:]')
+    lines=$(awk '/^## Wind-down handoff$/{exit} {n++} END{print n+0}' "$f")
+    words=$(awk '/^## Wind-down handoff$/{exit} {w += NF} END{print w+0}' "$f")
     [ "$lines" -le "$CEIL_LINES" ] || fail_ "ceiling $s: $lines lines > $CEIL_LINES"
     [ "$words" -le "$CEIL_WORDS" ] || fail_ "ceiling $s: $words words > $CEIL_WORDS"
     if [ "$lines" -le "$CEIL_LINES" ] && [ "$words" -le "$CEIL_WORDS" ] &&
       { [ "$lines" -ge "$WARN_LINES" ] || [ "$words" -ge "$WARN_WORDS" ]; }; then
-      warn_ "ceiling $s: $lines lines / $words words — near ceiling, additions pay per Growth"
+      left=$((CEIL_WORDS - words)) axis=words
+      [ $(( (CEIL_LINES - lines) * CEIL_WORDS )) -lt $(( left * CEIL_LINES )) ] &&
+        { left=$((CEIL_LINES - lines)); axis=lines; }
+      warn_ "ceiling $s: $lines lines / $words words — near ceiling, $axis bind with $left left"
     fi
   done
 }
