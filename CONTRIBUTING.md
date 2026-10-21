@@ -43,6 +43,7 @@
   - Preferred payment: extract the general rule — sibling rules sharing a principle merge into it, their specifics surviving as examples at most.
   - Evict outright only what no general rule covers.
   - Never pay by merging rules onto one line.
+- Every body-line deletion is on record: a commit whose diff removes SKILL.md lines carries a `Growth-Payment:` trailer naming what left and why — merged, evicted, moved with a split, retired, or reworded with no rule lost; `scripts/commit-msg.sh` floors the marker (commit-msg stage and push-side audit). Detailed accounting (net counts, checker numbers) may ride the message body above the trailer.
 - Split when a section serves a different trigger than the frontmatter — a reader loading the skill for X should not carry half a body about Y. Precedent: coding-style was split into coding-style + commit-gate once commit gating accreted its own trigger.
 - A split is a new skill: own directory and trigger (Principle 1), README row added, both bodies self-contained (Principle 2); name the install step in the commit message — new directories neither break existing symlinks nor propagate to installed machines. Name it at reference level (the README carries the literal commands) — local paths and per-node sync state stay out of history.
 
@@ -57,8 +58,8 @@ Most bodies here grew from session incidents, encoded after the fact. The retros
 ## Invariants — check before committing
 
 - `scripts/check.sh` is the mechanical floor (menu, scoping, wiring: `scripts/README.md`) — run it before proposing a change; every commit is gated by it.
-- Commit messages carry the attribution trailers the commit gate drafts — `Co-authored-by:` always, `AI-assistance:` where the session can verify it; `scripts/commit-msg.sh` enforces this floor at commit-msg stage, and its `--audit <rev-range>` re-checks a landed range.
-- The tools' verdicts need no fresh-review adjudication — judgment goes to the remainder (routing disjointness, paired-body sync, Growth payment, commit messages) and the documented blind spots (`scripts/README.md`). A false alarm is fixed in the tool, never routed around; an invariant changes only through this guide.
+- Commit messages carry the attribution trailers the commit gate drafts — `Co-authored-by:` always, `AI-assistance:` where the session can verify it — and a `Growth-Payment:` trailer whenever the diff deletes skill-body lines (Growth); `scripts/commit-msg.sh` enforces this floor at commit-msg stage, and its `--audit <rev-range>` re-checks a landed range.
+- The tools' verdicts need no fresh-review adjudication — judgment goes to the remainder (routing disjointness, paired-body sync, whether a recorded Growth payment was the right one, commit messages) and the documented blind spots (`scripts/README.md`). A false alarm is fixed in the tool, never routed around; an invariant changes only through this guide.
 - grep the skill body for other skills' names **and their concepts** — zero hits outside the canonical wind-down handoff, which appears verbatim, exactly once, as the last section (the repo's only permitted cross-reference).
 - grep for harness specifics (CLI flags, harness paths, exit-code semantics) — zero hits.
 - grep the changed skill body for incident specifics — repo names, PR/issue numbers, symbols from the motivating codebase — zero hits outside environment-bound skills (`h800-*`).

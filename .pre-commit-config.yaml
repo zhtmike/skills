@@ -1,6 +1,6 @@
 # The commit gate: two local hooks — check.sh on the tree (pre-commit stage),
-# commit-msg.sh on the drafted message's attribution trailers (commit-msg
-# stage) — no third-party linters, and skill bodies are never auto-formatted.
+# commit-msg.sh on the drafted message (commit-msg stage) — no third-party
+# linters, and skill bodies are never auto-formatted.
 # Wired per clone with `pre-commit install --hook-type pre-commit
 # --hook-type commit-msg` (scripts/README.md is the tool menu).
 repos:

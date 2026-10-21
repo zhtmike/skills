@@ -12,15 +12,15 @@ CONTRIBUTING.
 | `content.sh` | cross-references, harness/incident vocabulary, long rule lines | `scripts/content.sh [skill]` |
 | `handoff.sh` | the frozen wind-down handoff — prints a diff on mismatch | `scripts/handoff.sh [skill]` |
 | `handoff.sh --fix` | a body's handoff missing or diverged at the tail (ambiguous cases refused) | `scripts/handoff.sh --fix <skill>` |
-| `commit-msg.sh` | the message floor — attribution trailers; also the commit-msg-stage hook entry | `scripts/commit-msg.sh <msgfile>` |
-| `commit-msg.sh --audit` | diagnose a landed range for missing attribution | `scripts/commit-msg.sh --audit <rev-range>` |
+| `commit-msg.sh` | the message floor — attribution trailers, the Growth-payment marker; also the commit-msg-stage hook entry | `scripts/commit-msg.sh <msgfile>` |
+| `commit-msg.sh --audit` | diagnose a landed range for missing attribution or Growth payment | `scripts/commit-msg.sh --audit <rev-range>` |
 | `report.sh` | size budgets before adding to a near-ceiling body | `scripts/report.sh [skill]` |
 | `common.sh` | never picked — the shared harness (limits, patterns, diagnostics) | sourced only |
 
 A `[skill]` argument scopes a tool to one skill; repo-wide sub-checks then
 stay silent. Diagnostics name their concern (`frontmatter`, `ceiling`,
 `registry`, `crossrefs`, `harness`, `incident`, `rule-lines`, `handoff`,
-`trailers`) —
+`trailers`, `growth`) —
 FAIL blocks; WARN advises, and `report.sh` is the WARN home. `-h` on the
 runnable tools prints their usage.
 
@@ -46,6 +46,7 @@ before rewording a correct body:
 | `rule-lines` | rules miswritten as prose paragraphs (no bullet marker) escape the 40-word cap | a bullet that is legitimately one long unfenced example can exceed 40 words without holding three rules |
 | `handoff` | `--fix` trusts everything above the heading — deletions above the tail repair silently | none — byte-exact against canonical; a reformatted CONTRIBUTING fence fails loudly |
 | `trailers` | a present-but-false attribution — presence is the floor, truth stays with the fresh review | merge commits (exempt by design); `--audit` over pre-convention history warns on the missing `AI-assistance:` (a WARN, not a FAIL — an unverifiable segment legitimately drops) |
+| `growth` | hook mode checks the staged delta — on `--amend` a message-only amend is vacuous (the original commit already gated; audit/CI see the full delta); the CI first-push path (clean checkout, empty staged diff) is growth-inert | description rewords and whitespace-only or restructure-only edits demand a marker ("reworded, no rule lost"); `handoff.sh --fix`'s tail repair fires (its rewrite path deletes lines); a split or retirement fires by design — the marker names what moved or left; `--audit` over pre-convention history fails by design (push ranges cover new commits only) |
 
 ## Wiring
 
