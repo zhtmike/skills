@@ -25,7 +25,7 @@ timeout 20 ssh -o BatchMode=yes localhost \
 - Do not mix the launch with sleeps/polls in the same tool call — launch-only commands survive; compound ones get reaped with the shell.
 - One detached job per ssh call: a second `nohup ... &` inside the same remote command does not reliably survive ssh exit.
 
-## Every launcher needs the compat exports
+## Launchers set their own environment
 
 Scripts that run CUDA 13 stacks on the 535 driver must set these inside the script (inherited environments are not reliable across ssh/ray workers):
 
@@ -48,7 +48,8 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 ## Job script hygiene
 - `set -u` scripts: `set +u` around `conda activate` (cuda hooks crash on unbound vars; pre-exporting them does not save it).
 - Detached runners do not source `.bashrc`: credential env vars (e.g. `WANDB_API_KEY`) are absent and tools fall back to `~/.netrc` — keep it current or export the key in the runner.
-- Stop shared cluster services (e.g. ray) between sequential jobs; skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.
+- Stop shared cluster services (e.g. ray) between sequential jobs.
+  - Skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.
 - Capture exit codes per job and print a final `=== done (job=$RC) ===` line — polling greps for it.
 
 ## Precedence
