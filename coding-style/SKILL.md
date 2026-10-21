@@ -55,11 +55,11 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Comment only the non-trivial; WHY means an invariant, never provenance.
   - No comment cites a PR, issue, or commit number; the sole exception is a tracked `TODO(owner)` with a real issue.
   - Cross-reference the invariant or upstream behavior instead.
+  - Status declarations of the artifact itself (frozen, superseded, slated for migration) are provenance's one shipping exception — one per artifact, at the artifact, never its schedule.
 - One line per comment; two lines is the hard ceiling — anything longer belongs in a docstring.
   - A comment that narrates what the next lines do gets deleted, not written.
 - Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from X`.
   - Patch-time justification lives in the commit/PR description or the reply, not the code.
-  - Status declarations of the artifact itself (frozen, superseded, slated for migration) are provenance's one shipping exception — one per artifact, at the artifact, never its schedule.
   - Applying a patch earns no more comment allowance than writing the file fresh.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin.
   - Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — a caller never needs the body.
@@ -87,7 +87,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - No legacy code — place interim patches on the earliest, narrowest hook that runs before the failing mechanism, reusing existing hooks.
   - Post-init hooks cannot fix compile-time failures.
   - When the upstream fix lands or the floor moves (dependency or pin bump, a dropped platform or version): delete the workaround, its dead callers, and its tests in the same change.
-    - Until the window closes, its end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
+  - Until that change, the workaround's end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
   - Code kept past its fix, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions — two copies of the same logic is a bug factory (deliberate test-fixture copies excepted).
   - When a diff touches one copy: extract the shared helper or delete the duplicate.

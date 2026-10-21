@@ -11,10 +11,10 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 
 Two target kinds, both on the user's request:
 
-1. **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout.
-   - Read the full conversation each round — comments, reviews, threads.
-   - Feedback newer than the head commit is unaddressed; a summary's claims are checked against what it summarizes.
-2. **Review branches** — changes pending review, local or remote, read from `git diff <base>...<head>`.
+- **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout.
+  - Read the full conversation each round — comments, reviews, threads.
+  - Feedback newer than the head commit is unaddressed; a summary's claims are checked against what it summarizes.
+- **Review branches** — changes pending review, local or remote, read from `git diff <base>...<head>`.
 
 A **deep and comprehensive** review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
 
@@ -62,7 +62,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - Sibling fixes of the same defect class are in scope on the original change; on a fix round they map to a requested finding or get reported — an unasked expansion past a many-site sweep is itself a finding.
 3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades, any fallback with no `TODO(owner)` and no real tracking issue: drop them and fix formally.
    - Drop deadline is the author's: when the fix lands or the floor moves (pin bump, dropped platform or version), the workaround, its dead callers, and its tests are deleted in that change — not rewritten.
-     - Until the window closes, its end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
+   - Until that change, the workaround's end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
 4. **Generality & reuse** — does this solve only one case? Prefer extending existing infra over parallel mechanisms.
    - Duplication against already-landed work: identical or near-identical copies must become one — deliberate test-fixture copies excepted.
    - A new public surface is held to the closest analog — the repo's or the dependency's same-kind equivalent — flag departures with no align-or-diverge decision, or width without justification.
@@ -78,8 +78,8 @@ Out of scope: the agent's pre-commit self-check of its staged change.
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it; flag names that hide intent.
    - Self-documenting code is the bar — flag WHAT-comments, section banners, version-dated comments outliving their version, and comments the diff orphaned (comment erosion).
    - Only WHY-comments earn their line, capped at two; WHY means an invariant, never provenance.
+   - Status declarations of the artifact (frozen, superseded, slated for migration) are provenance's one exception — flag the missing or duplicated one, and schedule prose.
    - Flag comments citing PR/issue/commit numbers (a tracked `TODO(owner)` excepted) and edit-narration (`# now retries`, `# changed from X`).
-     - Status declarations of the artifact (frozen, superseded, slated for migration) are provenance's one exception — flag the missing or duplicated one, and schedule prose.
    - Flag register mismatches in code or docs — the test is a reader who never saw the design document: docstrings are API reference (usage examples fine, design narrative not), guides guide, motivation lives in the design doc.
    - Public docs never route into machine-instruction layers — the machine layer points at the human docs, not the reverse.
    - New or changed public/open APIs (exported names, entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — flag undocumented surface.
