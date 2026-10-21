@@ -48,7 +48,8 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ### Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
-- The artifact is written for a reader who never saw its design document — invented vocabulary and document links stay in the document; the code and its docs name things plainly.
+- The artifact is written for a reader who never saw its design document — vocabulary, document links, and design narrative stay in the document.
+- Write docstrings as API reference — usage examples fine, design narrative not; guides guide, motivation lives in the design doc.
 - Comments stay rare; each earns its line — code that says it plainly gets none.
   - A tracked `TODO(owner)` counts as earning its line.
 - Comment only the non-trivial; WHY means an invariant, never provenance.
@@ -80,12 +81,14 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ### Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
+- Public docs route to public docs — never into machine-instruction layers; the machine layer points at the human docs, not the reverse.
 
 ### Prune relentlessly
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
 - No legacy code — place interim patches on the earliest, narrowest hook that runs before the failing mechanism, reusing existing hooks.
   - Post-init hooks cannot fix compile-time failures.
   - When the upstream fix lands or the floor moves (dependency or pin bump, a dropped platform or version): delete the workaround, its dead callers, and its tests in the same change.
+    - Until the window closes, its end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
   - Code kept past its fix, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions — two copies of the same logic is a bug factory (deliberate test-fixture copies excepted).
   - When a diff touches one copy: extract the shared helper or delete the duplicate.
