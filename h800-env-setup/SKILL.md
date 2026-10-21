@@ -26,12 +26,16 @@ Creating or repairing Python/GPU environments on the H800 cluster; everything be
 - No usable `/usr/local/cuda` — only a stubs-only `cuda-12.2` (headers/nvml, no nvcc, no `bin/`).
   - Any CUDA 13 stack needs forward compatibility.
 - PyPI: direct is slow from the login node (~7s vs ~1.1s via mirror), fine from compute nodes — default to the tuna mirror.
-- From compute nodes, ssh/22 to github.com times out (login node: fine) — `git@github.com` remotes can neither fetch nor push there.
-  - Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (approval-gated) — transparent for existing remotes.
-  - Or go over https: public repos fetch anonymously; private repos and pushes (approval-gated) take gh as the credential helper — `git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`.
-  - Pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`.
-  - Update local branches the same way: `git fetch <url> <branch>` then `git merge --ff-only FETCH_HEAD` (fetching `<url> <branch>:<branch>` is refused on a checked-out branch).
 - GPUs are usually free, but foreign processes (another user's server) sometimes hold some — tell the user immediately; never silently route around them.
+
+## GitHub egress from compute nodes
+
+ssh/22 to github.com times out from compute nodes (login node: fine) — `git@github.com` remotes can neither fetch nor push there.
+- Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (approval-gated) — transparent for existing remotes.
+- Or go over https: public repos fetch anonymously.
+  - Private repos and pushes are approval-gated and take gh as the credential helper: `git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`.
+- Pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`.
+- Update local branches the same way: `git fetch <url> <branch>` then `git merge --ff-only FETCH_HEAD` (fetching `<url> <branch>:<branch>` is refused on a checked-out branch).
 
 ## The CUDA 13 stack on the 535 driver (cuda-compat)
 
@@ -70,7 +74,7 @@ vLLM's flashinfer sampling JIT-compiles on first non-greedy request — needs a 
 ```bash
 conda install -c conda-forge cuda-nvcc=13.4.92 cuda-cudart-dev=13.4.92 libcurand-dev cuda-cccl   # approval-gated (see Reuse first); exact pins — unpinned solves pick nvcc 12.9
 cd $CONDA_PREFIX/include && for f in ../targets/x86_64-linux/include/*; do [ -e "$(basename $f)" ] || ln -s "$f" .; done
-ln -sfn targets/x86_64-linux/lib $CONDA_PREFIX/lib64   # NOT lib64/ — that target doesn't exist in conda-forge
+ln -sfn targets/x86_64-linux/lib $CONDA_PREFIX/lib64   # target must be .../lib — conda-forge ships no .../lib64
 export CUDA_HOME=$CONDA_PREFIX
 ```
 
