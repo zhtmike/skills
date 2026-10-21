@@ -17,27 +17,27 @@ Edits to already-working code, and the pass that takes a demonstrated change to 
 
 Write code that fails fast, carries its own explanation, and ships with proof. No silent fallbacks, no dead code. Prefer explicit and linear over clever and compact.
 
-## Rules
-
-### Keep the diff minimal
+## Keep the diff minimal
 - Touch only what the task needs — small diffs make personal review fast.
   - No drive-by reformat or rename of untouched lines.
 - A refactor or any big change: ask first, get the go-ahead before starting.
-- The same check failing twice stops the edit: report both results and the wrong hypothesis. A third try needs a new hypothesis, stated before the edit.
+- The same check failing twice stops the edit: report both results and the wrong hypothesis.
+- A third try needs a new hypothesis, stated before the edit.
 
-### Fix the class, not just the instance
+## Fix the class, not just the instance
 - After fixing a bug, check whether the same pattern or risk exists elsewhere — same root cause means the fix applies there too.
 - Sibling fixes for the same defect class are in scope, not drive-by.
   - If the sweep turns up many sites or grows into a refactor, report and ask instead of expanding the diff.
 
-### Fail fast, never silently fall back
-- Raise with actionable messages: `raise ValueError(f"Invalid backend: {x}. Must be one of {sorted(valid)}")`.
+## Fail fast, never silently fall back
+- Raise with actionable messages — name the invalid value and the valid choices.
 - A silent downgrade (catch-and-continue, default substitution) hides broken setups.
-- Validate at the declaration — dataclass `__post_init__`, class-definition hooks; a use-site check of the same invariant is duplication.
-- Chain exceptions: `raise ImportError(...) from e`.
-- A genuinely temporary fallback carries `# TODO(owner): drop this and raise instead — tracked in <issue>` plus a real tracking issue. No permanent workarounds.
+- Validate at the declaration, not the use site.
+  - A use-site check of the same invariant is duplication.
+- Chain exceptions so the original cause survives the re-raise.
+- A genuinely temporary fallback carries a tracked `TODO(owner)` plus a real tracking issue. No permanent workarounds.
 
-### Be explicit
+## Be explicit
 - Modern idiomatic typing on code you write or modify — the language's current union/generic spellings — and annotated non-obvious locals.
 - On code you write or modify, a module with a public surface declares it up front (`__all__` or the language's equivalent) and keeps helpers below the public API.
 - A provisional name freezes in this pass once a run exercises the behavior it names.
@@ -46,31 +46,30 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - No code exists to appease a linter: no scrub statements for unused names; drop any your change takes over.
 - Scripts: env-overridable defaults; a deprecated path names its replacement.
 
-### Comments & docstrings
+## Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
 - The artifact is written for a reader who never saw its design document — vocabulary, document links, and design narrative stay in the document.
 - Write docstrings as API reference — usage examples fine, design narrative not; guides guide, motivation lives in the design doc.
 - Comments stay rare; each earns its line — code that says it plainly gets none.
   - A tracked `TODO(owner)` counts as earning its line.
 - Comment only the non-trivial; WHY means an invariant, never provenance.
-  - No comment cites a PR, issue, or commit number (`# handle #1234`, `// see PR #567` are both wrong); the sole exception is `# TODO(owner): … — tracked in <issue>` with a real issue.
-  - Cross-reference the invariant or upstream behavior instead: `# stride at 16kHz; keep in sync with the feature extractor's hop_length`.
+  - No comment cites a PR, issue, or commit number; the sole exception is a tracked `TODO(owner)` with a real issue.
+  - Cross-reference the invariant or upstream behavior instead.
 - One line per comment; two lines is the hard ceiling — anything longer belongs in a docstring.
   - A comment that narrates what the next lines do gets deleted, not written.
-- Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from sync to async`, `# fixed the race`.
+- Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from X`.
   - Patch-time justification lives in the commit/PR description or the reply, not the code.
   - Status declarations of the artifact itself (frozen, superseded, slated for migration) are provenance's one shipping exception — one per artifact, at the artifact, never its schedule.
   - Applying a patch earns no more comment allowance than writing the file fresh.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin.
   - Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — a caller never needs the body.
-  - One file, one field-documentation style — the project's form where it has one, never mixed across sibling classes.
 - Prevent comment erosion: update or delete comments a behavior change invalidates, in the same PR.
   - Version-dated comments ("as of X…") die with X; an inaccurate comment is worse than none.
 
-### Tests ship with the change
+## Tests ship with the change
 - Every behavior change gets a test in the same PR.
   - Where the repo's CI runs tests, ship each test matched to its collection — naming pattern, path filters.
-  - Prefer cheap CPU tests (`importorskip`, `monkeypatch`) over heavy e2e; never fake import systems or mock what you could really construct.
+  - Prefer cheap CPU tests over heavy e2e; never fake import systems or mock what you could really construct.
 - No tautological asserts — asserting what the mock returns.
 - Fail-silent defects (no crash, plausible output) need the test to assert the observable signature of correct behavior.
   - An exit-code-only smoke passes on the corrupted run.
@@ -79,11 +78,11 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - Report only real observed output; if deps are missing, say so and list remote commands — don't install heavy stacks.
   - GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
 
-### Docs are part of the diff
+## Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
 - Public docs route to public docs — never into machine-instruction layers; the machine layer points at the human docs, not the reverse.
 
-### Prune relentlessly
+## Prune relentlessly
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
 - No legacy code — place interim patches on the earliest, narrowest hook that runs before the failing mechanism, reusing existing hooks.
   - Post-init hooks cannot fix compile-time failures.
@@ -92,10 +91,10 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - Code kept past its fix, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions — two copies of the same logic is a bug factory (deliberate test-fixture copies excepted).
   - When a diff touches one copy: extract the shared helper or delete the duplicate.
-- Constants: module-level `SCREAMING_CASE` collections over scattered literals — consolidate the ones your diff touches.
+- Constants: one module-level collection over scattered literals — consolidate the ones your diff touches.
   - Single-use constants inline their literal at the consumer.
   - Shared ones join the file's constant block at the top — a constant never parks mid-file beside one call site.
-- Logging: the language's idiomatic module-level logger, lazy argument formatting.
+- Logging: the language's idiomatic module-level logger.
 
 ## Design posture
 
