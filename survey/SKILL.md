@@ -11,7 +11,9 @@ description: "MUST load before any intensive, broad investigation — a question
 
 A question that fits a single session's focus needs no survey — answer it directly, with every claim in that answer checked against the source that owns it. A question spanning sources, subsystems, or papers gets decomposed into lanes and dispatched.
 
-Gate the question first: if underspecified (missing goal, constraints, or decision context), ask 2–3 clarifying questions and weave the answers in before fanning out.
+## Gate the question first
+
+If underspecified (missing goal, constraints, or decision context), ask 2–3 clarifying questions and weave the answers in before fanning out.
 - If the user says "just survey it", proceed with sensible defaults and say which.
 
 ## Decompose for breadth
@@ -28,7 +30,7 @@ Gate the question first: if underspecified (missing goal, constraints, or decisi
 
 ## Lane briefs
 - Self-contained: goal, known context (repo, versions, constraints), scope, expected deliverable with output format, and what not to do — the lane must execute on the brief alone.
-  - A source read at a pinned version says how: `git show <ref>:<path>` / `git diff <old>..<new>` in the owning repo — never its working tree, which can sit at a different ref.
+  - A brief citing a pinned version says how to read it: `git show <ref>:<path>` / `git diff <old>..<new>` in the owning repo — never its working tree, which can sit at a different ref.
 - Each lane is independent: own context, read-only toward what it investigates, answers exactly its brief and nothing else.
 - Where the harness dispatches via files, briefs are files in the session's work directory; native sub-agents get the brief as the sub-agent's prompt.
 - The brief's output instruction must match the lane's launch mode.
@@ -36,7 +38,7 @@ Gate the question first: if underspecified (missing goal, constraints, or decisi
   - Never point stdout at a path the lane also writes — the final-message write at exit clobbers the artifact.
 - Dispatch all lanes concurrently — cheap/fast model per lane where the harness allows.
   - A failed or empty lane: rerun it alone; a rate-limited provider: run lanes sequentially.
-  - A lane failing twice stops the survey — reported as retry, never a silent empty result, never a third wave.
+  - A lane failing twice stops the survey — report it as retried, never a silent empty result.
   - No dispatch mechanism: run the lanes in this session one at a time, say so, keep the same budget.
 
 ## Lane findings — claims, not prose
@@ -56,7 +58,7 @@ Default: no verification lane — budgets already bound the work. Dispatch one o
   - An artifact existing is not its content existing — open the entry point that would actually be used before crediting it (README-only toolkits, stubs, and lookalike ports all pass metadata checks).
   - Status claims come from the issuing venue's own record; self-published badges are secondary evidence.
 - Outcomes are confirmed / refuted / unverified — all three ship in the report.
-- A lane that failed to run is an infra failure, not a finding — report it as "retry", never as "nothing found".
+- A lane that failed to run is an infra failure, not a finding.
 
 ## Synthesis
 - Direct answer first, then findings grouped by theme with confidence tied to evidence shape: high = multiple primary sources; medium = secondary or split evidence; low = single or blog-quality.
