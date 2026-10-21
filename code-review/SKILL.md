@@ -26,13 +26,13 @@ Out of scope: the agent's pre-commit self-check of its staged change.
   - Fetch the head if needed (PRs: `pull/<N>/head` from the base remote), then `git worktree add --detach <tmpdir> <head>`.
 
 ## Depth — verify everything; span agents when needed
-- Every finding is verified before it is written — read the surrounding code, trace the call path, check the test asserts the behavior; no skimming, no speculative findings.
+- Every finding is verified before it is written — read the surrounding code, trace the call path, check the test asserts the behavior.
 - Never hand the author a verification the reviewer could run — consumer greps, upstream reads, reachability checks; only what needs a real run (GPU, live engine) goes to the author, naming what a run alone can show.
 - Every external reference the diff, its comments, or commit messages cite — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
   - A link is a claim, not proof — `tracked in #X` against a mismatched issue scope is a finding.
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — the reference implementation, the dependency's source — not the reviewed repo alone.
 - Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem or file group, on a cheap fast model — whatever agent-dispatch mechanism your harness provides.
-  - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline — findings, never transcripts.
+  - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
 ## Output contract — never post
@@ -90,7 +90,8 @@ Out of scope: the agent's pre-commit self-check of its staged change.
 
 ## Precedence
 
-Project-specific skills and repo conventions (`AGENTS.md`, review templates) win where they define a rubric; this skill covers the rest.
+Project-specific skills and repo conventions (`AGENTS.md`, review skills, templates) win where they define a rubric; this skill covers the rest.
+- Discover them before writing the verdict — a repo-defined verdict vocabulary beats this skill's plain-language default.
 - One exception: the citation ban and comment length cap hold even in comment-heavy repos.
 
 ## Wind-down handoff
