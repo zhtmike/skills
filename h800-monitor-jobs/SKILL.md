@@ -20,7 +20,7 @@ Long monitoring loops burn the session's context.
 - Otherwise poll directly at the cadence below.
 - Whoever polls: one retry max per failure — a second failure is the result.
 - Close with one final report: PASS/FAIL tally, durations, root causes — no log-stream paste.
-- Hand the delegate: the runner log path, the done-marker line, the poll cadence (adaptive 15s→10m, below), and the known-failure table below.
+- Hand the delegate: the runner log path, the done-marker line (`=== done (job=$RC) ===`), the poll cadence (adaptive 15s→10m, below), and the known-failure table below.
 - Reuse the same delegate for follow-up rounds when the harness allows; it retains the log layouts.
 
 ## Polling cadence (for the delegate, or direct checks)
