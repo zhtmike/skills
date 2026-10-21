@@ -1,6 +1,6 @@
 ---
 name: spike
-description: "MUST load before building anything unproven — new feature, POC, prototype, tricky change, any code whose shape is still being learned — proved only by an observed run or an executing test of the claimed behavior. Make it work first and demonstrate it with a real run; polish, generality, and docs are deferred until it does. Not for the finishing pass of a demonstrated change, nor for drafting a non-trivial design — new interface, subsystem, refactor, migration, multi-step series — until accepted."
+description: "MUST load before building anything unproven — new feature, POC, prototype, tricky change, any code whose shape is still being learned — proved only by an observed run or an executing test of the claimed behavior. Make it work first and demonstrate it with a real run; polish, generality, and docs wait until it does. Not for the finishing pass of a demonstrated change, nor for drafting a non-trivial design — new interface, subsystem, refactor, migration, multi-step series — until that design is accepted."
 ---
 
 # Spike
@@ -9,7 +9,7 @@ description: "MUST load before building anything unproven — new feature, POC, 
 
 ## Scope — unproven builds only
 
-New features, POCs, prototypes, tricky changes — code written to learn what the solution is. The approach is settled when this slice has an observed run or an executing test of its claimed behavior; until then, a tricky change to working code still loads this skill. The finishing pass — polish, shipped tests, docs — is out of scope.
+New features, POCs, prototypes, tricky changes — code written to learn what the solution is. The approach is settled when this slice has an observed run or an executing test of its claimed behavior; until then, a tricky change to working code still loads this skill. The finishing pass — polish, shipped tests, docs — is out of scope. Drafting a non-trivial design stays out of scope until that design is accepted.
 
 ## Build to learn
 
@@ -30,7 +30,8 @@ New features, POCs, prototypes, tricky changes — code written to learn what th
   - No test-suite sweeps per edit; the change's full verification waits for the demonstrated build.
 - An unrelated failure the spike trips over gets one line in the report, not a detour.
   - Pre-existing red, broken env, flaky sibling: note it, route around, move on.
-- The same failure twice ends the attempt: report both results. Another try needs a new hypothesis, stated in one line, before any further edit.
+- The same failure twice ends the attempt: report both results.
+- Another try needs a new hypothesis, stated in one line, before any further edit.
 
 ## Done — demonstrated, not vibes
 
