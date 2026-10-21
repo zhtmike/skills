@@ -68,7 +68,6 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Claim-encoding artifacts are skill bodies, guides, and retrospective docs.
 - The pass lists each case and its verdict.
   - Not listing them — or findings all checklist-visible (format, counts, message shape) — is disengagement: re-dispatch with the cases demanded first.
-  - An engaged clean pass stands.
 - A rule that fails its must-allow case is blocking.
 - A headline that repeats a slogan the incident rejected is blocking.
 - A listed pass whose must-reject cases are rejected and whose must-allow cases hold is clean and stands.
