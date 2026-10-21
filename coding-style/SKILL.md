@@ -31,10 +31,10 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Fail fast, never silently fall back
 - Raise with actionable messages — name the invalid value and the valid choices.
-- A silent downgrade (catch-and-continue, default substitution) hides broken setups.
 - Validate at the declaration, not the use site.
   - A use-site check of the same invariant is duplication.
 - Chain exceptions so the original cause survives the re-raise.
+- A silent downgrade (catch-and-continue, default substitution) hides broken setups.
 - A genuinely temporary fallback carries a tracked `TODO(owner)` plus a real tracking issue. No permanent workarounds.
 
 ## Be explicit
@@ -44,7 +44,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Inline helpers, globals, and configs that are used exactly once.
 - Unused interface parameters are fine — the signature is the contract.
   - No code exists to appease a linter: no scrub statements for unused names; drop any your change takes over.
-- Scripts: env-overridable defaults; a deprecated path names its replacement.
+- Scripts get env-overridable defaults; a deprecated path names its replacement.
 
 ## Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
@@ -91,10 +91,10 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - Code kept past its fix, or a workaround rewritten instead of dropped, is new debt, not safety.
 - No duplicated functions — two copies of the same logic is a bug factory (deliberate test-fixture copies excepted).
   - When a diff touches one copy: extract the shared helper or delete the duplicate.
-- Constants: one module-level collection over scattered literals — consolidate the ones your diff touches.
+- Consolidate the constants your diff touches into one module-level collection, not scattered literals.
   - Single-use constants inline their literal at the consumer.
   - Shared ones join the file's constant block at the top — a constant never parks mid-file beside one call site.
-- Logging: the language's idiomatic module-level logger.
+- Log through the language's idiomatic module-level logger.
 
 ## Design posture
 
