@@ -64,15 +64,13 @@ Entry is exactly one of two doors — nothing else loads this skill:
 
 ## Owning skills are yours only
 - An owning skill must live in the personal skills repo — the same version-controlled repo this skill itself is sourced from.
-  - Resolve both roots (`readlink -f`, then up to the repo root) and require the match; a cold trail means ask the user, never guess.
-  - A cleanly resolved but different root is the next bullet, not a guess.
 - Skills bundled inside a working repo, harness defaults, and third-party collections are never edit targets, even when the defect lives there.
   - Report the scar and the rule you would write, name the repo it belongs to, and let that repo's own gates carry it — the report is the deliverable.
 
 ## Edit the real source, not the install
 - An installed skill is deployment surface — a symlink or copy in an agent's skills directory — never the source.
-  - Resolve to the version-controlled repo the install came from (`readlink -f`; a cold trail means ask the user where the source lives) and edit there.
-  - Ownership above has already decided whether the edit is yours at all.
+  - Resolve to the source repo and edit there: `readlink -f`, then up to the repo root, and require the personal-skills-repo match.
+  - A cold trail means ask the user, never guess.
   - An edit in the install directory carries no history, never propagates, and is overwritten on the next sync.
 - A symlink install sees the edit live (harnesses pick it up on reload); copy installs and other machines sync through their own update flow.
 
