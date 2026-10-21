@@ -24,6 +24,9 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Disclose both the bypass and the proof in the commit body.
 - Pushes go to the user's own remote — a fork's push target, or the standalone repo's origin; identify it before the first push, asking only when ownership is ambiguous.
   - Never push upstream, even if it is `origin`.
+- Re-fetch the base and re-check mergeability before pushing when the session's verification ran against an earlier fetch of that base.
+  - Upstream work landed in that gap publishes against the new base regardless.
+  - Semantic drift re-opens review scope.
 - Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
 - PRs are the user's by default: the agent opens one only on an explicit ask to open it.
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
@@ -49,9 +52,8 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 **Trigger:** a commit approval event — an explicit go on a presented diff and message, or an amend/rebase that rewrites one — and no fresh review has run on this exact artifact: the final diff plus the full drafted commit message.
 - Nothing earlier: no review because work looks done, none offered unprompted.
 - An independent review from this session of this exact final diff and full message satisfies the gate.
-  - A review of an earlier draft, or the session's own self-review, does not.
+  - A review of an earlier draft does not.
 - Once triggered, run it directly; don't just offer.
-- An approval inferred from the task rather than stated by the user is not an approval event.
 - Post-review edits don't re-fire this trigger — they follow the loop below.
 
 **Single dispatch, real review.** Dispatch exactly ONE read-only agent (no edit tools; use whatever agent-dispatch mechanism your harness provides).
