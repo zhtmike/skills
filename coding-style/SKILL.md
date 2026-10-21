@@ -40,7 +40,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 ### Be explicit
 - Modern idiomatic typing on code you write or modify — the language's current union/generic spellings — and annotated non-obvious locals.
 - On code you write or modify, a module with a public surface declares it up front (`__all__` or the language's equivalent) and keeps helpers below the public API.
-- A name still marked provisional is frozen in this pass, once a run has exercised the behavior it names.
+- A provisional name freezes in this pass once a run exercises the behavior it names.
 - Inline helpers, globals, and configs that are used exactly once.
 - Unused interface parameters are fine — the signature is the contract.
   - No code exists to appease a linter: no scrub statements for unused names; drop any your change takes over.
@@ -62,7 +62,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - Applying a patch earns no more comment allowance than writing the file fresh.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin.
   - Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — a caller never needs the body.
-  - One file, one field-documentation style — the project's form where it has one (plain per-field comments or docstring fields), never mixed across sibling classes.
+  - One file, one field-documentation style — the project's form where it has one, never mixed across sibling classes.
 - Prevent comment erosion: update or delete comments a behavior change invalidates, in the same PR.
   - Version-dated comments ("as of X…") die with X; an inaccurate comment is worse than none.
 
@@ -97,17 +97,18 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 ## Design posture
 
 - Every new hook, protection, or abstraction must justify its existence — default to not adding it.
-  - Before designing a new module's public surface, read the closest existing analog — the repo's or the pinned dependency's same-kind equivalent — and decide align-or-diverge per shared rule; a registry checks the dependency's registries.
+  - A review finding re-opens the question: verify the claim, check what the system already guarantees, and prefer deletion over patching when the justification fails.
+  - Before designing a new module's public surface, read the closest existing analog — repo or pinned dependency — and align-or-diverge per shared rule; a registry checks the dependency's registries.
   - A wider surface than the analog needs justification.
 - Make things general: solve the class of problem; reuse existing infra over parallel new paths.
   - A helper with no domain words lives in the repo's utils layer, not the domain module.
   - An upstream dependency may already ship it — search before writing a copy.
-- Fix formally at the source (ideally upstream) instead of patching around it locally.
+- Fix at the source (ideally upstream), not around it locally.
 
 ## Self-check before done
 
-- Verify the artifact, not the tool's success message: an edit whose direction matters (add vs remove) gets its region re-read in the file.
-- Rescan your own diff once, before declaring the change done, against the rules it can trip — diff size, fallbacks, comments, tests, docs, public surface, pruning — not every rule in this body.
+- Verify the artifact, not the tool's success message: a direction-sensitive edit (add vs remove) gets its region re-read.
+- Rescan your own diff once before declaring done, against the rules it can trip — diff size, fallbacks, comments, tests, docs, public surface, pruning — not every rule.
 
 ## Precedence
 
