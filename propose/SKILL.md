@@ -19,7 +19,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Read the higher-level charter and sibling efforts for boundaries already drawn; compose with them, never re-own their scope.
 - Name new generations by identity, not version ordinals — ordinals collide with neighbors and expire.
 - Migration follows the neighboring code: add alongside, warn while the old path still works, delete only after a window.
-  - The old path stays callable through that window. Renaming it belongs to the delete, not the add.
+  - Renaming the old path belongs to the delete, not the add.
 
 ## Author the minimal contract
 
@@ -48,7 +48,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Correctness reviews (consistency, implementability) always reward more specification — weight needs its own axis, asked out loud.
 - The weight question, verbatim in every review brief: should this be specified now — has a first exercise paid for freezing it?
 - A contract that fits one sitting is checked by its author against the tree.
-- Dispatch a weight review only when the claims span more than one subsystem or the text outgrows a sitting — one wave, on a cheap fast model, the parent keeping findings, never transcripts.
+- Dispatch a weight review only when the claims span more than one subsystem or the text outgrows a sitting — one wave per round, on a cheap fast model, the parent keeping findings, never transcripts.
 - Each round re-verifies the previous round's fixes and stops when the weight pass's unresolved findings are empty.
 - A finding that asks to freeze a surface with no payer is resolved by cutting that surface.
 - A design that passes correctness while freezing unexercised surface is over-engineered: cut inside the accepted direction rather than restart.
@@ -58,7 +58,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Anchor the accepted text — behavior pins, non-goals, the smallest first slice, its done-when — where the project anchors designs (its issue, RFC, or doc convention); this skill stops at the anchor.
 - Acceptance is the user's yes on that text — an empty weight-finding list is a clean review, not agreement.
 - After the anchor, the behavior pins and the named first slice are enough to start that slice's code.
-- Names stay provisional through the proving run and freeze in the finishing pass, after a run of the behavior pins — not in the design, not after a scratch script of a narrower question.
+- Names stay provisional through the proving run; the finishing pass freezes them — a scratch script of a narrower question never does.
 
 ## Precedence
 
