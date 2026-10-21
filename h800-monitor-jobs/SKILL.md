@@ -31,7 +31,7 @@ Long monitoring loops burn the session's context.
 - Each clean check (log grows, no error) increases the interval 30s → 1m → 2m → 5m → 10m, capped at 10 minutes.
   - Any error, stall (log frozen but process alive), or GPU-memory anomaly: drop back to 30s to track the failure as it develops.
 - State the current interval in each report so the stability trend stays visible.
-- Watch: the runner log's size/freshness (`stat -c %Y`), `nvidia-smi` memory+util, process liveness (`pgrep -f`).
+- Watch the runner log's size/freshness (`stat -c %Y`), `nvidia-smi` memory+util, process liveness (`pgrep -f`).
   - A frozen log + idle GPU + live process = investigate; a growing log = healthy.
 - GPUs climbing 0 → 3 MiB → 1.3 GB → 20+ GB is the normal engine-startup ramp; 0% util during it is expected (minutes, not hours).
 

@@ -25,7 +25,7 @@ Creating or repairing Python/GPU environments on the H800 cluster; everything be
   - GPU count per allocation varies (check `nvidia-smi` / `squeue`).
 - No usable `/usr/local/cuda` — only a stubs-only `cuda-12.2` (headers/nvml, no nvcc, no `bin/`).
   - Any CUDA 13 stack needs forward compatibility.
-- PyPI: direct is slow from the login node (~7s vs ~1.1s via mirror), fine from compute nodes — default to the tuna mirror.
+- Direct PyPI is slow from the login node (~7s vs ~1.1s via mirror), fine from compute nodes — default to the tuna mirror.
 - GPUs are usually free, but foreign processes (another user's server) sometimes hold some — tell the user immediately; never silently route around them.
 
 ## GitHub egress from compute nodes
