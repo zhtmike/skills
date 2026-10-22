@@ -60,10 +60,10 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - A comment that narrates what the next lines do gets deleted, not written.
 - Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from X`.
   - Patch-time justification lives in the commit/PR description or the reply, not the code.
-  - Applying a patch earns no more comment allowance than writing the file fresh.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin.
   - Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — a caller never needs the body.
-- Prevent comment erosion: update or delete comments a behavior change invalidates, in the same PR.
+  - A config-constructed plugin class carries its config surface on `__init__` — those parameters are the API.
+- Update or delete comments a behavior change invalidates, in the same PR.
   - Version-dated comments ("as of X…") die with X; an inaccurate comment is worse than none.
 
 ## Tests ship with the change
