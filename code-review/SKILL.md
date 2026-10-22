@@ -84,7 +84,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - Flag comments citing PR/issue/commit numbers (a tracked `TODO(owner)` excepted) and edit-narration (`# now retries`, `# changed from X`).
    - Flag register mismatches in code or docs — the test is a reader who never saw the design document: docstrings are API reference (usage examples fine, design narrative not), guides guide, motivation lives in the design doc.
    - Public docs never route into machine-instruction layers — the machine layer points at the human docs, not the reverse.
-   - New or changed public/open APIs (exported names, entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — flag undocumented surface.
+   - New or changed public/open APIs (exported names, entry points, HTTP/RPC/CLI handlers, config-constructed plugin classes): document every parameter and return, plus error conditions when real — flag undocumented surface.
    - New or changed modules declare that surface up front (`__all__` or equivalent), helpers below it — flag the undeclared or inverted layout, and constants parked mid-file.
 8. **Docs sync** — README/docs updated in the same PR, dates aligned.
 9. **Same defect, elsewhere** — when a finding lands, check whether the same pattern exists elsewhere in the diff or repo.
