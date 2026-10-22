@@ -72,7 +72,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - A test that guards no distinct failure mode is a finding: re-asserts a covered path, near-identical to a sibling, or asserts internals — variants merge into one parameterized test.
    - A test suggestion names the uncovered failure mode; "consider a test" alone is noise.
    - Fail-silent defects need the test to assert the observable signature of correct behavior, not just exit codes.
-   - CI-covered tests are read, not run — the user triggers CI; a missing CI run is never a finding.
+   - CI-covered tests are read, not run — the user triggers CI; the review file names failing conditions, never CI run mechanics.
    - A new test the CI job would not collect — naming, path filters — is a finding.
    - GPU claims are checked by plausibility, never asserted as run.
    - A red check is root-caused, not relayed — trace the failing frame via the run's artifacts; a validation claim CI contradicts is itself a finding.
