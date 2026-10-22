@@ -70,7 +70,11 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Every behavior change gets a test in the same PR.
   - Where the repo's CI runs tests, ship each test matched to its collection — naming pattern, path filters.
   - Prefer cheap CPU tests over heavy e2e; never fake import systems or mock what you could really construct.
-- No tautological asserts — asserting what the mock returns.
+- Each test guards a distinct failure mode, or the finishing pass drops or merges it.
+  - Keep a real regression or an uncovered boundary/error path.
+  - Merge near-identical tests into one parameterized test.
+  - No tautological asserts — a test asserting what the mock returns guards nothing.
+  - A review-suggested test is a proposal; naming the covering test answers it.
 - Fail-silent defects (no crash, plausible output) need the test to assert the observable signature of correct behavior.
   - An exit-code-only smoke passes on the corrupted run.
 - Test runs: lightweight CPU tests (seconds-to-minutes, no GPU/network/downloads) may run locally, on the user's clock.
