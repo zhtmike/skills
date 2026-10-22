@@ -69,6 +69,8 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - Domain-free helpers in domain modules belong in the utils layer — or an upstream dependency may ship them.
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
 6. **Tests & evidence** — every behavior change needs a test in the same PR; prefer cheap CPU tests; never fake an import system or mock what you could construct.
+   - A test that guards no distinct failure mode is a finding: re-asserts a covered path, near-identical to a sibling, or asserts internals — variants merge into one parameterized test.
+   - A test suggestion names the uncovered failure mode; "consider a test" alone is noise.
    - Fail-silent defects need the test to assert the observable signature of correct behavior, not just exit codes.
    - CI-covered tests are read, not run — the user triggers CI; a missing CI run is never a finding.
    - A new test the CI job would not collect — naming, path filters — is a finding.
