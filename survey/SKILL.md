@@ -66,7 +66,7 @@ Default: no verification lane — budgets already bound the work. Dispatch one o
   - State remaining uncertainty; note failed or unverified lanes explicitly, never silently.
 - Close with a one-line methodology (lanes run, sources counted).
   - After scripted edits to a synthesized document, count entries before and re-count after — scripted reordering silently drops blocks.
-  - Where artifacts are files, clean up briefs and lane outputs once the work they informed is done.
+  - Where artifacts are files, clean up the briefs and lane outputs this survey created — enumerated paths only, via the harness's release mechanism where one exists; never a directory sweep: another task's artifacts may share the directory.
 
 ## Precedence
 

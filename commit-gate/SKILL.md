@@ -32,8 +32,8 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
   - Writing or later editing that file is not a gated action.
 - Follow the repo's PR template if one exists; paste-ready: what/why, root-cause narrative, test commands + real results, cross-links, required disclosures (AI assistance, duplicate-work checks).
-- When the work settles, check out the repo's default branch and fast-forward it to the remote.
-  - Never leave the session parked on the feature branch; a fresh session must not inherit a stale checkout.
+- When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no other live writer holds the checkout; otherwise leave the branch parked and say so.
+  - A fresh session must not silently inherit a stale checkout: a parked branch is reported at handover, never assumed clean.
 
 ## Commit messages
 - Follow the repo's own commit convention when it defines one.

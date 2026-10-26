@@ -41,7 +41,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
   - Verified-fixed findings may share a line — accounting outranks the cap.
 - Write to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
   - Delete it once consumed — a stale `review_*.md` misleads fresh sessions.
-- When the round ends, written or not, remove every other artifact — worktree, saved diffs, briefs, lane outputs; the review file and handover drafts (patch, upstream issue) are the only leftovers, deleted once consumed.
+- When the round ends, written or not, remove every artifact this review created — worktree, saved diffs, briefs, lane outputs; the review file and handover drafts (patch, upstream issue) are the only leftovers, deleted once consumed.
 - NEVER post, submit, or push the review — no review/comment/API calls anywhere, no committing or pushing the file; you draft it, the user posts it.
 - Keep it compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
