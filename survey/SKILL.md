@@ -21,7 +21,7 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
   - Prefer more narrow lanes over fewer broad ones — focus makes findings deep, and cheap lanes keep breadth affordable.
 - Let the question type pick the angles: comparative → one lane per candidate; evaluative → criteria plus candidates; exploratory → landscape sweep; investigative → one lane per hypothesis; quantitative → measurement methodology.
   - Always add a contrarian/skeptical lane whose job is to attack the leading or conventional answer.
-- Budget written before launch: maximum lanes (six unless genuinely wider), the harness's fast model per lane, per-lane effort, and the stop condition — stop when it is spent.
+- Budget written before launch: maximum lanes (six unless genuinely wider), the harness's fast model plus a thinking level per lane, per-lane effort, and the stop condition — stop when it is spent.
   - Budgets are the stopping criterion; without them surveys sprawl.
   - The parent keeps each lane's claims; transcripts stay in the lane.
   - API-hitting lanes launch write-capable and rewrite their artifact as data accumulates (a timeout must still leave partial results).
@@ -36,7 +36,7 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
 - The brief's output instruction must match the lane's launch mode.
   - stdout-captured lanes are told their final message **is** the full deliverable; write-capable lanes name their single output file.
   - Never point stdout at a path the lane also writes — the final-message write at exit clobbers the artifact.
-- Dispatch all lanes concurrently — cheap/fast model per lane where the harness allows.
+- Dispatch all lanes concurrently — cheap fast model and thinking matched to the lane where the harness allows: low for mechanical recon and cross-checks, middle for substantive digging, max only where the lane's verdict gates a risky move.
   - A failed or empty lane: rerun it alone; a rate-limited provider: run lanes sequentially.
   - A lane failing twice stops the survey — report it as retried, never a silent empty result.
   - No dispatch mechanism: run the lanes in this session one at a time, say so, keep the same budget.

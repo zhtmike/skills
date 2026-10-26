@@ -30,7 +30,7 @@ Entry is exactly one of two doors — nothing else loads this skill:
   - The user says go or no; no unasked edits.
 - Include a falsifier: the nearest case earlier in this session where the proposed rule would have fired but nothing went wrong, or an explicit statement that none exists.
   - The independent review checks the falsifier first.
-  - A rule that would spend — dispatches, model tier, retries — is falsified by the case where the session's cheaper action was already right.
+  - A rule that would spend — dispatches, model or thinking tier, retries — is falsified by the case where the session's cheaper action was already right.
 - Attach a firing report to every proposal: one line per rule of the owning skill this session actually loaded — fired and helped / fired and hurt / never fired.
   - Reports are the only record that landed rules earn their lines; retirement is a human decision informed by these reports.
 - A paired-concern defect (a rule a reviewer would flag in a foreign PR: necessity, fallbacks, analog shape, comments, tests, workaround deadlines) names the sibling body and the line the one-file edit leaves stale.

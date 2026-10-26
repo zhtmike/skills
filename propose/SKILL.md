@@ -48,7 +48,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Correctness reviews (consistency, implementability) always reward more specification — weight needs its own axis, asked out loud.
 - The weight question, verbatim in every review brief: should this be specified now — has a first exercise paid for freezing it?
 - A contract that fits one sitting is checked by its author against the tree.
-- Dispatch a weight review only when the claims span more than one subsystem or the text outgrows a sitting — one wave per round, on a cheap fast model, the parent keeping findings, never transcripts.
+- Dispatch a weight review only when the claims span more than one subsystem or the text outgrows a sitting — one wave per round, on a cheap fast model at mid thinking, the parent keeping findings, never transcripts.
 - Each round re-verifies the previous round's fixes and stops when the weight pass's unresolved findings are empty.
 - A finding that asks to freeze a surface with no payer is resolved by cutting that surface.
 - A design that passes correctness while freezing unexercised surface is over-engineered: cut inside the accepted direction rather than restart.

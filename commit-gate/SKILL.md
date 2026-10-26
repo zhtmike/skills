@@ -75,7 +75,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - The editing session rubber-stamping its own draft is not a review; self-review never satisfies the gate.
   - If the harness cannot dispatch an agent, stop and ask the user to review the diff — any qualified fresh pass, dispatched or the user's own, satisfies the gate.
 - Right-size the lane to the artifact: an edit that cannot change behavior (message wording, typo or grammar fixes, a few prose lines with no structural change) still gets an independent dispatched pass — the lightweight one.
-  - Lightweight = the harness's fast read-only model, one tight brief, short leash.
+  - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
   - The full standard runs wherever the diff can change behavior, change a public signature, add a dependency, or exceed ~50 changed lines.
   - Any blocking finding, or any doubt the lightweight lane can check what this artifact needs, escalates back to the full standard.
 

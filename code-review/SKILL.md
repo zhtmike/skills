@@ -31,7 +31,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
 - Every external reference the diff, its comments, or commit messages cite — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
   - A link is a claim, not proof — `tracked in #X` against a mismatched issue scope is a finding.
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — the reference implementation, the dependency's source — not the reviewed repo alone.
-- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem or file group, on a cheap fast model — whatever agent-dispatch mechanism your harness provides.
+- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem or file group, on a cheap fast model at mid thinking (these agents judge, not grep) — whatever agent-dispatch mechanism your harness provides.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 

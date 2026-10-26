@@ -8,7 +8,7 @@
 4. **Framework-agnostic where it costs nothing** — state mechanisms without naming the framework (engine init timeouts, supervisor-respawned workers, not vllm/ray specifics); skills bound to that environment (see Incident-agnostic) keep their framework names, pins, and signatures — the rest stay mechanism-level, with exact log signatures and cluster-bound commands concrete as grep handles.
 5. **Incident-agnostic** — body and commit message both state the generic rule: the message carries the incident's shape (what failed, which rule changed), never repo, project, or PR/issue identifiers. Environment-specific facts are reserved to skills whose trigger is that environment (`h800-*`).
 6. **Compact** — rules, not scripts; every line earns its place. Deep process lives in harness mechanics, not skill prose.
-7. **Capacity is priced where it's spent** — a fan-out, a model tier, a retry loop, and a rule that will load again are costs; the skill that performs the action states the cap — never a new skill for it, never a pasted cost section.
+7. **Capacity is priced where it's spent** — a fan-out, a model or thinking tier, a retry loop, and a rule that will load again are costs; the skill that performs the action states the cap — never a new skill for it, never a pasted cost section.
 
 ## Structure (house style)
 
