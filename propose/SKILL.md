@@ -48,7 +48,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Correctness reviews (consistency, implementability) always reward more specification — weight needs its own axis, asked out loud.
 - The weight question, verbatim in every review brief: should this be specified now — has a first exercise paid for freezing it?
 - A contract that fits one sitting is checked by its author against the tree.
-- Dispatch a weight review only when the claims span more than one subsystem or the text outgrows a sitting — one wave per round, on a cheap fast model at mid thinking, the parent keeping findings, never transcripts.
+- Every design faces one challenge review before acceptance — dispatched when claims span subsystems or text outgrows a sitting (one wave per round, cheap fast model at mid thinking, parent keeping findings, never transcripts); single-context designs may challenge in-session.
 - Each round re-verifies the previous round's fixes and stops when the weight pass's unresolved findings are empty.
 - A finding that asks to freeze a surface with no payer is resolved by cutting that surface.
 - A design that passes correctness while freezing unexercised surface is over-engineered: cut inside the accepted direction rather than restart.
@@ -56,7 +56,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 ## Anchor, then code
 
 - Anchor the accepted text — behavior pins, non-goals, the smallest first slice, its done-when — where the project anchors designs (its issue, RFC, or doc convention); this skill stops at the anchor.
-- Acceptance is the user's yes on that text — an empty weight-finding list is a clean review, not agreement.
+- Acceptance is the user's yes on that text after a challenge round with no unresolved findings — a clean review is not agreement.
 - After the anchor, the behavior pins and the named first slice are enough to start that slice's code.
 - Names stay provisional through the proving run; the finishing pass freezes them — a scratch script of a narrower question never does.
 
