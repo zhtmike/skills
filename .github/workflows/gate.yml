@@ -2,8 +2,10 @@
 # slip past. The tree gate runs on the pushed tree; the message audit runs on
 # the pushed range — a new branch against the default branch, the first push
 # of the default branch itself on its head message only, a branch delete
-# skipped outright (no tree to check out). Local hooks block before history
-# exists, this gates the push (scripts/README.md is the tool menu).
+# skipped outright (no tree to check out). A rewritten push (the before SHA
+# unreachable in the clone) has no range either: it falls through to the
+# same branches, auditing the new head message. Local hooks block before
+# history exists, this gates the push (scripts/README.md is the tool menu).
 name: gate
 on: [push, pull_request]
 permissions:
@@ -24,12 +26,13 @@ jobs:
           DEFAULT: ${{ github.event.repository.default_branch }}
         run: |
           BEFORE="${{ github.event.before }}"
-          if [ "$BEFORE" != "0000000000000000000000000000000000000000" ]; then
+          if [ "$BEFORE" != "0000000000000000000000000000000000000000" ] &&
+             git rev-parse --verify --quiet "$BEFORE^{commit}" >/dev/null; then
             printf 'message audit range: %s..%s\n' "$BEFORE" "${{ github.sha }}"
             scripts/commit-msg.sh --audit "$BEFORE..${{ github.sha }}"
           elif git show-ref --verify --quiet "refs/remotes/origin/$DEFAULT" &&
                [ "$(git rev-parse "origin/$DEFAULT")" != "$(git rev-parse HEAD)" ]; then
-            printf 'message audit range: origin/%s..HEAD\n' "$DEFAULT"
+            printf 'message audit range: origin/%s..HEAD (no auditable before: %s)\n' "$DEFAULT" "$BEFORE"
             scripts/commit-msg.sh --audit "origin/$DEFAULT..HEAD"
           else
             git log -1 --format=%B > /tmp/ci-msg
