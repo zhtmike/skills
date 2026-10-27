@@ -11,16 +11,25 @@
 #   carries no Growth-Payment trailer (CONTRIBUTING, Growth) — the
 #   staged delta at commit-msg stage is the commit's; a root commit's
 #   empty-tree base deletes nothing.
+#   FAIL when the staged diff adds rule lines (bullet or numbered item)
+#   to exactly one of the paired bodies (CONTRIBUTING, Paired bodies)
+#   and the message carries no Paired: trailer stating why the sibling
+#   didn't move. Presence is the floor; the statement's truth stays
+#   with the fresh review.
 #
 # Audit mode: commit-msg.sh --audit <rev-range>
 #   The same checks over landed commits — diagnoses a batch that never
 #   passed the gate (e.g. fetched in from another clone); each commit
-#   diffs against its parent (a parentless commit skips the growth check).
+#   diffs against its parent (a parentless commit skips the growth and
+#   pairs checks).
 #
 # Hook wiring, once per clone:
 #   pre-commit install --hook-type pre-commit --hook-type commit-msg
 
 set -u
+# Paired bodies share one rubric (CONTRIBUTING, Paired bodies) — rule
+# lines landing in exactly one demand a Paired: statement.
+PAIRED='coding-style code-review'
 failures=0 warnings=0
 fail_() { failures=$((failures + 1)); printf 'FAIL %s\n' "$*"; }
 warn_() { warnings=$((warnings + 1)); printf 'WARN %s\n' "$*"; }
@@ -29,15 +38,28 @@ body_dels() { # $@ = rev args for git diff; prints deleted SKILL.md lines, 0 if 
   git diff "$@" --numstat -- '*SKILL.md' | awk '{d += $2} END{print d+0}'
 }
 
-check_msg() { # $1 = label (commit sha or "draft"), $2 = message text, $3 = deleted body lines
-  if ! printf '%s\n' "$2" | grep -q '^Co-authored-by: .'; then
-    fail_ "trailers $1: no Co-authored-by trailer — attribution is never optional"
+rule_adds() { # $1 = paired body, rest = rev args; added rule lines (bullets, numbered items), 0 if none
+  body=$1; shift
+  git diff "$@" -- "$body/SKILL.md" 2>/dev/null | grep -cE '^\+[[:space:]]*([-*+]|[0-9]+\.) '
+}
+
+check_msg() { # $1 = label (commit sha or "draft"), $2 = message text, $3 = deleted body lines, $4.. = rev args for the pairs check
+  label=$1 msg=$2 dels=$3; shift 3
+  if ! printf '%s\n' "$msg" | grep -q '^Co-authored-by: .'; then
+    fail_ "trailers $label: no Co-authored-by trailer — attribution is never optional"
   fi
-  if ! printf '%s\n' "$2" | grep -q '^AI-assistance: .'; then
-    warn_ "trailers $1: no AI-assistance trailer — name agent, model, and provider, or drop the segment as unverifiable"
+  if ! printf '%s\n' "$msg" | grep -q '^AI-assistance: .'; then
+    warn_ "trailers $label: no AI-assistance trailer — name agent, model, and provider, or drop the segment as unverifiable"
   fi
-  if [ "$3" -gt 0 ] && ! printf '%s\n' "$2" | grep -q '^Growth-Payment: .'; then
-    fail_ "growth $1: $3 body line(s) deleted, no Growth-Payment trailer — name what left and why (merged, evicted, moved, retired, reworded)"
+  if [ "$dels" -gt 0 ] && ! printf '%s\n' "$msg" | grep -q '^Growth-Payment: .'; then
+    fail_ "growth $label: $dels body line(s) deleted, no Growth-Payment trailer — name what left and why (merged, evicted, moved, retired, reworded)"
+  fi
+  oneside=0
+  for b in $PAIRED; do
+    [ "$(rule_adds "$b" "$@")" -gt 0 ] && oneside=$((oneside + 1))
+  done
+  if [ "$oneside" -eq 1 ] && ! printf '%s\n' "$msg" | grep -q '^Paired: .'; then
+    fail_ "pairs $label: rule lines added to one paired body, no Paired trailer — state why the sibling didn't move (writer-only remainder, twin follows)"
   fi
 }
 
@@ -64,7 +86,7 @@ case "${1:-}" in
       msg=$(git log -1 --format=%B "$sha")
       dels=0
       git rev-parse -q --verify "$sha^" >/dev/null && dels=$(body_dels "$sha^" "$sha")
-      check_msg "$(git rev-parse --short "$sha")" "$msg" "$dels"
+      check_msg "$(git rev-parse --short "$sha")" "$msg" "$dels" "$sha^" "$sha"
     done
     verdict
     ;;
@@ -79,5 +101,5 @@ if [ -n "$(git rev-parse -q --verify MERGE_HEAD 2>/dev/null)" ]; then
   printf 'commit-msg: PASS (merge commit — exempt)\n'
   exit 0
 fi
-check_msg "draft" "$(cat "$1")" "$(body_dels --cached)"
+check_msg "draft" "$(cat "$1")" "$(body_dels --cached)" --cached
 verdict
