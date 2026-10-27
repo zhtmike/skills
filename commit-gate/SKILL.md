@@ -54,6 +54,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - An independent review from this session of this exact final diff and full message satisfies the gate.
   - A review of an earlier draft does not.
 - Once triggered, run it directly; don't just offer.
+- The review precedes the commit — an artifact pushed unreviewed, amends included, is the violation; a post-hoc review documents it, not repairs it.
 - Post-review edits don't re-fire this trigger — they follow the loop below.
 
 **Single dispatch, real review.** Dispatch exactly ONE read-only agent (no edit tools; use whatever agent-dispatch mechanism your harness provides).
