@@ -21,6 +21,8 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
   - Prefer more narrow lanes over fewer broad ones — focus makes findings deep, and cheap lanes keep breadth affordable.
 - Let the question type pick the angles: comparative → one lane per candidate; evaluative → criteria plus candidates; exploratory → landscape sweep; investigative → one lane per hypothesis; quantitative → measurement methodology.
   - Always add a contrarian/skeptical lane whose job is to attack the leading or conventional answer.
+- A prompt anchored on one seed artifact — an issue, PR, paper, or thread — surveys the question that artifact embodies, not the artifact itself: its contents and links seed the lanes, never bound them.
+  - At least one lane probes what the seed never cites — fresh status beyond its links, instances beyond its list; the omission is often where the answer lives.
 - Budget written before launch: maximum lanes (six unless genuinely wider), the harness's fast model plus a thinking level per lane, per-lane effort, and the stop condition — stop when it is spent.
   - Budgets are the stopping criterion; without them surveys sprawl.
   - The parent keeps each lane's claims; transcripts stay in the lane.
