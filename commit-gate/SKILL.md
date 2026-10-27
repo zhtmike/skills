@@ -65,6 +65,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Plus the conventions in force and this file's message rules (root-cause narrative, numbers, verified trailers).
   - What only editing time could show is out of scope — no speculating.
 - For each changed rule in a claim-encoding artifact, the brief states one case it must reject and one nearby case it must allow.
+  - The review covers the delta: verdict cases come from changed rules only — a previously certified guarantee is re-checked when the delta touches its line, never in a regression round.
   - The cases come from the incident, not from the rule's own sentence.
   - Claim-encoding artifacts are skill bodies, guides, and retrospective docs.
 - The pass lists each case and its verdict.
