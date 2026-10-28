@@ -12,8 +12,7 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 Two target kinds, both on the user's request:
 
 - **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout.
-  - Read the full conversation each round — comments, reviews, threads.
-  - Feedback newer than the head commit is unaddressed; check a summary's claims against what it summarizes.
+  - Read the full conversation each round; feedback newer than the head commit is unaddressed — check a summary against what it summarizes.
 - **Review branches** — changes pending review, read from `git diff <base>...<head>`.
 
 A **deep and comprehensive** review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
@@ -29,9 +28,8 @@ Out of scope: the agent's pre-commit self-check of its staged change.
 - Every finding is verified before it's written — read surrounding code, trace the call path, check the test asserts the behavior.
 - Never hand the author a verification the reviewer could run — consumer greps, upstream reads, reachability checks; only a real run (GPU, live engine) goes to the author, naming what it alone can show.
 - Every external reference the diff, comments, or commit messages cite — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
-  - A link is a claim, not proof — `tracked in #X` against a mismatched issue scope is a finding.
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
-- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem or group, on a cheap fast model at mid thinking (they judge, not grep) — whatever agent-dispatch mechanism your harness provides.
+- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, on a cheap fast model at mid thinking (they judge, not grep) — whatever agent-dispatch mechanism your harness provides.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
@@ -41,7 +39,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
   - Verified-fixed findings may share a line — accounting outranks the cap.
 - Write to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
   - Delete it once consumed — a stale `review_*.md` misleads fresh sessions.
-- When the round ends, written or not, remove every artifact this review created — worktree, saved diffs, briefs, lane outputs; the review file and handover drafts (patch, upstream issue) are the only leftovers, deleted once consumed.
+- When the round ends, written or not, remove every artifact this review created — worktree, saved diffs, briefs, lane outputs; the review file and handover drafts are the only leftovers, deleted once consumed.
 - NEVER post, submit, or push the review — no review/comment/API calls, no committing or pushing the file; you draft it, the user posts it.
 - Keep it compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
@@ -52,14 +50,16 @@ Out of scope: the agent's pre-commit self-check of its staged change.
   - "consider…" is for genuine taste calls where either shape is defensible.
   - When you know the fix, name the exact functions/APIs; cross-link, assign an owner, re-flag ignored feedback.
 - End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — verified from what the session exposes, never assumed; omit what's unverified.
+- Before handover, one dispatched fast read-only lane at mid thinking checks the written file against the tree: every `file:line` matches its claim, no word overstates the code, severity verbs hold, links resolve.
+  - Words only — no new findings, no re-scoring; mismatches return for fix or retract.
+  - No dispatch mechanism: re-read each finding at its cite; the handover discloses the self-check.
 
 ## Review order — flag in this priority
 1. **Necessity** — for every addition ask: why does this exist? Hooks, protections, abstractions, defensive checks must justify themselves. Default answer: delete it.
    - An unused parameter on a public signature stays — the signature is the contract; a defensive check of an invariant already validated at the declaration is the deletion.
 2. **Scope** — anything unrelated to the target's purpose: drop it.
-   - Read the file list before the hunks — files outside the purpose are findings.
-   - In a fix round, every hunk must map to a requested finding or follow from one — unrequested refactors or behavior changes riding along get flagged however defensible.
-   - Sibling fixes of the same defect class are in scope on the original change; on a fix round they map to a requested finding or get reported — an unasked expansion past a many-site sweep is a finding.
+   - In a fix round, every hunk maps to a requested finding or follows from one — unrequested refactors or behavior changes get flagged however defensible.
+   - Sibling fixes of the same defect class are in scope on the original change; on a fix round an unasked sweep past many sites is itself a finding.
 3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades, any fallback with no `TODO(owner)` and no real tracking issue: drop them and fix formally.
    - Drop deadline is the author's: when the fix lands or the floor moves (pin bump, dropped platform or version), the workaround, its dead callers, and its tests are deleted in that change — not rewritten.
    - Until that change, the workaround's end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
@@ -74,9 +74,8 @@ Out of scope: the agent's pre-commit self-check of its staged change.
    - Fail-silent defects need the test to assert the observable signature of correct behavior, not just exit codes.
    - CI-covered tests are read, not run — the user triggers CI; the review file names failing conditions, never CI run mechanics.
    - A new test the CI job would not collect — naming, path filters — is a finding.
-   - GPU claims are checked by plausibility, never asserted as run.
+   - GPU claims and evidence (curves, counts) are checked by plausibility — never asserted as run; sanity-check content, not just presence.
    - A red check is root-caused, not relayed — trace the failing frame via the run's artifacts; a validation claim CI contradicts is a finding.
-   - Evidence (curves, counts) must be plausible — sanity-check the data, not just its presence.
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it; flag names that hide intent.
    - Self-documenting code is the bar — flag WHAT-comments, section banners, version-dated comments outliving their version, and comments the diff orphaned.
    - Only WHY-comments earn their line, capped at two; WHY means an invariant, never provenance.
