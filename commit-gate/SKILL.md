@@ -24,21 +24,22 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Disclose both the bypass and the proof in the commit body.
 - Pushes go to the user's own remote — a fork's push target, or the standalone repo's origin; identify it before the first push, asking only when ownership is ambiguous.
   - Never push upstream, even if it is `origin`.
-- Re-fetch the base and re-check mergeability before pushing when the session's verification ran against an earlier fetch of that base.
+- Re-fetch the base and re-check mergeability before pushing when verification ran against an earlier fetch of the base.
   - Upstream work landed in that gap publishes against the new base regardless.
   - Semantic drift re-opens review scope.
 - Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
-- PRs are the user's by default: the agent opens one only on an explicit ask to open it.
+- PRs are the user's by default: the agent opens one only on an explicit ask.
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
   - Writing or later editing that file is not a gated action.
-- Follow the repo's PR template if one exists; paste-ready: what/why, root-cause narrative, test commands + real results, cross-links, required disclosures (AI assistance, duplicate-work checks).
+- Follow the repo's PR template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures (AI assistance, duplicate-work checks).
 - When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no other live writer holds the checkout; otherwise leave the branch parked and say so.
   - A fresh session must not silently inherit a stale checkout: a parked branch is reported at handover, never assumed clean.
 
 ## Commit messages
 - Follow the repo's own commit convention when it defines one.
   - Otherwise: `[modules] type: subject (#PR)` — modules comma-listed, type in `feat|fix|chore|refactor|test`; prepend `[BREAKING]` when APIs change.
-- Body = root-cause narrative with numbers and issue links, not a diff restatement.
+- Body = root-cause narrative with numbers, not a diff restatement.
+- Commit and PR bodies are self-contained: links supplement the account, never replace it.
 - No quoted user instructions, session-habit narratives, or machine-local paths beyond what the repo already states.
 - Review fixes: title `address review` + bullet list of changed areas.
 - Trailers: `AI-assistance: <agent> (<model> via <provider>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by: <user's name and email from git config>`.
@@ -62,7 +63,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Hand it the convention rules in force (project `AGENTS.md` and contributing guides supersede), the final diff, the full drafted commit message, and the writer rules this diff can trip, quoted from the body that governed the edit.
   - Comments if comments changed, tests if behavior changed, fallbacks if control flow changed — never every personal rule, never none.
 - Its job is a genuine review, not a style pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
-  - Plus the conventions in force and this file's message rules (root-cause narrative, numbers, verified trailers).
+  - Plus the conventions in force and this file's message rules (root-cause narrative, numbers, self-contained bodies, verified trailers).
   - What only editing time could show is out of scope — no speculating.
 - For each changed rule in a claim-encoding artifact, the brief states one case it must reject and one nearby case it must allow.
   - The review covers the delta: verdict cases come from changed rules only — a previously certified guarantee is re-checked when the delta touches its line, never in a regression round.
