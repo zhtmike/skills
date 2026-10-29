@@ -71,12 +71,13 @@ Out of scope: the agent's pre-commit self-check.
    - Domain-free helpers in domain modules belong in the utils layer — or an upstream dependency may ship them.
 5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
 6. **Tests & evidence** — every behavior change needs a test in the same PR; prefer cheap CPU tests; never fake imports or mock what you could construct.
-   - A test that guards no distinct failure mode is a finding: re-asserts a covered path, near-identical to a sibling, or asserts internals — variants merge into one parameterized test.
-   - A test suggestion names the uncovered failure mode; "consider a test" alone is noise.
-   - Fail-silent defects need the test to assert the observable signature of correct behavior, not just exit codes.
-   - CI-covered tests are read, not run — the user triggers CI; the review file names failing conditions, never CI run mechanics.
+   - A test that guards no distinct failure mode is a finding: re-asserts a covered path, near-identical to a sibling, or asserts internals.
+   - A behavior change sweeps the suite for tests asserting the replaced semantics — a live test encoding the old contract is a finding.
+   - A test suggestion names the uncovered failure mode; "consider a test" is noise.
+   - Fail-silent defects: the test asserts the observable signature of correct behavior, not just exit codes.
+   - CI-covered tests are read, not run; the review file names failing conditions, never CI run mechanics.
    - A new test the CI job would not collect — naming, path filters — is a finding.
-   - GPU claims and evidence (curves, counts) are checked by plausibility — never asserted as run; sanity-check content, not just presence.
+   - GPU claims (curves, counts) are plausibility-checked, never asserted as run; sanity-check content, not presence.
    - A red check is root-caused, not relayed — trace the failing frame via the run's artifacts; a validation claim CI contradicts is a finding.
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it; flag names that hide intent.
    - Self-documenting code is the bar — flag WHAT-comments, section banners, version-dated comments outliving their version, and comments the diff orphaned.
