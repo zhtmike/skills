@@ -106,7 +106,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 - Every new hook, protection, or abstraction must justify its existence — default to not adding it.
   - A review finding re-opens the question: verify the claim, check what the system already guarantees, and prefer deletion over patching when the justification fails.
-  - Before designing a new module's public surface, read the closest existing analog — repo or pinned dependency — and align-or-diverge per shared rule; a registry checks the dependency's registries.
+  - Before designing a new module's public surface or reshaping a module's structure, read the closest existing analog — repo or pinned dependency — and align-or-diverge per shared rule; a registry checks the dependency's registries.
   - A wider surface than the analog needs justification.
 - Make things general: solve the class of problem; reuse existing infra over parallel new paths.
   - A helper with no domain words lives in the repo's utils layer, not the domain module.
