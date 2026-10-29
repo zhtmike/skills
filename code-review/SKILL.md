@@ -12,17 +12,17 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 Two target kinds, both on the user's request:
 
 - **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout.
-  - Read the full conversation each round; feedback newer than the head commit is unaddressed — check a summary against what it summarizes.
+  - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against what they summarize.
 - **Review branches** — changes pending review, read from `git diff <base>...<head>`.
 
 A **deep and comprehensive** review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
 
-Out of scope: the agent's pre-commit self-check of its staged change.
+Out of scope: the agent's pre-commit self-check.
 
 ## Working-tree isolation
 - Never switch, create, or rebase the current branch — different targets' reviews run in parallel.
 - Repo-wide context (grep, call paths, defect-class sweep) runs in a throwaway detached worktree at the head.
-  - Fetch the head if needed (PRs: `pull/<N>/head` from the base remote), then `git worktree add --detach <tmpdir> <head>`.
+  - Fetch the head if needed (PRs: `pull/<N>/head`), then `git worktree add --detach <tmpdir> <head>`.
 
 ## Depth — verify everything; span agents when needed
 - Every finding is verified before it's written — read surrounding code, trace the call path, check the test asserts the behavior.
@@ -33,14 +33,16 @@ Out of scope: the agent's pre-commit self-check of its staged change.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
-## Output contract — never post
+## Output contract
 - A re-review accounts for every prior-round finding — verified fixed, re-flagged, or retracted with evidence; none silently vanishes.
-  - A reviewer-side withdrawal — scope or taste, not an author action — drops from the author-facing file; internal accounting only.
+  - A reviewer-side withdrawal — scope or taste — drops from the author-facing file; internal accounting only.
   - Verified-fixed findings may share a line — accounting outranks the cap.
-- Write to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite the same file.
-  - Delete it once consumed — a stale `review_*.md` misleads fresh sessions.
-- When the round ends, written or not, remove every artifact this review created — worktree, saved diffs, briefs, lane outputs; the review file and handover drafts are the only leftovers, deleted once consumed.
-- NEVER post, submit, or push the review — no review/comment/API calls, no committing or pushing the file; you draft it, the user posts it.
+- Write to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite it.
+- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; the review file and handover drafts are the leftovers, deleted once consumed — a stale `review_*.md` misleads fresh sessions.
+- Posting is the user's by default — draft only.
+  - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
+    - Any post-approval edit re-opens approval.
+  - Review text is the only remote write — never commit or push code.
 - Keep it compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
   - No preamble, tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries the finding.
@@ -50,7 +52,7 @@ Out of scope: the agent's pre-commit self-check of its staged change.
   - "consider…" is for genuine taste calls where either shape is defensible.
   - When you know the fix, name the exact functions/APIs; cross-link, assign an owner, re-flag ignored feedback.
 - End with: `AI assistance (<agent>, <model> via <provider>) was used for this review.` — verified from what the session exposes, never assumed; omit what's unverified.
-- Before handover, one dispatched fast read-only lane at mid thinking checks the written file against the tree: every `file:line` matches its claim, no word overstates the code, severity verbs hold, links resolve.
+- Before handover, one dispatched fast read-only lane at mid thinking checks the file against the tree: every `file:line` matches its claim, no word overstates the code, severity verbs hold, links resolve.
   - Words only — no new findings, no re-scoring; mismatches return for fix or retract.
   - No dispatch mechanism: re-read each finding at its cite; the handover discloses the self-check.
 
