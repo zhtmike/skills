@@ -24,7 +24,6 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
 - A prompt anchored on one seed artifact — an issue, PR, paper, or thread — surveys the question that artifact embodies, not the artifact itself: its contents and links seed the lanes, never bound them.
   - At least one lane probes what the seed never cites — fresh status beyond its links, instances beyond its list; the omission is often where the answer lives.
 - Budget written before launch: maximum lanes (six unless genuinely wider), the harness's fast model plus a thinking level per lane, per-lane effort, and the stop condition — stop when it is spent.
-  - Budgets are the stopping criterion; without them surveys sprawl.
   - The parent keeps each lane's claims; transcripts stay in the lane.
   - API-hitting lanes launch write-capable and rewrite their artifact as data accumulates (a timeout must still leave partial results).
   - Prefer batch endpoints over per-item GETs — per-item loops die on rate limits with nothing to show.
@@ -33,6 +32,8 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
 ## Lane briefs
 - Self-contained: goal, known context (repo, versions, constraints), scope, expected deliverable with output format, and what not to do — the lane must execute on the brief alone.
   - A brief citing a pinned version says how to read it: `git show <ref>:<path>` / `git diff <old>..<new>` in the owning repo — never its working tree, which can sit at a different ref.
+- A dependency-range survey runs a read-surface pass: diff the old→new public surface in the owning repo, then check every field or key the new version reads or rejects against the consuming repo's mirrors.
+  - Verified absorptions are not absence of gaps — the sweep enumerates what the new version consumes (fields its code reads, keys its configs reject), not what the plan covered.
 - Each lane is independent: own context, read-only toward what it investigates, answers exactly its brief and nothing else.
 - Where the harness dispatches via files, briefs are files in the session's work directory; native sub-agents get the brief as the sub-agent's prompt.
 - The brief's output instruction must match the lane's launch mode.
