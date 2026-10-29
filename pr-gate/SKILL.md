@@ -20,6 +20,8 @@ Approvals for the PR lifecycle and PR text; the agent's PR authorship rules.
   - A human other than the user in the thread ends the bot-reply exemption: the ask is whether to reply as AI at all, before any wording go.
 - The gated list names the common cases, not the boundary: any write to the PR — its state, metadata, threads, review verdicts, reactions — needs the same approval.
 - A gated step ends in an ask: the ready action or the drafted text is presented for the user's go.
+- A review-response round, when it needs an ask, is one ask: the drafted reply, the body-sync delta, and their evidence present together.
+  - The single go covers each text's exact wording.
 - The go covers the exact wording presented — a later edit re-opens the ask.
 - A posted review is a plain comment — never an approve or request-changes state; text approval is not state approval.
 - Before merging, re-fetch the base and re-check mergeability — an earlier fetch is stale ground.

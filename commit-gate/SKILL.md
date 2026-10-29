@@ -13,9 +13,10 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 ## Git actions — approval-gated
 - Never commit or push without the user's explicit approval.
-  - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), a request to read something.
+  - Not approval: silence, work looking finished, an outcome-naming request, a request to read something.
   - Approval is an explicit go on a presented diff and message.
   - Commit approval bundles exactly that commit and its push — never later commits.
+  - A standing repo pre-approval from the user stands in for that approval — paid by the fresh review.
 - Just before every commit, on every path: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
   - Confirm the commit landed via the log — piped hook output masks the commit's exit status.
   - Any diff those fixes produce joins the delta re-review.
@@ -27,7 +28,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Re-fetch the base and re-check mergeability before pushing when verification used an earlier fetch.
   - Upstream work landing in that gap publishes against the new base; semantic drift re-opens review scope.
 - Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
-- When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no other live writer holds the checkout; otherwise park the branch and say so.
+- When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no live writer holds the checkout; otherwise park it and say so.
   - A parked branch is reported at handover, never assumed clean.
 
 ## Commit messages
@@ -45,13 +46,13 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 ## Fresh review — the commit gate
 
-**Trigger:** a commit approval event — an explicit go on a presented diff and message, or an amend/rebase that rewrites one — and no fresh review has run on this exact artifact: the final diff plus the full drafted commit message.
+**Trigger:** a licensed commit — under an explicit go, a standing repo pre-approval, or an amend/rebase rewriting one — and no fresh review has run on this exact artifact: the final diff plus the full drafted commit message.
 - Nothing earlier: no review because work looks done, none offered unprompted.
-- An independent review from this session of this exact diff and message satisfies the gate.
+- An independent review from this session of this exact artifact satisfies the gate.
   - A review of an earlier draft does not.
 - Once triggered, run it directly; don't just offer.
-- The review precedes the commit — an artifact pushed unreviewed, amends included, is the violation; a post-hoc review documents it, not repairs it.
-- Post-review edits don't re-fire this trigger — they follow the loop below.
+- The review precedes the commit — an unreviewed push, amends included, is the violation; post-hoc review documents, not repairs.
+- Post-review edits don't re-fire this trigger — the loop below governs.
 
 **Single dispatch, real review.** Dispatch exactly ONE read-only agent (no edit tools; use whatever agent-dispatch mechanism your harness provides).
 - A lane granted execution — it must run checks or fixtures — gets an outright destructive-command ban in its brief, and the repo is snapshotted before dispatch.
@@ -70,7 +71,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - A headline that repeats a slogan the incident rejected is blocking.
 - A listed pass whose must-reject cases are rejected and whose must-allow cases hold is clean and stands.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
-- The editing session rubber-stamping its own draft is not a review; self-review never satisfies the gate.
+- The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
 - Right-size the lane to the artifact: behavior-capable diffs (logic, public signatures, new dependencies, >~50 changed lines) get the full standard; all others still get a dispatched pass — the lightweight one.
   - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
@@ -87,7 +88,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
    - Small code deltas proceed under the existing approval; commit-message and PR-description edits are never large.
    - Large = a new file, a public-signature change, or a new dependency (check the diff itself before fixing), or >~50 changed lines of code delta since approval, whatever its origin.
    - Check the size after fixing and again after any commit-time hook/test fix.
-   - A large change voids the commit approval: notify the user; commit nothing under the old approval.
+   - A large change voids the commit approval — a go or the standing pre-approval for this work: notify the user; commit nothing under it.
    - Their direction licenses the work, never the commit — after directed work, rerun the review and stop for a fresh approval.
 
 ## Precedence
