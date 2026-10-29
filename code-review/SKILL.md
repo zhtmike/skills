@@ -41,6 +41,8 @@ Out of scope: the agent's pre-commit self-check.
 - Posting is the user's by default — draft only.
   - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
     - Any post-approval edit re-opens approval.
+  - Post a plain comment — never an approve or a request-changes state.
+  - Posted text starts at the verdict — no title line.
   - Review text is the only remote write — never commit or push code.
 - Compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
