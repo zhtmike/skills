@@ -33,8 +33,9 @@ Creating or repairing Python/GPU environments on the H800 cluster; everything be
 ssh/22 to github.com times out from compute nodes (login node: fine) — `git@github.com` remotes can neither fetch nor push there.
 - Pin SSH to `ssh.github.com:443` in `~/.ssh/config` (approval-gated) — transparent for existing remotes.
 - Or go over https: public repos fetch anonymously.
-  - Private repos and pushes are approval-gated and take gh as the credential helper: `git -c credential.helper='!gh auth git-credential' push https://github.com/<owner>/<repo>.git <branch>`.
-- Pushing to the URL leaves the local remote-tracking ref stale — confirm with `git ls-remote`.
+  - Private-repo fetches are approval-gated and take gh as the credential helper — its read-only token covers reads: `git -c credential.helper='!gh auth git-credential' fetch https://github.com/<owner>/<repo>.git <branch>`.
+  - Pushes are approval-gated and ride the pinned SSH only — the helper's token is read-only, an https push 403s.
+- URL fetches and pushes leave the local remote-tracking ref stale — confirm with `git ls-remote`.
 - Update local branches the same way: `git fetch <url> <branch>` then `git merge --ff-only FETCH_HEAD` (fetching `<url> <branch>:<branch>` is refused on a checked-out branch).
 
 ## The CUDA 13 stack on the 535 driver (cuda-compat)
