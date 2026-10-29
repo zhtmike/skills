@@ -1,18 +1,18 @@
 ---
 name: commit-gate
-description: "MUST load before any git action — commit, amend/rebase, push, PR. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
+description: "MUST load before any git action — commit, amend/rebase, push, PR, merge. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
 ---
 
 # Commit Gate
 
-**Load this before any git action: commit, amend/rebase, push, or PR.**
+**Load this before any git action: commit, amend/rebase, push, PR, or merge.**
 
 ## Scope — git actions only
 
 Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 ## Git actions — approval-gated
-- Never commit, push, or create a PR without the user's explicit approval.
+- Never commit, push, or create or merge a PR without the user's explicit approval.
   - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), or a request to read or check something.
   - Approval is an explicit go on a presented diff and message.
   - Commit approval bundles exactly that commit and its push to the user's own remote — never later commits.
