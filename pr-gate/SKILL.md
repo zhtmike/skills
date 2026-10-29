@@ -1,11 +1,11 @@
 ---
 name: pr-gate
-description: "MUST load before any PR operation — create, merge, close, reopen, delete, label change, title/body update, comment, or reply. Approval-gated PR lifecycle on the user's behalf: fresh-ask rules, what never bundles, and agent-authored PR text conventions. Not for read-only PR views (status, checks, diff) or for git write actions (commit, amend/rebase, push)."
+description: "MUST load before any PR operation — create, merge, close, reopen, delete, label change, title/body update, comment, or reply — or while commits land on a branch with an open PR. Approval-gated PR lifecycle on the user's behalf: fresh-ask rules, what never bundles, and agent-authored PR text conventions — reader-first bullets, the body kept in sync with landed commits. Not for read-only PR views (status, checks, diff) or for the git write actions themselves (commit, amend/rebase, push)."
 ---
 
 # PR Gate
 
-**Load this before any PR operation: create, merge, close, reopen, delete, label change, PR text update, comment, or reply.**
+**Load this before any PR operation: create, merge, close, reopen, delete, label change, PR text update, comment, or reply — and while commits land on a branch with an open PR.**
 
 ## Scope — PR operations
 
@@ -24,6 +24,10 @@ Approvals for the PR lifecycle and PR text; the agent's PR authorship rules.
 
 ## PR text
 - Follow the repo's PR template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures (AI assistance, duplicate-work checks).
+- The PR body is written for the reader: where the template leaves shape open, bullets over paragraphs, one claim each — what changed, why, how it was verified.
+  - It presents the change as it stands — the substance, never a commit-by-commit walk; the history lives in the commits.
+- The PR body tracks its branch's landed commits: when commits change what the body claims — scope, root cause, numbers, results, disclosures — the body is updated to match before the work is called done.
+  - The update is a gated PR-text edit with its own approval — never riding a commit or merge approval.
 - Agent-posted or agent-edited PR text on the remote ends with a visible AI-assistance line naming agent and model, verified from what the session exposes — readers tell agent text from human.
 - PR bodies are self-contained: links supplement the account, never replace it.
 
