@@ -9,7 +9,7 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 
 ## Scope — PRs and review branches only
 
-Two target kinds, both on the user's request:
+Both targets are on the user's request:
 
 - **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout.
   - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against what they summarize.
@@ -21,29 +21,28 @@ Out of scope: the agent's pre-commit self-check.
 
 ## Working-tree isolation
 - Never switch, create, or rebase the current branch — different targets' reviews run in parallel.
-- Repo-wide context (grep, call paths, defect-class sweep) runs in a throwaway detached worktree at the head.
-  - Fetch the head if needed (PRs: `pull/<N>/head`), then `git worktree add --detach <tmpdir> <head>`.
+- Repo-wide context (grep, call paths, defect-class sweep) runs in a throwaway detached worktree at the head — fetched first (`pull/<N>/head` for PRs).
 
 ## Depth — verify everything; span agents when needed
 - Every finding is verified before it's written — read surrounding code, trace the call path, check the test asserts the behavior.
-- Never hand the author a verification the reviewer could run — consumer greps, upstream reads, reachability checks; only a real run (GPU, live engine) goes to the author, naming what it alone can show.
-- Every external reference the diff, comments, or commit messages cite — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
+- Never hand the author a verification the reviewer could run; only a real run (GPU, live engine) goes to the author, naming what it alone can show.
+- Every external reference the change cites — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
 - Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, on a cheap fast model at mid thinking (they judge, not grep) — whatever agent-dispatch mechanism your harness provides.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
 ## Output contract
-- A re-review accounts for every prior-round finding — verified fixed, re-flagged, or retracted with evidence; none silently vanishes.
+- A re-review accounts for every prior-round finding — verified fixed, re-flagged, or retracted with evidence.
   - A reviewer-side withdrawal — scope or taste — drops from the author-facing file; internal accounting only.
   - Verified-fixed findings may share a line — accounting outranks the cap.
-- Write to `review_<pr-number>.md` (PRs) or `review_<branch-slug>.md` (branches) in the project root; re-reviews overwrite it.
-- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; the review file and handover drafts are the leftovers, deleted once consumed — a stale `review_*.md` misleads fresh sessions.
+- Write to `review_<pr-number>.md` / `review_<branch-slug>.md` in the project root; re-reviews overwrite it.
+- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; the review file and handover drafts are deleted once consumed.
 - Posting is the user's by default — draft only.
   - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
     - Any post-approval edit re-opens approval.
   - Review text is the only remote write — never commit or push code.
-- Keep it compact: ≤ 30 lines.
+- Compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
   - No preamble, tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries the finding.
   - Blocking findings all ship, cap or no cap; past ~7, only non-blocking nits drop or one-line.
@@ -60,16 +59,17 @@ Out of scope: the agent's pre-commit self-check.
 1. **Necessity** — for every addition ask: why does this exist? Hooks, protections, abstractions, defensive checks must justify themselves. Default answer: delete it.
    - An unused parameter on a public signature stays — the signature is the contract; a defensive check of an invariant already validated at the declaration is the deletion.
 2. **Scope** — anything unrelated to the target's purpose: drop it.
-   - In a fix round, every hunk maps to a requested finding or follows from one — unrequested refactors or behavior changes get flagged however defensible.
-   - Sibling fixes of the same defect class are in scope on the original change; on a fix round an unasked sweep past many sites is itself a finding.
-3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades, any fallback with no `TODO(owner)` and no real tracking issue: drop them and fix formally.
+   - In a fix round, every hunk maps to a requested finding or follows from one — unrequested changes get flagged however defensible.
+   - Sibling fixes of the same defect class are in scope on the original change; on a fix round, an unasked multi-site sweep is itself a finding.
+3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades, any untracked fallback (no `TODO(owner)`, no issue): drop them and fix formally.
    - Drop deadline is the author's: when the fix lands or the floor moves (pin bump, dropped platform or version), the workaround, its dead callers, and its tests are deleted in that change — not rewritten.
-   - Until that change, the workaround's end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
+   - Until then, the workaround's end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
 4. **Generality & reuse** — does this solve only one case? Prefer extending existing infra over parallel mechanisms.
-   - Duplication against already-landed work: identical or near-identical copies must become one — deliberate test-fixture copies excepted.
+   - Near-identical copies of already-landed work must become one — deliberate test-fixture copies excepted.
    - A new public surface is held to the closest analog — repo or dependency same-kind equivalent — flag departures with no align-or-diverge decision, or width without justification.
-   - Domain-free helpers in domain modules belong in the utils layer — or an upstream dependency may ship them.
-5. **Single-use indirection** — globals/helpers/configs used once: make it inline.
+   - A design or refactor change is judged against the codebase's — and, where one exists, its upstream's — established structure: read them before writing design findings; departures need an align-or-diverge decision.
+   - Domain-free helpers in domain modules belong in the utils layer — or upstream ships them.
+5. **Single-use indirection** — globals/helpers/configs used once: inline them.
 6. **Tests & evidence** — every behavior change needs a test in the same PR; prefer cheap CPU tests; never fake imports or mock what you could construct.
    - A test that guards no distinct failure mode is a finding: re-asserts a covered path, near-identical to a sibling, or asserts internals.
    - A behavior change sweeps the suite for tests asserting the replaced semantics — a live test encoding the old contract is a finding.
@@ -87,19 +87,19 @@ Out of scope: the agent's pre-commit self-check.
    - Flag register mismatches in code or docs — the test: a reader who never saw the design doc. Docstrings are API reference (usage examples fine, narrative not), guides guide, motivation lives in the design doc.
    - Public docs never route into machine-instruction layers — the machine layer points at the human docs, not the reverse.
    - New or changed public/open APIs (exported names, entry points, HTTP/RPC/CLI handlers, config-constructed plugin classes): document every parameter and return, and real error conditions — flag undocumented surface.
-   - New or changed modules declare that surface up front (`__all__` or equivalent), helpers below it — flag the undeclared or inverted layout, and constants parked mid-file.
+   - New or changed modules declare that surface up front (`__all__` or equivalent), helpers below — flag the undeclared or inverted layout, and constants parked mid-file.
 8. **Docs sync** — README/docs updated in the same PR, dates aligned.
    - A prose change is a delta from the old text: flag a removed mechanism's mentions rewritten as "there is no X" — unmentioned means unactioned, delete outright.
    - Flag new-machinery exposition displacing calibrated old sentences — statements stay, exposition lives in the owning reference docs.
-9. **Same defect, elsewhere** — when a finding lands, check whether the same pattern exists elsewhere in the diff or repo.
+9. **Same defect, elsewhere** — when a finding lands, check for the same pattern elsewhere in the diff or repo.
    - Flag the class, not the instance.
 
 **Skip / low priority:** formatting, typing style, docstring formatting (not content), naming bikeshedding, commit hygiene, micro-performance.
 
 ## Precedence
 
-Project-specific skills and repo conventions (`AGENTS.md`, review skills, templates) win where they define a rubric; this skill covers the rest.
-- Discover them before the verdict — a repo-defined vocabulary beats the plain-language default.
+Project-specific skills and repo conventions (`AGENTS.md`, review skills, templates) win where they define a rubric — discovered before the verdict; this skill covers the rest.
+- A repo-defined vocabulary beats the plain-language default.
 - One exception: the citation ban and comment length cap hold even in comment-heavy repos.
 
 ## Wind-down handoff
