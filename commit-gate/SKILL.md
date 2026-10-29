@@ -32,7 +32,7 @@ Approvals, remotes, branches, commit messages, PR text, and the pre-commit fresh
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
   - Writing or later editing that file is not a gated action.
 - Follow the repo's PR template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures (AI assistance, duplicate-work checks).
-- Agent-posted or agent-edited PR text on the remote ends with a visible AI-assistance line naming agent, model, and provider, verified as the trailers are — readers tell agent text from human.
+- Agent-posted or agent-edited PR text on the remote ends with a visible AI-assistance line naming agent and model, verified as the trailers are — readers tell agent text from human.
 - When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no other live writer holds the checkout; otherwise park the branch and say so.
   - A fresh session must not silently inherit a stale checkout: a parked branch is reported at handover, never assumed clean.
 
@@ -43,7 +43,7 @@ Approvals, remotes, branches, commit messages, PR text, and the pre-commit fresh
 - Commit and PR bodies are self-contained: links supplement the account, never replace it.
 - No quoted user instructions, session-habit narratives, or machine-local paths beyond what the repo already states.
 - Review fixes: title `address review` + bullet list of changed areas.
-- Trailers: `AI-assistance: <agent> (<model> via <provider>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by: <user's name and email from git config>`.
+- Trailers: `AI-assistance: <agent> (<model>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by: <user's name and email from git config>`.
   - The default set: a trailer the edited file's own rules require rides along too, never dropped for being off-list.
   - Sign-off only where the repo expects it — DCO check or docs.
   - Verify agent identity, model, and provider from what the session exposes before writing — never assume the vendor; a false attribution is worse than none.

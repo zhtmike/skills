@@ -49,7 +49,7 @@ check_msg() { # $1 = label (commit sha or "draft"), $2 = message text, $3 = dele
     fail_ "trailers $label: no Co-authored-by trailer — attribution is never optional"
   fi
   if ! printf '%s\n' "$msg" | grep -q '^AI-assistance: .'; then
-    warn_ "trailers $label: no AI-assistance trailer — name agent, model, and provider, or drop the segment as unverifiable"
+    warn_ "trailers $label: no AI-assistance trailer — name agent and model, or drop the segment as unverifiable"
   fi
   if [ "$dels" -gt 0 ] && ! printf '%s\n' "$msg" | grep -q '^Growth-Payment: .'; then
     fail_ "growth $label: $dels body line(s) deleted, no Growth-Payment trailer — name what left and why (merged, evicted, moved, retired, reworded)"
