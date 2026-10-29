@@ -1,30 +1,30 @@
 ---
 name: commit-gate
-description: "MUST load before any git action — commit, amend/rebase, push, PR, merge. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
+description: "MUST load before any git or PR action — commit, amend/rebase, push, PR create or merge, PR text update, comment, or reply. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
 ---
 
 # Commit Gate
 
-**Load this before any git action: commit, amend/rebase, push, PR, or merge.**
+**Load this before any git or PR action: commit, amend/rebase, push, PR create or merge, PR text update, comment, or reply.**
 
-## Scope — git actions only
+## Scope — git and PR actions
 
-Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
+Approvals, remotes, branches, commit messages, PR text, and the pre-commit fresh review.
 
 ## Git actions — approval-gated
-- Never commit, push, or create or merge a PR without the user's explicit approval.
-  - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), or a request to read or check something.
+- Never commit, push, create or merge a PR, or post PR text — comment, reply, body or title update — without the user's explicit approval.
+  - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), or a request to read something.
   - Approval is an explicit go on a presented diff and message.
-  - Commit approval bundles exactly that commit and its push to the user's own remote — never later commits.
+  - Commit approval bundles exactly that commit and its push — never later commits.
 - Just before every commit, on every path (review-triggered or not): run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
   - Confirm the commit landed via the log — a piped hook's output masks the commit's own exit status.
   - Any diff those fixes produce joins the delta re-review.
 - A hook failing only on files outside the change and outside git history (untracked scratch, another task's workspace) is an environment failure, not a change failure.
   - Run the hook's check over the tracked tree; if that is clean, bypass that hook alone.
   - Disclose both the bypass and the proof in the commit body.
-- Pushes go to the user's own remote — a fork's push target, or the standalone repo's origin; identify it before the first push, asking only when ownership is ambiguous.
+- Pushes go to the user's own remote — a fork's push target or the standalone repo's origin; identify it before the first push, asking only when ambiguous.
   - Never push upstream, even if it is `origin`.
-- Re-fetch the base and re-check mergeability before pushing when verification ran against an earlier fetch of the base.
+- Re-fetch the base and re-check mergeability before pushing when verification used an earlier fetch.
   - Upstream work landed in that gap publishes against the new base regardless.
   - Semantic drift re-opens review scope.
 - Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
@@ -32,7 +32,8 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
   - Writing or later editing that file is not a gated action.
 - Follow the repo's PR template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures (AI assistance, duplicate-work checks).
-- When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no other live writer holds the checkout; otherwise leave the branch parked and say so.
+- Agent-posted or agent-edited PR text on the remote ends with a visible AI-assistance line naming agent, model, and provider, verified as the trailers are — readers tell agent text from human.
+- When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no other live writer holds the checkout; otherwise park the branch and say so.
   - A fresh session must not silently inherit a stale checkout: a parked branch is reported at handover, never assumed clean.
 
 ## Commit messages
@@ -52,7 +53,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 **Trigger:** a commit approval event — an explicit go on a presented diff and message, or an amend/rebase that rewrites one — and no fresh review has run on this exact artifact: the final diff plus the full drafted commit message.
 - Nothing earlier: no review because work looks done, none offered unprompted.
-- An independent review from this session of this exact final diff and full message satisfies the gate.
+- An independent review from this session of this exact diff and message satisfies the gate.
   - A review of an earlier draft does not.
 - Once triggered, run it directly; don't just offer.
 - The review precedes the commit — an artifact pushed unreviewed, amends included, is the violation; a post-hoc review documents it, not repairs it.
