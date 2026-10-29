@@ -57,6 +57,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 
 - Anchor the accepted text — behavior pins, non-goals, the smallest first slice, its done-when — where the project anchors designs (its issue, RFC, or doc convention); this skill stops at the anchor.
 - Acceptance is the user's yes on that text after a challenge round with no unresolved findings — a clean review is not agreement.
+- The acceptance ask carries its round's verdict — rounds run, unresolved findings zero; a design without its round is not presented.
 - After the anchor, the behavior pins and the named first slice are enough to start that slice's code.
 - Names stay provisional through the proving run; the finishing pass freezes them — a scratch script of a narrower question never does.
 

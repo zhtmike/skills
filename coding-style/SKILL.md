@@ -20,7 +20,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 ## Keep the diff minimal
 - Touch only what the task needs — small diffs make personal review fast.
   - No drive-by reformat or rename of untouched lines.
-- A refactor or any big change: ask first, get the go-ahead before starting.
+- A refactor or any big change starts from an agreed design — none agreed means stop and agree one before starting.
 - A prose change is a delta from the old text: existing sentences anchor rewrites, and a removed mechanism's mentions are deleted outright — never rewritten as "there is no X": unmentioned means unactioned.
   - New behavior gets statements, not exposition — the full mechanics live in the owning reference docs — and the commit message carries the same old-first balance.
 - The same check failing twice stops the edit: report both results and the wrong hypothesis.
