@@ -78,9 +78,11 @@ Out of scope: the agent's pre-commit self-check.
    - A test suggestion names the uncovered failure mode; "consider a test" is noise.
    - Fail-silent defects: the test asserts the observable signature of correct behavior, not just exit codes.
    - CI-covered tests are read, not run; the review file names failing conditions, never CI run mechanics.
-   - A new test the CI job would not collect — naming, path filters — is a finding.
-   - GPU claims (curves, counts) are plausibility-checked, never asserted as run; sanity-check content, not presence.
-   - A red check is root-caused, not relayed — trace the failing frame via the run's artifacts; a validation claim CI contradicts is a finding.
+   - Untriggered CI is process, not a finding.
+   - A new test the CI job would not collect (naming, path filters) is a finding.
+   - GPU claims (curves, counts) are plausibility-checked, never asserted as run.
+   - A red check is root-caused via the run's artifacts, not relayed.
+   - A validation claim CI contradicts is a finding.
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it; flag names that hide intent.
    - Self-documenting code is the bar — flag WHAT-comments, section banners, version-dated comments outliving their version, and comments the diff orphaned.
    - Only WHY-comments earn their line, capped at two; WHY means an invariant, never provenance.
