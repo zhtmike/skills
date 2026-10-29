@@ -17,9 +17,15 @@ Approvals for the PR lifecycle and PR text; the agent's PR authorship rules.
   - A label or lifecycle action needs a fresh ask — a standing instruction from an earlier session (a handover note) is not approval.
   - Close, delete, and branch deletion never ride a bundle: each takes its own explicit go.
   - Exception: a clearly bot-authored message (bot account or auto-generated banner) may be replied to unapproved — keep the AI-assistance line and the change's verified facts.
+    - Another human's voice in the thread ends the exemption: the ask is whether to reply as AI at all, before any wording go.
+- The gated list names the common cases, not the boundary: any write to the PR — its state, metadata, threads, review verdicts, reactions — needs the same approval.
+- A gated step ends in an ask: the ready action or the drafted text is presented for the user's go.
+- The go covers the exact wording presented — a later edit re-opens the ask.
+- A posted review is a plain comment — never an approve or request-changes state; text approval is not state approval.
+- Before merging, re-fetch the base and re-check mergeability — an earlier fetch is stale ground.
 - PR operations stay on the one PR the change belongs to.
-- PRs are the user's by default: the agent opens one only on an explicit ask.
-  - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
+- PRs are the user's by default: the agent opens one only on an explicit go.
+  - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`), then ask to open — the user's yes opens it.
   - Writing or later editing that file is not a gated action.
 
 ## PR text
@@ -27,8 +33,15 @@ Approvals for the PR lifecycle and PR text; the agent's PR authorship rules.
 - The PR body is written for the reader: where the template leaves shape open, bullets over paragraphs, one claim each — what changed, why, how it was verified.
   - It presents the change as it stands — the substance, never a commit-by-commit walk; the history lives in the commits.
 - The PR body tracks its branch's landed commits: when commits change what the body claims — scope, root cause, numbers, results, disclosures — the body is updated to match before the work is called done.
+  - The sync is a delta edit — stale claims change, still-true statements stand as written.
   - The update is a gated PR-text edit with its own approval — never riding a commit or merge approval.
-- Agent-posted or agent-edited PR text on the remote ends with a visible AI-assistance line naming agent and model, verified from what the session exposes — readers tell agent text from human.
+- Agent-posted or agent-edited PR text on the remote ends with a visible AI-assistance disclosure naming agent and model, verified from what the session exposes — readers tell agent text from human.
+  - An unverifiable segment is dropped, never guessed — a false attribution is worse than none.
+  - A comment or reply ends with a small-print line: `AI-assisted reply — <agent> (<model>)`.
+  - The body closes with an assistance section: what the agent did, what the human reviewed and stands behind.
+- A reply opens with its verdict: addressed, naming the commit that did it; or skipped, naming the reason.
+- Behind the verdict, only verified facts — tests, runs, observed numbers.
+- Agent-authored PR text carries no quoted instructions, session narratives, or machine-local paths beyond what the repo already states.
 - PR bodies are self-contained: links supplement the account, never replace it.
 
 ## Precedence
