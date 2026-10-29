@@ -44,6 +44,13 @@ Approvals for the PR lifecycle and PR text; the agent's PR authorship rules.
 - Agent-authored PR text carries no quoted instructions, session narratives, or machine-local paths beyond what the repo already states.
 - PR bodies are self-contained: links supplement the account, never replace it.
 
+## Precision pass — posted text
+
+- Posted text carrying claims its reviewed commits don't already certify — new numbers, results, root-cause narrative — gets a precision pass before the ask.
+  - One dispatched fast read-only lane at mid thinking checks each claim against what the session observed: no word overstates, every name and number matches.
+  - The bot-reply exemption skips the ask, not the pass — it stands in for the missing go; one-line acks and pure links post without it.
+  - No dispatch mechanism: re-check each claim at its source and disclose the self-check.
+
 ## Precedence
 
 Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) always win. This skill covers only what they don't.
