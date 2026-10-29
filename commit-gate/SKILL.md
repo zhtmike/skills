@@ -46,7 +46,7 @@ Approvals, remotes, branches, commit messages, PR text, and the pre-commit fresh
 - Trailers: `AI-assistance: <agent> (<model>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by: <user's name and email from git config>`.
   - The default set: a trailer the edited file's own rules require rides along too, never dropped for being off-list.
   - Sign-off only where the repo expects it — DCO check or docs.
-  - Verify agent identity, model, and provider from what the session exposes before writing — never assume the vendor; a false attribution is worse than none.
+  - Verify agent identity and model from what the session exposes before writing — a false attribution is worse than none.
   - If a segment is unverifiable, drop it (a bare `Co-authored-by: <agent>` is valid).
 
 ## Fresh review — the commit gate
