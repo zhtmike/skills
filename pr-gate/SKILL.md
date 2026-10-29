@@ -17,7 +17,7 @@ Approvals for the PR lifecycle and PR text; the agent's PR authorship rules.
   - A label or lifecycle action needs a fresh ask — a standing instruction from an earlier session (a handover note) is not approval.
   - Close, delete, and branch deletion never ride a bundle: each takes its own explicit go.
   - Exception: a clearly bot-authored message (bot account or auto-generated banner) may be replied to unapproved — keep the AI-assistance line and the change's verified facts.
-    - Another human's voice in the thread ends the exemption: the ask is whether to reply as AI at all, before any wording go.
+  - A human other than the user in the thread ends the bot-reply exemption: the ask is whether to reply as AI at all, before any wording go.
 - The gated list names the common cases, not the boundary: any write to the PR — its state, metadata, threads, review verdicts, reactions — needs the same approval.
 - A gated step ends in an ask: the ready action or the drafted text is presented for the user's go.
 - The go covers the exact wording presented — a later edit re-opens the ask.

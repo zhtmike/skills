@@ -40,7 +40,7 @@ Out of scope: the agent's pre-commit self-check.
 - When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; the review file and handover drafts are deleted once consumed.
 - Posting is the user's by default — draft only.
   - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
-    - Any post-approval edit re-opens approval.
+  - Any post-approval edit re-opens approval.
   - Posted text starts at the verdict — no title line.
   - Review text is the only remote write — never commit or push code.
 - Compact: ≤ 30 lines.
