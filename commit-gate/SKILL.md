@@ -1,40 +1,43 @@
 ---
 name: commit-gate
-description: "MUST load before any git or PR action — commit, amend/rebase, push, PR create or merge, PR text update, comment, or reply. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
+description: "MUST load before any git or PR action — commit, amend/rebase, push, any PR operation (create, merge, label, lifecycle, text update, comment, or reply). Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show)."
 ---
 
 # Commit Gate
 
-**Load this before any git or PR action: commit, amend/rebase, push, PR create or merge, PR text update, comment, or reply.**
+**Load this before any git or PR action: commit, amend/rebase, push, any PR operation (create, merge, label, lifecycle, text update, comment, or reply).**
 
 ## Scope — git and PR actions
 
 Approvals, remotes, branches, commit messages, PR text, and the pre-commit fresh review.
 
 ## Git actions — approval-gated
-- Never commit, push, create or merge a PR, or post PR text — comment, reply, body or title update — without the user's explicit approval.
-  - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), or a request to read something.
+- Never commit, push, create, close, reopen, delete, or merge a PR, edit PR text — comment, reply, body, or title update — or change labels without the user's explicit approval.
+  - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), a request to read something.
+  - A label or lifecycle action needs a fresh ask — a standing instruction from an earlier session (a handover note) is not approval.
+  - Close, delete, and branch deletion never ride a bundle: each takes its own explicit go.
+  - Exception: a clearly bot-authored message (bot account or auto-generated banner) may be replied to unapproved — keep the AI-assistance line and the reviewed change's facts.
   - Approval is an explicit go on a presented diff and message.
   - Commit approval bundles exactly that commit and its push — never later commits.
-- Just before every commit, on every path (review-triggered or not): run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
-  - Confirm the commit landed via the log — a piped hook's output masks the commit's own exit status.
+- Just before every commit, on every path: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
+  - Confirm the commit landed via the log — piped hook output masks the commit's exit status.
   - Any diff those fixes produce joins the delta re-review.
-- A hook failing only on files outside the change and outside git history (untracked scratch, another task's workspace) is an environment failure, not a change failure.
-  - Run the hook's check over the tracked tree; if that is clean, bypass that hook alone.
-  - Disclose both the bypass and the proof in the commit body.
+- A hook failing only on files outside the change and git history (untracked scratch, another task's workspace) is an environment failure, not a change failure.
+  - Run the hook's check over the tracked tree; if clean, bypass that hook alone.
+  - Disclose the bypass and its proof in the commit body.
 - Pushes go to the user's own remote — a fork's push target or the standalone repo's origin; identify it before the first push, asking only when ambiguous.
   - Never push upstream, even if it is `origin`.
 - Re-fetch the base and re-check mergeability before pushing when verification used an earlier fetch.
-  - Upstream work landed in that gap publishes against the new base regardless.
-  - Semantic drift re-opens review scope.
+  - Upstream work landing in that gap publishes against the new base; semantic drift re-opens review scope.
 - Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
+- PR operations stay on the one PR the change belongs to.
 - PRs are the user's by default: the agent opens one only on an explicit ask.
   - When the change is pushed, write `pr_<branch-slug>.md` in the project root (`feat/job-retry-lifecycle` → `pr_job-retry-lifecycle.md`) and stop.
   - Writing or later editing that file is not a gated action.
 - Follow the repo's PR template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures (AI assistance, duplicate-work checks).
 - Agent-posted or agent-edited PR text on the remote ends with a visible AI-assistance line naming agent and model, verified as the trailers are — readers tell agent text from human.
 - When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no other live writer holds the checkout; otherwise park the branch and say so.
-  - A fresh session must not silently inherit a stale checkout: a parked branch is reported at handover, never assumed clean.
+  - A parked branch is reported at handover, never assumed clean.
 
 ## Commit messages
 - Follow the repo's own commit convention when it defines one.
@@ -77,10 +80,9 @@ Approvals, remotes, branches, commit messages, PR text, and the pre-commit fresh
 - A listed pass whose must-reject cases are rejected and whose must-allow cases hold is clean and stands.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review; self-review never satisfies the gate.
-  - If the harness cannot dispatch an agent, stop and ask the user to review the diff — any qualified fresh pass, dispatched or the user's own, satisfies the gate.
-- Right-size the lane to the artifact: an edit that cannot change behavior (message wording, typo or grammar fixes, a few prose lines with no structural change) still gets an independent dispatched pass — the lightweight one.
+  - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
+- Right-size the lane to the artifact: behavior-capable diffs (logic, public signatures, new dependencies, >~50 changed lines) get the full standard; all others still get a dispatched pass — the lightweight one.
   - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
-  - The full standard runs wherever the diff can change behavior, change a public signature, add a dependency, or exceed ~50 changed lines.
   - Any blocking finding, or any doubt the lightweight lane can check what this artifact needs, escalates back to the full standard.
 
 **After the review returns:**
