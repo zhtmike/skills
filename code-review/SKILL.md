@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, necessity-first review — every claim verified, every cited link resolved, every hunk held to scope — spanning dispatched agents when the target is large. Lower priority than project-specific skills."
+description: "MUST load before reviewing a PR or a review branch on the user's behalf. Deep, necessity-first review — claims verified, links resolved, hunks held to scope — spanning dispatched agents for large targets. Lower priority than project-specific skills."
 ---
 
 # Personal Code Review
@@ -9,24 +9,24 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 
 ## Scope — PRs and review branches only
 
-Both targets are on the user's request:
+Both arrive on the user's request:
 
-- **PRs** — fetched from GitHub (`gh pr diff`, files, comments, CI artifacts), no checkout.
-  - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against what they summarize.
+- **PRs** — fetched from GitHub (`gh pr diff`, conversation, CI artifacts), no checkout.
+  - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against the source.
 - **Review branches** — changes pending review, read from `git diff <base>...<head>`.
 
-A **deep and comprehensive** review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
+A deep, comprehensive review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
 
 Out of scope: the agent's pre-commit self-check.
 
 ## Working-tree isolation
 - Never switch, create, or rebase the current branch — different targets' reviews run in parallel.
-- Repo-wide context (grep, call paths, defect-class sweep) runs in a throwaway detached worktree at the head — fetched first (`pull/<N>/head` for PRs).
+- Repo-wide context runs in a throwaway detached worktree at the head, fetched first (`pull/<N>/head`).
 
 ## Depth — verify everything; span agents when needed
 - Every finding is verified before it's written — read surrounding code, trace the call path, check the test asserts the behavior.
-- Never hand the author a verification the reviewer could run; only a real run (GPU, live engine) goes to the author, naming what it alone can show.
-- Every external reference the change cites — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
+- Never hand the author a verification the reviewer could run; a real run (GPU, live engine) goes to the author, naming what it alone can show.
+- Every cited external reference — issue, PR, upstream commit, release asset — is resolved and checked to cover the claim (scope, state, in-tag).
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
 - Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at judgment tier.
   - Each brief: its slice plus pointers — rule files, this body for its axes — never questions, quotes, or summaries.
@@ -35,15 +35,16 @@ Out of scope: the agent's pre-commit self-check.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
 ## Output contract
-- A re-review accounts for every prior-round finding — verified fixed, re-flagged, or retracted with evidence.
-  - A reviewer-side withdrawal — scope or taste — drops from the author-facing file; internal accounting only.
+- A re-review accounts for every prior-round finding — fixed, re-flagged, or retracted with evidence — in author-resolvable terms: an unposted round's findings enter fresh and standalone.
+  - A reviewer-side withdrawal — scope or taste — never reaches the file.
   - Verified-fixed findings may share a line — accounting outranks the cap.
 - Write to `review_<pr-number>.md` / `review_<branch-slug>.md` in the project root; re-reviews overwrite it.
-- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; the review file and handover drafts are deleted once consumed.
+- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; review file and handover drafts are deleted once consumed.
 - Posting is the user's by default — draft only.
   - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
+  - Re-fetch head and conversation at the ask and again at the go — a moved head or feedback newer than the verified text re-opens the review, not the post.
   - Any post-approval edit re-opens approval.
-  - Posted text starts at the verdict — no title line.
+  - Posted text starts at the verdict — no title.
   - Review text is the only remote write — never commit or push code.
 - Compact: ≤ 30 lines.
   - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
@@ -51,10 +52,10 @@ Out of scope: the agent's pre-commit self-check.
   - Blocking findings all ship, cap or no cap; past ~7, only non-blocking nits drop or one-line.
 - Severity by verb choice, not labels.
   - Blocking: "drop the fallback", "fix it"; grounded cleanups get the same imperative however small.
-  - "consider…" is for genuine taste calls where either shape is defensible.
+  - "consider…" marks genuine taste calls where either shape is defensible.
   - When you know the fix, name the exact functions/APIs; cross-link, assign an owner, re-flag ignored feedback.
-- End with: `AI assistance (<agent>, <model>) was used for this review.` — verified from what the session exposes, never assumed; omit what's unverified.
-- Before handover, one dispatched fast read-only lane at mid thinking checks the file against the tree: every `file:line` matches its claim, no word overstates the code, severity verbs hold, links resolve.
+- End with: `AI assistance (<agent>, <model>) was used for this review.` — verified from what the session exposes; omit what's unverified.
+- Before handover, one dispatched fast read-only lane at mid thinking checks the file against the tree: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve.
   - Words only — no new findings, no re-scoring; mismatches return for fix or retract.
   - No dispatch mechanism: re-read each finding at its cite; the handover discloses the self-check.
 
@@ -87,16 +88,16 @@ Out of scope: the agent's pre-commit self-check.
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it; flag names that hide intent.
    - Self-documenting code is the bar — flag WHAT-comments, section banners, version-dated comments outliving their version, and comments the diff orphaned.
    - Only WHY-comments earn their line, capped at two; WHY means an invariant, never provenance.
-   - Status declarations of the artifact (frozen, superseded, slated for migration) are provenance's one exception — flag missing, duplicated, or scheduled prose.
-   - Flag comments citing PR/issue/commit numbers (a tracked `TODO(owner)` excepted) and edit-narration (`# now retries`, `# changed from X`).
+   - Status declarations of the artifact (frozen, superseded, slated) are provenance's one exception — flag missing, duplicated, or scheduled prose.
+   - Flag comments citing PR/issue/commit numbers (a tracked `TODO(owner)` excepted) and edit-narration (`# changed from X`).
    - Flag register mismatches in code or docs — the test: a reader who never saw the design doc. Docstrings are API reference (usage examples fine, narrative not), guides guide, motivation lives in the design doc.
    - Public docs never route into machine-instruction layers — the machine layer points at the human docs, not the reverse.
-   - New or changed public/open APIs (exported names, entry points, HTTP/RPC/CLI handlers, config-constructed plugin classes): document every parameter and return, and real error conditions — flag undocumented surface.
+   - New or changed public/open APIs (exported names, entry points, HTTP/RPC/CLI handlers, config-constructed plugins): document every parameter and return, and real error conditions — flag undocumented surface.
    - New or changed modules declare that surface up front (`__all__` or equivalent), helpers below — flag the undeclared or inverted layout, and constants parked mid-file.
 8. **Docs sync** — README/docs updated in the same PR, dates aligned.
    - A prose change is a delta from the old text: flag a removed mechanism's mentions rewritten as "there is no X" — unmentioned means unactioned, delete outright.
    - Flag new-machinery exposition displacing calibrated old sentences — statements stay, exposition lives in the owning reference docs.
-9. **Same defect, elsewhere** — when a finding lands, check for the same pattern elsewhere in the diff or repo.
+9. **Same defect, elsewhere** — when a finding lands, sweep the diff and repo for the same pattern.
    - Flag the class, not the instance.
 
 **Skip / low priority:** formatting, typing style, docstring formatting (not content), naming bikeshedding, commit hygiene, micro-performance.
@@ -105,7 +106,7 @@ Out of scope: the agent's pre-commit self-check.
 
 Project-specific skills and repo conventions (`AGENTS.md`, review skills, templates) win where they define a rubric — discovered before the verdict; this skill covers the rest.
 - A repo-defined vocabulary beats the plain-language default.
-- One exception: the citation ban and comment length cap hold even in comment-heavy repos.
+- One exception: the citation ban and comment cap hold even in comment-heavy repos.
 
 ## Wind-down handoff
 
