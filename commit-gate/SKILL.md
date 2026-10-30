@@ -75,14 +75,14 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
-- Right-size the lane to the artifact: behavior-capable diffs (logic, public signatures, new dependencies, >~50 changed lines) get the full standard — the harness's judgment tier; all others still get a dispatched pass — the lightweight one.
+- Right-size the lane to the artifact, time and cost priced into its size: behavior-capable diffs (logic, public signatures, new dependencies, >~50 changed lines) get the full standard — the harness's judgment tier; all others a dispatched lightweight pass.
   - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
-  - Any blocking finding, or any doubt the lightweight lane can check what this artifact needs, escalates back to the full standard.
+  - A blocking finding, or a check the lightweight pass reports it could not run, escalates to the full standard.
 
 **After the review returns:**
 1. Fix each finding, blocking or nit, or report what's disputed and why — never silently skip.
    - Every changed diff gets step 2; only blocking findings arm the round cap (3) and the findings-based pre-check in (4).
-2. **Delta re-review** everything the fixes changed — including hook or test fixes — the same single-dispatch way, full standard on the delta.
+2. **Delta re-review** everything the fixes changed — including hook or test fixes — the same single-dispatch way, right-sized to the delta itself.
    - Message-only edits get a message-only pass: do the claims still match the certified diff?
    - A **full** re-review re-fires only on structural change: new files, public signatures, materially changed message claims (root cause, scope, numbers).
 3. **Two-round cap.** A second delta re-review still returning blocking findings is a disagreement — stop and ask the user to arbitrate.
