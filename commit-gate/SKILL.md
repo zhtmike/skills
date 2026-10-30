@@ -1,6 +1,6 @@
 ---
 name: commit-gate
-description: "MUST load before any git write action — commit, amend/rebase, push. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show) or for PR operations."
+description: "MUST load before any git write action — commit, amend/rebase, push. Approval-gated actions on the user's remote, commit-message conventions, and the fresh-review gate that must pass before every commit. Not for read-only git (status, log, diff, show) or for PR or issue operations."
 ---
 
 # Commit Gate
