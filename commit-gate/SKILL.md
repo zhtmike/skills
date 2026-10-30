@@ -56,8 +56,9 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 **Single dispatch, real review.** Dispatch exactly ONE read-only agent (no edit tools; use whatever agent-dispatch mechanism your harness provides).
 - A lane granted execution — it must run checks or fixtures — gets an outright destructive-command ban in its brief, and the repo is snapshotted before dispatch.
-- Hand it the convention rules in force (project `AGENTS.md` and contributing guides supersede), the final diff, the full drafted commit message, and the writer rules this diff can trip, quoted from the body that governed the edit.
-  - Comments if comments changed, tests if behavior changed, fallbacks if control flow changed — never every personal rule, never none.
+- The brief carries the artifact — final diff plus full drafted commit message — and pointers, never questions, quoted rule subsets, or summaries:
+  - Rule files by path: the writer body that governed the edit, the project's `AGENTS.md`, its contributing guides; the lane reads what is named and judges applicability itself.
+  - Task evidence by path, what exists: the change's design text, its investigation report, prior review rounds' findings — absent entries are skipped, never reconstructed.
 - Its job is a genuine review, not a style pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
   - Plus the conventions in force and this file's message rules (root-cause narrative, numbers, self-contained bodies, verified trailers).
   - What only editing time could show is out of scope — no speculating.
@@ -65,15 +66,16 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - The review covers the delta: verdict cases come from changed rules only — a previously certified guarantee is re-checked when the delta touches its line, never in a regression round.
   - The cases come from the incident, not from the rule's own sentence.
   - Claim-encoding artifacts are skill bodies, guides, and retrospective docs.
-- The pass lists each case and its verdict.
-  - Not listing them — or findings all checklist-visible (format, counts, message shape) — is disengagement: re-dispatch with the cases demanded first.
+- The pass lists each case and its verdict, and enumerates its recall sweep — edge cases examined, conformance to the change's design text where one exists, claim provenance.
+  - Not listing them, no sweep, or findings all checklist-visible (format, counts, message shape) — is disengagement: re-dispatch, both demanded first.
+  - An enumerated sweep with zero findings stands.
 - A rule that fails its must-allow case is blocking.
 - A headline that repeats a slogan the incident rejected is blocking.
 - A listed pass whose must-reject cases are rejected and whose must-allow cases hold is clean and stands.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
-- Right-size the lane to the artifact: behavior-capable diffs (logic, public signatures, new dependencies, >~50 changed lines) get the full standard; all others still get a dispatched pass — the lightweight one.
+- Right-size the lane to the artifact: behavior-capable diffs (logic, public signatures, new dependencies, >~50 changed lines) get the full standard — the harness's judgment tier; all others still get a dispatched pass — the lightweight one.
   - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
   - Any blocking finding, or any doubt the lightweight lane can check what this artifact needs, escalates back to the full standard.
 
