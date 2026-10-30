@@ -43,7 +43,7 @@ Approvals for the PR lifecycle and PR text; the agent's PR authorship rules.
   - The body closes with an assistance section: what the agent did, what the human reviewed and stands behind.
 - A reply opens with its verdict: addressed, naming the commit that did it; or skipped, naming the reason.
 - Behind the verdict, only verified facts — tests, runs, observed numbers.
-- Agent-authored PR text carries no quoted instructions, session narratives, or machine-local paths beyond what the repo already states.
+- Agent-authored PR text carries no quoted instructions, session narratives, process counts — review rounds, gates run — or machine-local paths beyond what the repo already states.
 - PR bodies are self-contained: links supplement the account, never replace it.
 
 ## Precision pass — posted text

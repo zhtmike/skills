@@ -41,7 +41,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
   - A name the design introduces is marked as a proposal.
 - Every constraint is checkable — a rule you cannot test, or a validator you cannot write, is not a constraint.
 - Every non-obvious inherited mechanism carries its why, where it is cited — unexplained plumbing trips every reviewer the way it tripped the author.
-- The document is standing and self-contained: no revision narration; history lives in the discussion thread and commits.
+- The document is standing and self-contained: no revision narration, no process counts — review rounds, gates run; history lives in the discussion thread and commits.
 
 ## Review for weight, not only correctness
 
@@ -61,7 +61,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 
 - Anchor the accepted text — behavior pins, non-goals, the smallest first slice, its done-when — where the project anchors designs (its issue, RFC, or doc convention); this skill stops at the anchor.
 - Acceptance is the user's yes on that text after a challenge round with no unresolved findings — a clean review is not agreement.
-- The acceptance ask carries its round's verdict — rounds run, unresolved findings zero; a design without its round is not presented.
+- The acceptance ask carries its round's verdict — the challenge ran and closed with no unresolved findings; a design without its round is not presented.
 - After the anchor, the behavior pins and the named first slice are enough to start that slice's code.
 - Names stay provisional through the proving run; the finishing pass freezes them — a scratch script of a narrower question never does.
 
