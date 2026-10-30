@@ -52,12 +52,17 @@
 
 The rubric lives twice: `coding-style` states it for the writer, `code-review` checks it for the reviewer — self-containment forbids either body naming the other, so the pairing is maintained here. Paired = what a reviewer would flag as a finding in a foreign PR (necessity, fallback bans, analog shape, comment and public-surface behavior, tests-as-evidence, workaround/deadline hygiene); the writer-only remainder — spelling-level taste and local mechanics — is enforced where the writer is: the commit gate's fresh review receives the writer body itself. An edit that adds or changes a paired rule lands in both bodies — one change when hand-made, two when one side rides the incident loop (its one-file rule holds). A one-sided change whose diff adds rule lines (bullet or numbered item) to one body carries a `Paired:` trailer stating why the sibling didn't move — writer-only remainder, twin follows; `scripts/commit-msg.sh` floors the trailer's presence, and its truth stays with the fresh review.
 
-## Remote-surface symmetry — commit-gate, code-review, pr-gate
+## Remote-surface symmetry — commit-gate, code-review, pr-gate, propose
 
-Agent work reaches a remote through three bodies; they share one shape, and an edit to one side keeps it (the fresh review judges the symmetry; no tool floors it):
+Agent work reaches a remote through three bodies, and its dispatched reviews run through four bodies' lanes; they share one shape, and an edit to one side keeps it (the fresh review judges the symmetry; no tool floors it):
 - Every remote artifact is verified before it ships — commits by the fresh review (diff + message), review files by the handover precision check, posted PR text by the precision pass: claims checked against the source, never style, each with a no-dispatch fallback.
 - Every remote action ends in the user's explicit go, and the ask is the agent's — the artifact is presented, the go covers its exact wording; an exemption trades the ask for the verification, never skips both.
 - Every agent-authored remote surface carries a verified AI-assistance disclosure — commit trailers, the review handover line, PR text's reply line and body section — dropping what the session cannot verify.
+- Every dispatched review lane is briefed by contract, not by summary:
+  - Recall axes live in the owning body; the lane reaches them by reading it.
+  - The brief carries the artifact plus pointers — rule files, task evidence — never questions, quoted rule subsets, or summaries.
+  - Every recall-gate pass enumerates its sweep; an enumerated zero-finding sweep stands, a pass with none re-dispatches.
+  - The words-only verifiers (PR-text precision pass, review-file handover check) are exempt — parent-briefed claim lists by design.
 
 ## Post-task updates — the incident loop
 
