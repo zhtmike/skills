@@ -28,7 +28,9 @@ Out of scope: the agent's pre-commit self-check.
 - Never hand the author a verification the reviewer could run; only a real run (GPU, live engine) goes to the author, naming what it alone can show.
 - Every external reference the change cites — issues, PRs, upstream commits, release assets — is resolved and checked to cover the claim (scope, state, in-tag).
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
-- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, on a cheap fast model at mid thinking (they judge, not grep) — whatever agent-dispatch mechanism your harness provides.
+- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at judgment tier.
+  - Each brief: its slice plus pointers — rule files, this body for its axes — never questions, quotes, or summaries.
+  - Each pass enumerates its sweep; an enumerated zero-finding sweep stands.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
