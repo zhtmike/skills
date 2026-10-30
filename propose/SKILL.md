@@ -46,9 +46,13 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 ## Review for weight, not only correctness
 
 - Correctness reviews (consistency, implementability) always reward more specification — weight needs its own axis, asked out loud.
-- The weight question, verbatim in every review brief: should this be specified now — has a first exercise paid for freezing it?
+- The weight question, this body's recall axis, verbatim: should this be specified now — has a first exercise paid for freezing it?
+  - The challenge lane reads this body for it — the question rides the body, never the brief.
 - A contract that fits one sitting is checked by its author against the tree.
-- Every design faces one challenge review before acceptance — dispatched when claims span subsystems or text outgrows a sitting (one wave per round, cheap fast model at mid thinking, parent keeping findings, never transcripts); single-context designs may challenge in-session.
+- Every design faces one challenge review before acceptance, dispatched fresh: one wave per round at the harness's judgment tier, parent keeping findings, never transcripts.
+  - The brief carries the design text plus pointers — the tree, the task's investigation report with its flagged-unverified claims, prior rounds' findings — never questions, quotes, or summaries.
+  - The lane enumerates its recall sweep; a pass with none re-dispatches, an enumerated zero-finding sweep stands.
+- No dispatch mechanism: the challenge falls back in-session, disclosed as un-fresh — never silently self-reviewed.
 - Each round re-verifies the previous round's fixes and stops when the weight pass's unresolved findings are empty.
 - A finding that asks to freeze a surface with no payer is resolved by cutting that surface.
 - A design that passes correctness while freezing unexercised surface is over-engineered: cut inside the accepted direction rather than restart.
