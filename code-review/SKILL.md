@@ -15,9 +15,9 @@ Both arrive on the user's request:
   - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against the source.
 - **Review branches** — changes pending review, read from `git diff <base>...<head>`.
 
-A deep, comprehensive review: whole diff, call paths, every behavioral claim, the same defect class swept repo-wide.
+A deep, comprehensive review: whole diff, call paths, every behavioral claim.
 
-Out of scope: the agent's pre-commit self-check.
+Out of scope: re-running the target's CI checks (CI's verdict stands), and the agent's pre-commit self-check.
 
 ## Working-tree isolation
 - Never switch, create, or rebase the current branch — different targets' reviews run in parallel.
@@ -79,7 +79,7 @@ Out of scope: the agent's pre-commit self-check.
    - A behavior change sweeps the suite for tests asserting the replaced semantics — a live test encoding the old contract is a finding.
    - A test suggestion names the uncovered failure mode; "consider a test" is noise.
    - Fail-silent defects: the test asserts the observable signature of correct behavior, not just exit codes.
-   - CI-covered tests are read, not run; the review file names failing conditions, never CI run mechanics.
+   - CI-covered tests are read; the review file names failing conditions, never CI run mechanics.
    - Untriggered CI is process, not a finding.
    - A new test the CI job would not collect (naming, path filters) is a finding.
    - GPU claims (curves, counts) are plausibility-checked, never asserted as run.
@@ -104,7 +104,7 @@ Out of scope: the agent's pre-commit self-check.
 
 ## Precedence
 
-Project-specific skills and repo conventions (`AGENTS.md`, review skills, templates) win where they define a rubric — discovered before the verdict; this skill covers the rest.
+Project-specific skills and repo conventions (`AGENTS.md`, review skills) win where they define a rubric — discovered before the verdict; this skill covers the rest.
 - A repo-defined vocabulary beats the plain-language default.
 - One exception: the citation ban and comment cap hold even in comment-heavy repos.
 
