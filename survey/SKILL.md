@@ -65,6 +65,7 @@ Default: no verification lane — budgets already bound the work. Dispatch one o
 
 ## Synthesis
 - Direct answer first, then findings grouped by theme with confidence tied to evidence shape: high = multiple primary sources; medium = secondary or split evidence; low = single or blog-quality.
+- Design-feeding syntheses re-derive each in-scope mechanism per lifecycle axis — executes, loads, updates — from the collected claims; an unclaimed axis is a stated finding, not silence.
 - Conflicts between lanes: resolve by evidence or present both positions — never average them away.
   - State remaining uncertainty; note failed or unverified lanes explicitly, never silently.
 - Close with a one-line methodology (lanes run, sources counted).
