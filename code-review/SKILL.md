@@ -28,7 +28,7 @@ Out of scope: the agent's pre-commit self-check.
 - Never hand the author a verification the reviewer could run; a real run (GPU, live engine) goes to the author, naming what it alone can show.
 - Every cited external reference — issue, PR, upstream commit, release asset — is resolved and checked to cover the claim (scope, state, in-tag).
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
-- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at judgment tier.
+- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at full weight.
   - Each brief: its slice plus pointers — rule files, this body for its axes — never questions, quotes, or summaries.
   - Each pass enumerates its sweep; an enumerated zero-finding sweep stands.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
@@ -55,7 +55,7 @@ Out of scope: the agent's pre-commit self-check.
   - "consider…" marks genuine taste calls where either shape is defensible.
   - When you know the fix, name the exact functions/APIs; cross-link, assign an owner, re-flag ignored feedback.
 - End with: `AI assistance (<agent>, <model>) was used for this review.` — verified from what the session exposes; omit what's unverified.
-- Before handover, one dispatched fast read-only lane at mid thinking checks the file against the tree: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve.
+- Before handover, one dispatched fast read-only lane, thinking above its floor, checks the file against the tree: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve.
   - Words only — no new findings, no re-scoring; mismatches return for fix or retract.
   - No dispatch mechanism: re-read each finding at its cite; the handover discloses the self-check.
 

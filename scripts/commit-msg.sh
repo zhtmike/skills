@@ -12,10 +12,12 @@
 #   staged delta at commit-msg stage is the commit's; a root commit's
 #   empty-tree base deletes nothing.
 #   FAIL when the staged diff adds rule lines (bullet or numbered item)
-#   to exactly one of the paired bodies (CONTRIBUTING, Paired bodies)
-#   and the message carries no Paired: trailer stating why the sibling
-#   didn't move. Presence is the floor; the statement's truth stays
-#   with the fresh review.
+#   to exactly one of the listed paired bodies (CONTRIBUTING, Shared
+#   laws) and the message carries no Paired: trailer stating why the
+#   sibling didn't move. Rule lines landing in two listed bodies at
+#   once floor nothing — that symmetry stays with the fresh review.
+#   Presence is the floor; the statement's truth stays with the fresh
+#   review.
 #
 # Audit mode: commit-msg.sh --audit <rev-range>
 #   The same checks over landed commits — diagnoses a batch that never
@@ -27,9 +29,9 @@
 #   pre-commit install --hook-type pre-commit --hook-type commit-msg
 
 set -u
-# Paired bodies share one rubric (CONTRIBUTING, Paired bodies) — rule
-# lines landing in exactly one demand a Paired: statement.
-PAIRED='coding-style code-review'
+# Paired bodies share one law (CONTRIBUTING, Shared laws) — rule
+# lines landing in exactly one listed body demand a Paired: statement.
+PAIRED='coding-style code-review spike'
 failures=0 warnings=0
 fail_() { failures=$((failures + 1)); printf 'FAIL %s\n' "$*"; }
 warn_() { warnings=$((warnings + 1)); printf 'WARN %s\n' "$*"; }

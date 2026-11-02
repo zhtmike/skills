@@ -23,7 +23,7 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
   - Always add a contrarian/skeptical lane whose job is to attack the leading or conventional answer.
 - A prompt anchored on one seed artifact — an issue, PR, paper, or thread — surveys the question that artifact embodies, not the artifact itself: its contents and links seed the lanes, never bound them.
   - At least one lane probes what the seed never cites — fresh status beyond its links, instances beyond its list; the omission is often where the answer lives.
-- Budget written before launch: maximum lanes (six unless genuinely wider), the harness's fast model plus a thinking level per lane, per-lane effort, and the stop condition — stop when it is spent.
+- Budget written before launch: maximum lanes (six unless genuinely wider), each lane's model and thinking matched to its job, per-lane effort, and the stop condition — stop when it is spent.
   - The parent keeps each lane's claims; transcripts stay in the lane.
   - API-hitting lanes launch write-capable and rewrite their artifact as data accumulates (a timeout must still leave partial results).
   - Prefer batch endpoints over per-item GETs — per-item loops die on rate limits with nothing to show.
@@ -39,7 +39,7 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
 - The brief's output instruction must match the lane's launch mode.
   - stdout-captured lanes are told their final message **is** the full deliverable; write-capable lanes name their single output file.
   - Never point stdout at a path the lane also writes — the final-message write at exit clobbers the artifact.
-- Dispatch all lanes concurrently — cheap fast model and thinking matched to the lane where the harness allows: low for mechanical recon and cross-checks, middle for substantive digging, max only where the lane's verdict gates a risky move.
+- Dispatch all lanes concurrently — model and thinking matched to each lane's job where the harness allows: mechanical recon and cross-checks cheap, substantive digging moderate, verdict-gating moves dear.
   - A failed or empty lane: rerun it alone; a rate-limited provider: run lanes sequentially.
   - A lane failing twice stops the survey — report it as retried, never a silent empty result.
   - No dispatch mechanism: run the lanes in this session one at a time, say so, keep the same budget.

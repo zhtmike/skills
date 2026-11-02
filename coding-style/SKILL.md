@@ -23,8 +23,8 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - A refactor or any big change starts from an agreed design — none agreed means stop and agree one before starting.
 - A prose change is a delta from the old text: existing sentences anchor rewrites, and a removed mechanism's mentions are deleted outright — never rewritten as "there is no X": unmentioned means unactioned.
   - New behavior gets statements, not exposition — the full mechanics live in the owning reference docs — and the commit message carries the same old-first balance.
-- The same check failing twice stops the edit: report both results and the wrong hypothesis.
-- A third try needs a new hypothesis, stated before the edit.
+- The same failure twice stops the work: report both results and the wrong hypothesis.
+- Another try needs a new hypothesis, stated in one line, before any further edit.
 
 ## Fix the class, not just the instance
 - After fixing a bug, check whether the same pattern or risk exists elsewhere — same root cause means the fix applies there too.

@@ -30,7 +30,7 @@ New features, POCs, prototypes, tricky changes — code written to learn what th
   - No test-suite sweeps per edit; the change's full verification waits for the demonstrated build.
 - An unrelated failure the spike trips over gets one line in the report, not a detour.
   - Pre-existing red, broken env, flaky sibling: note it, route around, move on.
-- The same failure twice ends the attempt: report both results.
+- The same failure twice stops the work: report both results and the wrong hypothesis.
 - Another try needs a new hypothesis, stated in one line, before any further edit.
 
 ## Done — demonstrated, not vibes
