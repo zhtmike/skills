@@ -48,6 +48,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Correctness reviews (consistency, implementability) always reward more specification — weight needs its own axis, asked out loud.
 - The weight question, this body's recall axis, verbatim: should this be specified now — has a first exercise paid for freezing it?
   - The challenge lane reads this body for it — the question rides the body, never the brief.
+- The challenge names each new public surface's closest same-kind analog — repo or dependency — and flags departures with no align-or-diverge decision.
 - A contract that fits one sitting is checked by its author against the tree.
 - Every design faces one challenge review before acceptance, dispatched fresh: one wave per round at full weight, parent keeping findings, never transcripts.
   - The brief carries the design text plus pointers — the tree, the task's investigation report with its flagged-unverified claims, prior rounds' findings — never questions, quotes, or summaries.
