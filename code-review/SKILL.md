@@ -9,15 +9,15 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 
 ## Scope — PRs and review branches only
 
-Both arrive on the user's request:
+Both arrive on request:
 
 - **PRs** — fetched from GitHub (`gh pr diff`, conversation, CI artifacts), no checkout.
   - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against the source.
 - **Review branches** — changes pending review, read from `git diff <base>...<head>`.
 
-A deep, comprehensive review: whole diff, call paths, every behavioral claim.
+Whole diff, call paths, every behavioral claim.
 
-Out of scope: re-running the target's CI checks (CI's verdict stands), and the agent's pre-commit self-check.
+Out of scope: re-running the target's CI (its verdict stands), and the agent's pre-commit self-check.
 
 ## Working-tree isolation
 - Never switch, create, or rebase the current branch — different targets' reviews run in parallel.
@@ -29,27 +29,29 @@ Out of scope: re-running the target's CI checks (CI's verdict stands), and the a
 - Every cited external reference — issue, PR, upstream commit, release asset — is resolved and checked to cover the claim (scope, state, in-tag).
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
 - Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at full weight.
-  - Each brief: its slice plus pointers — rule files, this body for its axes — never questions, quotes, or summaries.
+  - Each brief: its slice plus pointers — rule files, this body — no questions, quotes, or summaries.
   - Each pass enumerates its sweep; an enumerated zero-finding sweep stands.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
 ## Output contract
+- Register follows the poster's role: committer reviews open at the verdict — no title.
+  - A non-committer posts suggestions — findings, evidence, fix directions; no verdict or gating language.
+  - CI/process narration (untriggered jobs, runs, admission) is maintainer territory — never a finding or comment.
 - A re-review accounts for every prior-round finding — fixed, re-flagged, or retracted with evidence — in author-resolvable terms: an unposted round's findings enter fresh and standalone.
   - A reviewer-side withdrawal — scope or taste — never reaches the file.
   - Verified-fixed findings may share a line — accounting outranks the cap.
 - Write to `review_<pr-number>.md` / `review_<branch-slug>.md` in the project root; re-reviews overwrite it.
-- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; review file and handover drafts are deleted once consumed.
+- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; review file and drafts are deleted once consumed.
 - Posting is the user's by default — draft only.
   - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
-  - Re-fetch head and conversation at the ask and again at the go — a moved head or feedback newer than the verified text re-opens the review, not the post.
+  - Re-fetch head and conversation at the ask and again at the go — movement or newer feedback re-opens the review, not the post.
   - Any post-approval edit re-opens approval.
-  - Posted text starts at the verdict — no title.
   - Review text is the only remote write — never commit or push code.
 - Compact: ≤ 30 lines.
-  - One-line verdict, then numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
-  - No preamble, tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries the finding.
-  - Blocking findings all ship, cap or no cap; past ~7, only non-blocking nits drop or one-line.
+  - Numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
+  - No preamble, tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries one.
+  - Blocking findings all ship, cap or no cap; past ~7, non-blocking nits drop or go one-line.
 - Severity by verb choice, not labels.
   - Blocking: "drop the fallback", "fix it"; grounded cleanups get the same imperative however small.
   - "consider…" marks genuine taste calls where either shape is defensible.
@@ -79,8 +81,7 @@ Out of scope: re-running the target's CI checks (CI's verdict stands), and the a
    - A behavior change sweeps the suite for tests asserting the replaced semantics — a live test encoding the old contract is a finding.
    - A test suggestion names the uncovered failure mode; "consider a test" is noise.
    - Fail-silent defects: the test asserts the observable signature of correct behavior, not just exit codes.
-   - CI-covered tests are read; the review file names failing conditions, never CI run mechanics.
-   - Untriggered CI is process, not a finding.
+   - CI-covered tests are read; the review file names failing conditions.
    - A new test the CI job would not collect (naming, path filters) is a finding.
    - GPU claims (curves, counts) are plausibility-checked, never asserted as run.
    - A red check is root-caused via the run's artifacts, not relayed.
@@ -100,11 +101,11 @@ Out of scope: re-running the target's CI checks (CI's verdict stands), and the a
 9. **Same defect, elsewhere** — when a finding lands, sweep the diff and repo for the same pattern.
    - Flag the class, not the instance.
 
-**Skip / low priority:** formatting, typing style, docstring formatting (not content), naming bikeshedding, commit hygiene, micro-performance.
+**Skip / low priority:** formatting, typing and docstring style (not content), naming bikeshedding, commit hygiene, micro-performance.
 
 ## Precedence
 
-Project-specific skills and repo conventions (`AGENTS.md`, review skills) win where they define a rubric — discovered before the verdict; this skill covers the rest.
+Project-specific skills and repo conventions win where they define a rubric — discovered before the verdict; this skill covers the rest.
 - A repo-defined vocabulary beats the plain-language default.
 - One exception: the citation ban and comment cap hold even in comment-heavy repos.
 

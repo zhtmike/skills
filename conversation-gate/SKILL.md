@@ -19,7 +19,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - Exception: a clearly bot-authored message (bot account or auto-generated banner) may be replied to unapproved — keep the AI-assistance line and the change's verified facts.
   - A human other than the user in the thread ends the bot-reply exemption: the ask is whether to reply as AI at all, before any wording go.
 - The gated list names common cases, not the boundary: any write to the PR or issue — state, metadata, threads, review verdicts, reactions — needs the same approval.
-- A gated step ends in an ask: the ready action or drafted text is presented for the user's go.
+- A gated step ends in an ask: the ready action or drafted text, presented for the user's go.
 - A review-response round, when it needs an ask, is one ask: the drafted reply, the body-sync delta, and their evidence present together.
 - The go covers the exact wording presented — a later edit re-opens the ask.
 - A posted review is a plain comment — never an approve or request-changes state; text approval is not state approval.
@@ -30,9 +30,9 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - Writing or editing that file is not a gated action.
 
 ## Conversation text
-- Follow the repo's PR or issue template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures (AI assistance, duplicate-work checks).
+- Follow the repo's PR or issue template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures.
 - The PR body is written for the reader: where the template leaves shape open, bullets over paragraphs, one claim each.
-  - It presents the change as it stands — the substance, never a commit-by-commit walk; the history lives in the commits.
+  - It presents the change as it stands — the substance, never a commit-by-commit walk.
 - Sentences hold one point each: stacked clause chains — em-dashes, semicolons, nested parentheses — are split into sentences.
 - Prose paragraphs post as one unwrapped line: remotes render every newline as a visible break — fixed-column wrapping reads as broken sentences.
 - The PR body tracks its branch's landed commits: when commits change what the body claims — scope, root cause, numbers, results, disclosures — it is updated to match before the work is called done.
@@ -42,9 +42,11 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - An unverifiable segment is dropped, never guessed — a false attribution is worse than none.
   - A comment or reply ends with a small-print line: `AI-assisted reply — <agent> (<model>)`.
   - The PR body closes with an assistance section: what the agent did, what the human reviewed and stands behind.
+- Posted-text register follows the poster's role on the target repo.
+  - A non-committer posts suggestions — findings, evidence, fix directions; no verdicts, gating language, or CI/process narration (untriggered jobs, runs, admission): maintainer territory.
 - A review reply opens with its verdict: addressed, naming the commit that did it; or skipped, naming the reason.
 - Behind the verdict, only verified facts — tests, runs, observed numbers.
-- Agent-authored conversation text carries no quoted instructions, session narratives, process counts — review rounds, gates run — or machine-local paths beyond what the repo states.
+- Agent-authored conversation text carries no quoted instructions, session narratives, process counts, or machine-local paths beyond what the repo states.
 - Agent-authored conversation text is self-contained: links supplement the account, never replace it.
 
 ## Precision pass — posted text
