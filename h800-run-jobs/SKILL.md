@@ -38,11 +38,15 @@ export CUDA_HOME=${CONDA_PREFIX}        # if flashinfer JIT is in play
 export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 ```
 
+- A detached runner likewise receives only what its ssh command line carries: forward every env var it reads explicitly there, or it silently runs its defaults.
+
 ## GPU selection on the shared box
 - Check `nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader` first.
   - GPUs held by processes outside this user's Slurm job: **report it to the user immediately** — foreign/leaked jobs get raised with their owner, not routed around.
-  - Otherwise take what's verified free.
-- Pin free devices explicitly: `CUDA_VISIBLE_DEVICES=2,3` + match `NUM_GPUS=2`.
+  - Otherwise, for interactive unallocated launches, take what's verified free.
+- Pin devices explicitly and match `NUM_GPUS` to them.
+- ssh-detach lands outside the slurm cgroup: derive the job's physical GPU ids (`GRES IDX`) and CPU ids from scontrol, pin with `CUDA_VISIBLE_DEVICES=<physical>` + `CUDA_DEVICE_ORDER=PCI_BUS_ID` + `taskset`, and scope every nvidia-smi call with `-i <gpus>`.
+  - A slurm alloc shell's `CUDA_VISIBLE_DEVICES` is a logical renumbering of its physical GPUs: never pin a detached job from it directly.
 - Check the script's GPU-count assumptions before adapting them — many-GPU defaults can produce nonsense configs on fewer GPUs.
 
 ## Job script hygiene
@@ -51,6 +55,7 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 - Stop shared cluster services (e.g. ray) between sequential jobs.
   - Skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.
 - Capture exit codes per job and print a final `=== done (job=$RC) ===` line — polling greps for it.
+- Per-task run harnesses (launcher dirs, scratch scripts, run logs) are ephemeral: at task wind-down archive the report out of the working tree and remove the rest.
 
 ## Precedence
 
