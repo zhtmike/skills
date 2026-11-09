@@ -18,7 +18,7 @@ Edits to already-working code, and the pass that takes a demonstrated change to 
 Write code that fails fast, carries its own explanation, and ships with proof. No silent fallbacks, no dead code. Prefer explicit and linear over clever and compact.
 
 ## Keep the diff minimal
-- Touch only what the task needs — small diffs make personal review fast.
+- Touch only what the task needs.
   - No drive-by reformat or rename of untouched lines.
 - A refactor or any big change starts from an agreed design — none agreed means stop and agree one before starting.
 - A prose change is a delta from the old text: existing sentences anchor rewrites, and a removed mechanism's mentions are deleted outright — never rewritten as "there is no X": unmentioned means unactioned.
@@ -28,6 +28,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Fix the class, not just the instance
 - After fixing a bug, check whether the same pattern or risk exists elsewhere — same root cause means the fix applies there too.
+- A behavior change sweeps its consumers: callers outside the diff still hold, or are retargeted in the same PR.
 - Sibling fixes for the same defect class are in scope, not drive-by.
   - If the sweep turns up many sites or grows into a refactor, report and ask instead of expanding the diff.
 
@@ -41,7 +42,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Be explicit
 - Modern idiomatic typing on code you write or modify — the language's current union/generic spellings — and annotated non-obvious locals.
-- On code you write or modify, a module with a public surface declares it up front (`__all__` or the language's equivalent) and keeps helpers below the public API.
+- On code you write or modify, a module with a public surface declares it up front (`__all__` or equivalent) and keeps helpers below the public API.
 - A provisional name freezes in this pass once a run exercises the behavior it names.
 - Inline helpers, globals, and configs that are used exactly once.
 - Unused interface parameters are fine — the signature is the contract.
@@ -87,7 +88,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
-- Public docs route to public docs — never into machine-instruction layers; the machine layer points at the human docs, not the reverse.
+- Public docs never route into machine-instruction layers — the machine layer points at the human docs, not the reverse.
 
 ## Prune relentlessly
 - Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
@@ -107,7 +108,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 - Every new hook, protection, or abstraction must justify its existence — default to not adding it.
   - A review finding re-opens the question: verify the claim, check what the system already guarantees, and prefer deletion over patching when the justification fails.
-  - Before designing a new module's public surface or reshaping a module's structure, read the closest existing analog — repo or pinned dependency — and align-or-diverge per shared rule; a registry checks the dependency's registries.
+  - Before designing a new module's public surface or reshaping a module's structure, read the closest existing analog — repo or pinned dependency — and align-or-diverge; a registry checks the dependency's registries.
   - A wider surface than the analog needs justification.
 - Make things general: solve the class of problem; reuse existing infra over parallel new paths.
   - A helper with no domain words lives in the repo's utils layer, not the domain module.
@@ -121,9 +122,9 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Precedence
 
-Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) win — this skill is baseline personal taste, carried across repos.
+Built-in skills, project-specific skills, and repo conventions (`AGENTS.md`, contributing guides) win — this skill is baseline personal taste.
 
-One exception: the comment rules — no PR/issue/commit citations, the comment length cap — hold even where the repo's own code comments otherwise.
+One exception: the comment rules — no PR/issue/commit citations, the comment length cap — hold even where repo conventions say otherwise.
 
 ## Wind-down handoff
 
