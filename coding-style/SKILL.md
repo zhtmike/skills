@@ -69,17 +69,18 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - Version-dated comments ("as of X…") die with X; an inaccurate comment is worse than none.
 
 ## Tests ship with the change
-- Every behavior change gets a test in the same PR.
+- Every behavior change gets its fewest tests in the same PR, guarding its distinct failure modes: a new behavior's observable signature, a fixed bug (regression), an uncovered boundary/error path.
   - Where the repo's CI runs tests, ship each test matched to its collection — naming pattern, path filters.
-  - Prefer cheap CPU tests over heavy e2e; never fake import systems or mock what you could really construct.
-- Each test guards a distinct failure mode, or the finishing pass drops or merges it.
-  - Keep a real regression or an uncovered boundary/error path.
+  - The finishing pass drops or merges the rest.
+- Keep tests real and distinct.
+  - Never fake import systems or mock what you could really construct.
   - Merge near-identical tests into one parameterized test.
   - No tautological asserts — a test asserting what the mock returns guards nothing.
   - A review-suggested test is a proposal; naming the covering test answers it.
+- Prefer a lightweight CPU test (seconds-to-minutes, no GPU/network/downloads) over heavy e2e — cheap means weight, never count.
 - Fail-silent defects (no crash, plausible output) need the test to assert the observable signature of correct behavior.
   - An exit-code-only smoke passes on the corrupted run.
-- Test runs: lightweight CPU tests (seconds-to-minutes, no GPU/network/downloads) may run locally, on the user's clock.
+- Test runs: lightweight CPU tests may run locally, on the user's clock.
   - An explicit checkpoint ("until commit") moves verification there; between checkpoints, state the last verified result rather than re-running per edit.
   - Report only real observed output; if deps are missing, say so and list remote commands — don't install heavy stacks.
   - GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
