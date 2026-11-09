@@ -9,8 +9,6 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
 
 ## Scope — PRs and review branches only
 
-Both arrive on request:
-
 - **PRs** — fetched from GitHub (`gh pr diff`, conversation, CI artifacts), no checkout.
   - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against the source.
 - **Review branches** — changes pending review, read from `git diff <base>...<head>`.
@@ -20,17 +18,19 @@ Whole diff, call paths, every behavioral claim.
 Out of scope: re-running the target's CI (its verdict stands), and the agent's pre-commit self-check.
 
 ## Working-tree isolation
-- Never switch, create, or rebase the current branch — different targets' reviews run in parallel.
+- Never switch, create, or rebase the current branch.
 - Repo-wide context runs in a throwaway detached worktree at the head, fetched first (`pull/<N>/head`).
 
-## Depth — verify everything; span agents when needed
+## Depth — verify everything; judge the whole system
 - Every finding is verified before it's written — read surrounding code, trace the call path, check the test asserts the behavior.
 - Never hand the author a verification the reviewer could run; a real run (GPU, live engine) goes to the author, naming what it alone can show.
 - Every cited external reference — issue, PR, upstream commit, release asset — is resolved and checked to cover the claim (scope, state, in-tag).
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
+- Recall judges the change against the whole system it lands in — call sites, infra, structure, same-pattern instances — swept proactively, not only where findings point.
+  - Right-sized: in-session, or a fast lane for large targets; the parent verifies candidates.
+  - Every pass enumerates its coverage in the review file; an enumerated zero stands.
 - Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at full weight.
   - Each brief: its slice plus pointers — rule files, this body — no questions, quotes, or summaries.
-  - Each pass enumerates its sweep; an enumerated zero-finding sweep stands.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to the files that fit.
 
@@ -73,7 +73,7 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 4. **Generality & reuse** — does this solve only one case? Prefer extending existing infra over parallel mechanisms.
    - Near-identical copies of already-landed work must become one — deliberate test-fixture copies excepted.
    - A new public surface is held to the closest analog — repo or dependency same-kind equivalent — flag departures with no align-or-diverge decision, or width without justification.
-   - A design or refactor change is judged against the codebase's — and, where one exists, its upstream's — established structure: read them before writing design findings; departures need an align-or-diverge decision.
+   - A design or refactor change is judged against the codebase's (and upstream's) established structure, read before writing findings; departures need an align-or-diverge decision.
    - Domain-free helpers in domain modules belong in the utils layer — or upstream ships them.
 5. **Single-use indirection** — globals/helpers/configs used once: inline them.
 6. **Tests & evidence** — every behavior change needs a test in the same PR; prefer cheap CPU tests (weight, not count); never fake imports or mock what you could construct.
@@ -98,8 +98,6 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 8. **Docs sync** — README/docs updated in the same PR, dates aligned.
    - A prose change is a delta from the old text: flag a removed mechanism's mentions rewritten as "there is no X" — unmentioned means unactioned, delete outright.
    - Flag new-machinery exposition displacing calibrated old sentences — statements stay, exposition lives in the owning reference docs.
-9. **Same defect, elsewhere** — when a finding lands, sweep the diff and repo for the same pattern.
-   - Flag the class, not the instance.
 
 **Skip / low priority:** formatting, typing and docstring style (not content), naming bikeshedding, commit hygiene, micro-performance.
 
