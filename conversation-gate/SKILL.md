@@ -45,6 +45,8 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 - Posted-text register follows the poster's role on the target repo.
   - A non-committer posts suggestions — findings, evidence, fix directions; no verdicts, gating language, or CI/process narration (untriggered jobs, runs, admission): maintainer territory.
 - A review reply opens with its verdict: addressed, naming the commit that did it; or skipped, naming the reason.
+- A reply names what it answers in its own text: the finding, request, or comment, quoted or restated.
+  - Threading is no anchor — collapsed threads, notifications, and top-level posts all drop the parent.
 - Behind the verdict, only verified facts — tests, runs, observed numbers.
 - Agent-authored conversation text carries no quoted instructions, session narratives, process counts, or machine-local paths beyond what the repo states.
 - Agent-authored conversation text is self-contained: links supplement the account, never replace it.
