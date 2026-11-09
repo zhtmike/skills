@@ -76,9 +76,9 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
    - A design or refactor change is judged against the codebase's — and, where one exists, its upstream's — established structure: read them before writing design findings; departures need an align-or-diverge decision.
    - Domain-free helpers in domain modules belong in the utils layer — or upstream ships them.
 5. **Single-use indirection** — globals/helpers/configs used once: inline them.
-6. **Tests & evidence** — every behavior change needs a test in the same PR; prefer cheap CPU tests; never fake imports or mock what you could construct.
+6. **Tests & evidence** — every behavior change needs a test in the same PR; prefer cheap CPU tests (weight, not count); never fake imports or mock what you could construct.
    - A test that guards no distinct failure mode is a finding: re-asserts a covered path, near-identical to a sibling, or asserts internals.
-   - A behavior change sweeps the suite for tests asserting the replaced semantics — a live test encoding the old contract is a finding.
+   - A behavior change sweeps the suite for tests asserting the replaced semantics — a live old-contract test is a finding.
    - A test suggestion names the uncovered failure mode; "consider a test" is noise.
    - Fail-silent defects: the test asserts the observable signature of correct behavior, not just exit codes.
    - CI-covered tests are read; the review file names failing conditions.
