@@ -11,7 +11,7 @@ description: "MUST load before any edit to code that already works (not unproven
 
 Edits to already-working code, and the pass that takes a demonstrated change to done — any language, any framework, any repo.
 
-- Taking a change to done starts from a change that demonstrably works: a real observed run or an executing test of the claimed behavior, never "should work".
+- Taking a change to done starts from a change that demonstrably works — a real observed run or an executing test, never "should work".
 
 ## Core Principle
 
@@ -33,11 +33,11 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - If the sweep turns up many sites or grows into a refactor, report and ask instead of expanding the diff.
 
 ## Fail fast, never silently fall back
-- Raise with actionable messages — name the invalid value and the valid choices.
+- Raise with actionable messages — name the invalid value and valid choices.
 - Validate at the declaration, not the use site.
   - A use-site check of the same invariant is duplication.
 - Chain exceptions so the original cause survives the re-raise.
-- A silent downgrade (catch-and-continue, default substitution) hides broken setups.
+- A silent downgrade — catch-and-continue, default substitution — hides broken setups.
 - A genuinely temporary fallback carries a tracked `TODO(owner)` plus a real tracking issue. No permanent workarounds.
 
 ## Be explicit
@@ -52,16 +52,17 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 ## Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
 - The artifact is written for a reader who never saw its design document — vocabulary, document links, and design narrative stay in the document.
-- Write docstrings as API reference — usage examples fine, design narrative not; guides guide, motivation lives in the design doc.
+- No shipped file cites a design doc or narrates its own history ("accepted", "slice N", "replaces X") — each states what it is.
+  - Links to shipped intra-repo artifacts are fine.
+- Write docstrings as API reference — usage examples fine, design narrative not; motivation lives in the design doc.
 - Comments stay rare; each earns its line — code that says it plainly gets none.
-  - A tracked `TODO(owner)` counts as earning its line.
 - Comment only the non-trivial; WHY means an invariant, never provenance.
   - No comment cites a PR, issue, or commit number; the sole exception is a tracked `TODO(owner)` with a real issue.
   - Cross-reference the invariant or upstream behavior instead.
   - Status declarations of the artifact itself (frozen, superseded, slated for migration) are provenance's one shipping exception — one per artifact, at the artifact, never its schedule.
 - One line per comment; two lines is the hard ceiling — anything longer belongs in a docstring.
   - A comment that narrates what the next lines do gets deleted, not written.
-- Comments describe the resulting code, never the edit that produced it — no `# now retries`, `# changed from X`.
+- Comments describe the resulting code, never the edit that produced it.
   - Patch-time justification lives in the commit/PR description or the reply, not the code.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin.
   - Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — a caller never needs the body.
@@ -71,54 +72,54 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Tests ship with the change
 - Every behavior change gets its fewest tests in the same PR, guarding its distinct failure modes: a new behavior's observable signature, a fixed bug (regression), an uncovered boundary/error path.
-  - Where the repo's CI runs tests, ship each test matched to its collection — naming pattern, path filters.
+  - Where the repo's CI runs tests, ship each test matched to its collection's naming and path pattern.
   - The finishing pass drops or merges the rest.
 - Keep tests real and distinct.
   - Never fake import systems or mock what you could really construct.
   - Merge near-identical tests into one parameterized test.
   - No tautological asserts — a test asserting what the mock returns guards nothing.
   - A review-suggested test is a proposal; naming the covering test answers it.
-- Prefer a lightweight CPU test (seconds-to-minutes, no GPU/network/downloads) over heavy e2e — cheap means weight, never count.
+- Prefer a lightweight CPU test (no GPU/network/downloads) over heavy e2e — cheap is weight, never count.
 - Fail-silent defects (no crash, plausible output) need the test to assert the observable signature of correct behavior.
-  - An exit-code-only smoke passes on the corrupted run.
 - Test runs: lightweight CPU tests may run locally, on the user's clock.
-  - An explicit checkpoint ("until commit") moves verification there; between checkpoints, state the last verified result rather than re-running per edit.
+  - An explicit checkpoint ("until commit") moves verification there; between checkpoints, state the last verified result.
   - Report only real observed output; if deps are missing, say so and list remote commands — don't install heavy stacks.
   - GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
 
 ## Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
-- Public docs never route into machine-instruction layers — the machine layer points at the human docs, not the reverse.
+- Public docs never route into machine-instruction layers — the machine layer points at the human docs.
 
 ## Prune relentlessly
-- Finish renames completely: delete emptied packages, files, and dead logging in the same PR that obsoletes them.
-- No legacy code — place interim patches on the earliest, narrowest hook that runs before the failing mechanism, reusing existing hooks.
+- Finish renames completely: delete emptied packages, files, and dead logging in the same PR.
+- No legacy code — place interim patches on the earliest, narrowest hook that runs before the failing mechanism.
   - Post-init hooks cannot fix compile-time failures.
   - When the upstream fix lands or the floor moves (dependency or pin bump, a dropped platform or version): delete the workaround, its dead callers, and its tests in the same change.
   - Until that change, the workaround's end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
   - Code kept past its fix, or a workaround rewritten instead of dropped, is new debt, not safety.
-- No duplicated functions — two copies of the same logic is a bug factory (deliberate test-fixture copies excepted).
+- No duplicated functions — two copies of the same logic breed bugs (test-fixture copies excepted).
   - When a diff touches one copy: extract the shared helper or delete the duplicate.
 - Consolidate the constants your diff touches into one module-level collection, not scattered literals.
   - Single-use constants inline their literal at the consumer.
   - Shared ones join the file's constant block at the top — a constant never parks mid-file beside one call site.
-- Log through the language's idiomatic module-level logger.
+- Log through the language's idiomatic logger.
 
 ## Design posture
 
 - Every new hook, protection, or abstraction must justify its existence — default to not adding it.
-  - A review finding re-opens the question: verify the claim, check what the system already guarantees, and prefer deletion over patching when the justification fails.
+  - Decoupling is a dependency property, not a file count — a split pays only when the module is a unit someone loads, replaces, or tests alone.
+  - A review finding re-opens the question: verify the claim, check what the system already guarantees, prefer deletion when the justification fails.
   - Before designing a new module's public surface or reshaping a module's structure, read the closest existing analog — repo or pinned dependency — and align-or-diverge; a registry checks the dependency's registries.
   - A wider surface than the analog needs justification.
-- Make things general: solve the class of problem; reuse existing infra over parallel new paths.
-  - A helper with no domain words lives in the repo's utils layer, not the domain module.
+- Make things general: solve the class of problem; reuse infra over parallel new paths.
+  - A helper with no domain words lives in the utils layer, not the domain module.
   - An upstream dependency may already ship it — search before writing a copy.
 - Fix at the source (ideally upstream), not around it locally.
 
 ## Self-check before done
 
-- Verify the artifact, not the tool's success message: a direction-sensitive edit (add vs remove) gets its region re-read.
-- Rescan your own diff once before declaring done, against the rules it can trip — diff size, fallbacks, comments, tests, docs, public surface, pruning — not every rule.
+- Verify the artifact, not the tool's success message: a direction-sensitive edit gets its region re-read.
+- Rescan your own diff once before declaring done, against the rules it can trip — diff size, fallbacks, comments, self-containment, tests, docs, public surface, pruning — not every rule.
 
 ## Precedence
 
