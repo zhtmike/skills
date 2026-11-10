@@ -20,10 +20,11 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Just before every commit, on every path: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
   - Confirm the commit landed via the log — piped hook output masks the commit's exit status.
   - Any diff those fixes produce joins the delta re-review.
+- A push is never a probe: a remote-CI run verifies one stated hypothesis — never a search step.
 - A hook failing only on files outside the change and git history (untracked scratch, another task's workspace) is an environment failure, not a change failure.
   - Run the hook's check over the tracked tree; if clean, bypass that hook alone.
   - Disclose the bypass and its proof in the commit body.
-- Pushes go to the user's own remote — a fork's push target or the standalone repo's origin; identify it before the first push, asking only when ambiguous.
+- Pushes go to the user's own remote — fork push target or standalone origin; identify it before the first push, asking only when ambiguous.
   - Never push upstream, even if it is `origin`.
 - Re-fetch the base and re-check mergeability before pushing when verification used an earlier fetch.
   - Upstream work landing in that gap publishes against the new base; semantic drift re-opens review scope.
@@ -75,7 +76,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
-- Right-size the lane to the artifact, time and cost priced into its size: behavior-capable diffs (logic, public signatures, new dependencies, >~50 changed lines) get the full standard — the harness's judgment tier; all others a dispatched lightweight pass.
+- Right-size the lane to the artifact: behavior-capable diffs get the full standard — the harness's judgment tier; all others a dispatched lightweight pass.
   - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
   - A blocking finding, or a check the lightweight pass reports it could not run, escalates to the full standard.
 

@@ -18,6 +18,10 @@ New features, POCs, prototypes, tricky changes — code written to learn what th
   - State Goals / Non-Goals for the spike's one question, never a design: one line of goal, one line of non-goal.
 - Add no hook, protection, or abstraction the working example doesn't yet demand.
 - Fix the root cause, not the symptom: reproduce, understand, then change.
+  - Understand means reading the code path to the failure.
+  - Bisection (tweak-and-rerun, comment-out, commit-by-commit) starts only when reading stalls.
+  - Bisection steps run only where each run is cheap and local.
+  - A remote-CI run verifies one stated hypothesis — never a search step.
 - Fail loudly while building: raise on the unexpected.
   - Never bake a silent fallback into what you build.
 - Report only real observed output, never a run not seen.
