@@ -42,6 +42,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - An unverifiable segment is dropped, never guessed — a false attribution is worse than none.
   - A comment or reply ends with a small-print line: `AI-assisted reply — <agent> (<model>)`.
   - The PR body closes with an assistance section: what the agent did, what the human reviewed and stands behind.
+    - Modes of work only — investigation, design, implementation — never the process behind them: review rounds, dispatch lanes, gate counts.
 - Posted-text register follows the poster's role on the target repo.
   - A non-committer posts suggestions — findings, evidence, fix directions; no verdicts, gating language, or CI/process narration (untriggered jobs, runs, admission): maintainer territory.
 - A review reply opens with its verdict: addressed, naming the commit that did it; or skipped, naming the reason.
