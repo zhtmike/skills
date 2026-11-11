@@ -18,6 +18,8 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Commit approval bundles exactly that commit and its push — never later commits.
   - A standing repo pre-approval from the user stands in for that approval — paid by the fresh review.
 - Just before every commit, on every path: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
+  - List the covering tests before running any — relevance is coverage of the changed code, not the suite.
+  - The full suite runs only when that list is genuinely unclear — a reported choice, its cost named before it starts.
   - Confirm the commit landed via the log — piped hook output masks the commit's exit status.
   - Any diff those fixes produce joins the delta re-review.
 - A push is never a probe: a remote-CI run verifies one stated hypothesis — never a search step.
@@ -47,7 +49,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 ## Fresh review — the commit gate
 
-**Trigger:** a licensed commit — under an explicit go, a standing repo pre-approval, or an amend/rebase rewriting one — and no fresh review has run on this exact artifact: the final diff plus the full drafted commit message.
+**Trigger:** a licensed commit — under an explicit go, a standing repo pre-approval, or an amend/rebase rewriting one — and no fresh review has run on this exact artifact.
 - Nothing earlier: no review because work looks done, none offered unprompted.
 - An independent review from this session of this exact artifact satisfies the gate.
   - A review of an earlier draft does not.
@@ -57,6 +59,8 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 **Single dispatch, real review.** Dispatch exactly ONE read-only agent (no edit tools; use whatever agent-dispatch mechanism your harness provides).
 - A lane granted execution — it must run checks or fixtures — gets an outright destructive-command ban in its brief, and the repo is snapshotted before dispatch.
+  - The brief carries the session's verification record — what ran, its scope, observed results.
+  - The lane re-runs only what that record leaves uncovered or a finding doubts — selected the same way, never a default repeat.
 - The brief carries the artifact — final diff plus full drafted commit message — and pointers, never questions, quoted rule subsets, or summaries:
   - Rule files by path: the writer body that governed the edit, the project's `AGENTS.md`, its contributing guides; the lane reads what is named and judges applicability itself.
   - Task evidence by path, what exists: the change's design text, its investigation report, prior review rounds' findings — absent entries are skipped, never reconstructed.
@@ -72,13 +76,13 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - An enumerated sweep with zero findings stands.
 - A rule that fails its must-allow case is blocking.
 - A headline that repeats a slogan the incident rejected is blocking.
-- A listed pass whose must-reject cases are rejected and whose must-allow cases hold is clean and stands.
+- A listed pass rejecting its must-reject cases and holding its must-allow cases is clean and stands.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
 - Right-size the lane to the artifact: behavior-capable diffs get the full standard — the harness's judgment tier; all others a dispatched lightweight pass.
   - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
-  - A blocking finding, or a check the lightweight pass reports it could not run, escalates to the full standard.
+  - A blocking finding, or a check it could not run, escalates to the full standard.
 
 **After the review returns:**
 1. Fix each finding, blocking or nit, or report what's disputed and why — never silently skip.
