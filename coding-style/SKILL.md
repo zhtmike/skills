@@ -54,7 +54,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - The artifact is written for a reader who never saw its design document — vocabulary, document links, and design narrative stay in the document.
 - No shipped file cites a design doc or narrates its own history ("accepted", "slice N", "replaces X") — each states what it is.
   - Links to shipped intra-repo artifacts are fine.
-- Write docstrings as API reference — usage examples fine, design narrative not; motivation lives in the design doc.
+- Write docstrings as API reference — usage examples fine, design narrative not.
 - Comments stay rare; each earns its line — code that says it plainly gets none.
 - Comment only the non-trivial; WHY means an invariant, never provenance.
   - No comment cites a PR, issue, or commit number; the sole exception is a tracked `TODO(owner)` with a real issue.
@@ -63,7 +63,6 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - One line per comment; two lines is the hard ceiling — anything longer belongs in a docstring.
   - A comment that narrates what the next lines do gets deleted, not written.
 - Comments describe the resulting code, never the edit that produced it.
-  - Patch-time justification lives in the commit/PR description or the reply, not the code.
 - Docstrings only on non-obvious or public functions; state the invariant or contract they pin.
   - Public/open APIs (exported names, package entry points, HTTP/RPC/CLI handlers): document every parameter and return, plus error conditions when real — a caller never needs the body.
   - A config-constructed plugin class carries its config surface on `__init__` — those parameters are the API.
@@ -88,6 +87,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
+- Outward-facing docs state what changed, never the process behind it: audits, review rounds, clean findings.
 - Public docs never route into machine-instruction layers — the machine layer points at the human docs.
 
 ## Prune relentlessly
