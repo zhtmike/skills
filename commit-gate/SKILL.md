@@ -30,9 +30,9 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Never push upstream, even if it is `origin`.
 - Re-fetch the base and re-check mergeability before pushing when verification used an earlier fetch.
   - Upstream work landing in that gap publishes against the new base; semantic drift re-opens review scope.
-- Branches use a short kebab-case slug with a type prefix: `feat/job-retry-lifecycle`.
 - When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no live writer holds the checkout; otherwise park it and say so.
   - A parked branch is reported at handover, never assumed clean.
+  - A worktree this task spawned is removed once its changes are committed and pushed.
 
 ## Commit messages
 - Follow the repo's own commit convention when it defines one.
