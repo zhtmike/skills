@@ -51,8 +51,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Comments & docstrings
 - Self-documenting code first: intent-revealing names, clear structure, named constants over magic numbers.
-- The artifact is written for a reader who never saw its design document — vocabulary, document links, and design narrative stay in the document.
-- No shipped file cites a design doc or narrates its own history ("accepted", "slice N", "replaces X") — each states what it is.
+- No shipped file cites a design doc, borrows its register, or narrates its own history ("accepted", "slice N", "replaces X") — each states what it is.
   - Links to shipped intra-repo artifacts are fine.
 - Write docstrings as API reference — usage examples fine, design narrative not.
 - Comments stay rare; each earns its line — code that says it plainly gets none.
@@ -84,6 +83,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - An explicit checkpoint ("until commit") moves verification there; between checkpoints, state the last verified result.
   - Report only real observed output; if deps are missing, say so and list remote commands — don't install heavy stacks.
   - GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
+    - The user or their CI executes them: never open remote sessions to run heavy tests unless the user says to.
 
 ## Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.
