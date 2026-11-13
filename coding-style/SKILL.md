@@ -83,7 +83,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
   - An explicit checkpoint ("until commit") moves verification there; between checkpoints, state the last verified result.
   - Report only real observed output; if deps are missing, say so and list remote commands — don't install heavy stacks.
   - GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
-    - The user or their CI executes them: never open remote sessions to run heavy tests unless the user says to.
+  - The user or their CI executes heavy tests: never open remote sessions to run them unless the user says to.
 
 ## Docs are part of the diff
 - README/docs updated in the same PR, dates aligned.

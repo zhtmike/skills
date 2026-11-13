@@ -42,7 +42,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - An unverifiable segment is dropped, never guessed — a false attribution is worse than none.
   - A comment or reply ends with a small-print line: `AI-assisted reply — <agent> (<model>)`.
   - The PR body closes with an assistance section: what the agent did, what the human reviewed and stands behind.
-    - Modes of work only — investigation, design, implementation — never the process behind them: review rounds, dispatch lanes, gate counts.
+  - The assistance section lists modes of work only — investigation, design, implementation — never the process behind them: review rounds, dispatch lanes, gate counts.
 - Posted-text register follows the poster's role on the target repo.
   - A non-committer posts suggestions — findings, evidence, fix directions; no verdicts, gating language, or CI/process narration (untriggered jobs, runs, admission): maintainer territory.
 - A review reply opens with its verdict: addressed, naming the commit that did it; or skipped, naming the reason.
@@ -58,7 +58,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - One dispatched fast read-only lane, thinking above its floor, checks each claim against what the session observed: no word overstates, every name and number matches.
   - The pass also checks the artifact against its destination — right audience, right platform — and that no name or numbering minted for another venue or a retired plan reaches the post.
   - The pass also checks the final text against the Conversation-text rules above.
-    - Self-containment especially: every lettering, ID, or enumeration a reader must resolve is defined in the post itself.
+  - Self-containment especially: every lettering, ID, or enumeration a reader must resolve is defined in the post itself.
   - The bot-reply exemption skips the ask, not the pass — it stands in for the missing go; one-line acks and pure links post without it.
   - No dispatch mechanism: re-check each claim at its source and disclose the self-check.
 

@@ -9,7 +9,7 @@ CONTRIBUTING.
 |---|---|---|
 | `check.sh` | the whole gate — also the pre-commit entry | `scripts/check.sh [skill]` |
 | `structure.sh` | frontmatter shape, size ceiling, registry (stray entries, README rows, scripts/ whitelist) | `scripts/structure.sh [skill]` |
-| `content.sh` | cross-references, harness/incident vocabulary, long rule lines | `scripts/content.sh [skill]` |
+| `content.sh` | cross-references, harness/incident vocabulary, long rule lines, list nesting depth | `scripts/content.sh [skill]` |
 | `handoff.sh` | the frozen wind-down handoff — prints a diff on mismatch | `scripts/handoff.sh [skill]` |
 | `handoff.sh --fix` | a body's handoff missing or diverged at the tail (ambiguous cases refused) | `scripts/handoff.sh --fix <skill>` |
 | `commit-msg.sh` | the message floor — attribution trailers, the Growth and Paired markers; also the commit-msg-stage hook entry | `scripts/commit-msg.sh <msgfile>` |
@@ -19,8 +19,8 @@ CONTRIBUTING.
 
 A `[skill]` argument scopes a tool to one skill; repo-wide sub-checks then
 stay silent. Diagnostics name their concern (`frontmatter`, `ceiling`,
-`registry`, `crossrefs`, `harness`, `incident`, `rule-lines`, `handoff`,
-`trailers`, `growth`, `pairs`) —
+`registry`, `crossrefs`, `harness`, `incident`, `rule-lines`, `nesting`,
+`handoff`, `trailers`, `growth`, `pairs`) —
 FAIL blocks; WARN advises, and `report.sh` is the WARN home. `-h` on the
 runnable tools prints their usage.
 
@@ -44,6 +44,7 @@ before rewording a correct body:
 | `harness` | vocabulary beyond the list — new harness names, paraphrases ("the print flag") | "exit code N" describing a non-harness tool's semantics (h800 bodies discuss cluster commands) |
 | `incident` | repo/project names without numbers; short SHAs (deliberately — hex-word collisions); paths outside `~/gitlocal` and `/Users/`; anything inside `h800-*` bodies, which the invariant exempts | a PR/issue number in legitimate prose outside backticks (rare) |
 | `rule-lines` | rules miswritten as prose paragraphs (no bullet marker) escape the 40-word cap | a bullet that is legitimately one long unfenced example can exceed 40 words without holding three rules |
+| `nesting` | odd indents that render shallower than they read (depth follows CommonMark content columns, not raw spaces — a 3-space dash under a dash parent renders level 2) | none — fences, frontmatter, and the frozen handoff are exempt like every body concern; a hit is a real sub-sub-item |
 | `handoff` | `--fix` trusts everything above the heading — deletions above the tail repair silently | none — byte-exact against canonical; a reformatted CONTRIBUTING fence fails loudly |
 | `trailers` | a present-but-false attribution — presence is the floor, truth stays with the fresh review | merge commits (exempt by design); `--audit` over pre-convention history warns on the missing `AI-assistance:` (a WARN, not a FAIL — an unverifiable segment legitimately drops) |
 | `growth` | hook mode checks the staged delta — on `--amend` a message-only amend is vacuous (the original commit already gated; audit/CI see the full delta); the CI first-push path (clean checkout, empty staged diff) is growth-inert | description rewords and whitespace-only or restructure-only edits demand a marker ("reworded, no rule lost"); `handoff.sh --fix`'s tail repair fires (its rewrite path deletes lines); a split or retirement fires by design — the marker names what moved or left; `--audit` over pre-convention history fails by design (push ranges cover new commits only) |

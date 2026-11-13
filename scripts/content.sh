@@ -10,6 +10,9 @@
 #               spans are exempt (spellings may appear as examples)
 #   rule-lines  no rule line over ~40 words; prose, tables, code fences,
 #               frontmatter, and the frozen handoff are exempt
+#   nesting     no list item deeper than one sub-level beneath its rule —
+#               conditions and exceptions get one sub-level; a sub-sub-item
+#               chains rules its ancestors should carry flat (house style)
 #
 # Usage: scripts/content.sh [skill]
 
@@ -61,8 +64,35 @@ rule_lines() {
   done
 }
 
+# nesting: one sub-level beneath a rule — depth from content columns
+# (CommonMark: a `- ` parent's children sit at indent+2, a `1. ` parent's
+# at indent+3), so a dash child under a numbered rule counts as level 2.
+# Prose closes a list only after a blank line — lazy continuation keeps it open.
+nesting() {
+  for s in $SKILLS; do
+    hit=$(awk -v s="$s" '
+      /^---$/ {fm++; next} fm == 1 {next}          # skip frontmatter
+      /^```/ {inf = !inf; next} inf {next}         # skip code fences
+      /^## Wind-down handoff$/ {exit}              # frozen block is exempt
+      /^#/ {n = 0; next}                           # a heading closes the list
+      /^$/ {blank = 1; next}                       # a blank keeps it open
+      /^ *([-*+]|[0-9]+\.) / {
+        ind = match($0, /[^ ]/) - 1
+        while (n > 0 && col[n] > ind) n--          # items this line left
+        if (n > 1) printf "%s:%d (depth %d) %s\n", s, FNR, n + 1, $0
+        col[++n] = ind + index(substr($0, ind + 1), " ")   # content column
+        blank = 0
+        next
+      }
+      { if (blank) n = 0; blank = 0; next }        # settled prose closes it
+    ' "$s/SKILL.md")
+    [ -z "$hit" ] || fail_ "nesting $s: deeper than one sub-level — $(printf '%s' "$hit" | head -1 | cut -c1-90)"
+  done
+}
+
 crossrefs
 harness
 incident
 rule_lines
+nesting
 finish content

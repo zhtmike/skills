@@ -19,6 +19,7 @@
 - A rule states a behavior, not a spelling — which comment marker, formatter idiom, or logger incantation a project uses is its taste, pinned there and never here; spellings appear as examples at most (environment-bound skills keep their exact commands).
 - One line, one rule: a bullet states a single rule, readable at a glance.
   - Conditions and exceptions nest one sub-level beneath their rule — never chain onto the line with em-dashes or semicolons.
+  - Nesting never descends a second sub-level — a sub-sub-item chains rules its ancestors should carry flat; flatten it to a sibling or split the parent.
   - A line carrying its rule, its exception, and its spelling holds three rules — split it.
 - Backstop for rule lines: no more than ~40 words each.
   - `awk 'NF>40' <body>` — every hit must be an exempt line: prose paragraph, table row, code fence, frontmatter, or the frozen handoff.
@@ -86,6 +87,7 @@ Most bodies here grew from session incidents, encoded after the fact. The retros
   - Nor the place: no repo, project, PR/issue, or commit-SHA identifiers naming where the work happened.
 - No body over the ceiling (130 lines / 1600 words, the frozen handoff excluded from both counts); from ~105 lines / ~1300 words, additions pay per Growth.
 - No rule line over ~40 words in a changed body — every `awk 'NF>40'` hit must be exempt (prose, table row, code fence, frontmatter, frozen handoff).
+- No list item nested deeper than one sub-level beneath its rule — conditions and exceptions get one sub-level, never a sub-sub-level; `scripts/content.sh` floors it.
 - The fresh-review commit gate (`commit-gate`) runs before any commit.
 
 ## Template
