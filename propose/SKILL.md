@@ -42,6 +42,8 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - Every constraint is checkable — a rule you cannot test, or a validator you cannot write, is not a constraint.
 - Every non-obvious inherited mechanism carries its why, where it is cited — unexplained plumbing trips every reviewer the way it tripped the author.
 - The document is standing and self-contained: no revision narration, no process counts — review rounds, gates run; history lives in the discussion thread and commits.
+- Feedback revises the design by delta: still-valid text stands as written, and each new point joins the document's established voice.
+  - The latest feedback earns no amplification — no bold, capitals, or repetition re-centering the document on its wording.
 
 ## Review for weight, not only correctness
 
