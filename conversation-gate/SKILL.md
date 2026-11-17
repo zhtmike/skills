@@ -51,6 +51,9 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 - Behind the verdict, only verified facts — tests, runs, observed numbers.
 - Agent-authored conversation text carries no quoted instructions, session narratives, process counts, or machine-local paths beyond what the repo states.
 - Agent-authored conversation text is self-contained: links supplement the account, never replace it.
+- Every reference a reader must reach — issue, PR, commit, doc, paper — posts as a working link on its destination, never as dead text.
+  - Auto-link spellings render bare — cross-repo refs owner-qualified (`owner/repo#N`, never `repo#N`).
+  - What the platform leaves plain — paper IDs — carries its full URL.
 
 ## Precision pass — posted text
 
