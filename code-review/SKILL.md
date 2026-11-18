@@ -13,8 +13,6 @@ description: "MUST load before reviewing a PR or a review branch on the user's b
   - Read the full conversation each round; feedback newer than the head commit is unaddressed — check summaries against the source.
 - **Review branches** — changes pending review, read from `git diff <base>...<head>`.
 
-Whole diff, call paths, every behavioral claim.
-
 Out of scope: re-running the target's CI (its verdict stands), and the agent's pre-commit self-check.
 
 ## Working-tree isolation
@@ -64,9 +62,9 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 ## Review order — flag in this priority
 1. **Necessity** — for every addition ask: why does this exist? Hooks, protections, abstractions, defensive checks must justify themselves. Default answer: delete it.
    - An unused parameter on a public signature stays — the signature is the contract; a defensive check of an invariant already validated at the declaration is the deletion.
-2. **Scope** — anything unrelated to the target's purpose: drop it.
-   - In a fix round, every hunk maps to a requested finding or follows from one — unrequested changes get flagged however defensible.
-   - Sibling fixes of the same defect class are in scope on the original change; on a fix round, an unasked multi-site sweep is itself a finding.
+2. **Scope** — one goal per change: work beyond it drops, or splits to its own PR — however related or defensible.
+   - In a fix round, every hunk maps to a requested finding or follows from one.
+   - Sibling fixes of the same defect class are in scope on the original change; on a fix round, an unasked sweep is itself a finding.
 3. **Fallback / compat shims** — catch-and-continue, version-compat branches, silent downgrades, any untracked fallback (no `TODO(owner)`, no issue): drop them and fix formally.
    - Drop deadline is the author's: when the fix lands or the floor moves (pin bump, dropped platform or version), the workaround, its dead callers, and its tests are deleted in that change — not rewritten.
    - Until then, the workaround's end-user surface (examples, launchers, config recipes) keeps serving the legacy path — retargets ship with the closing change.
