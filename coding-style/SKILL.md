@@ -1,11 +1,11 @@
 ---
 name: coding-style
-description: "MUST load before any edit to code that already works (not unproven builds) and before a demonstrated change is declared done — any language, any framework, any repo. The finishing pass: minimal diffs, fail-fast over silent fallbacks, comment hygiene, tests and docs shipped with the change."
+description: "MUST load before any edit to code that already works (not unproven builds) and before a demonstrated change is declared done or committed — any language, any framework, any repo. The finishing pass: minimal diffs, fail-fast over silent fallbacks, comment hygiene, tests and docs shipped with the change."
 ---
 
 # Personal Coding Style
 
-**Load this before editing working code, and before a demonstrated change is declared done.**
+**Load this before editing working code, and before a demonstrated change is declared done or committed.**
 
 ## Scope — the finishing pass
 
