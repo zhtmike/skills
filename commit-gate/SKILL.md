@@ -74,6 +74,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - The cases come from the incident, not from the rule's own sentence.
   - Claim-encoding artifacts are skill bodies, guides, and retrospective docs.
 - The pass lists each case and its verdict, and enumerates its recall sweep — edge cases examined, conformance to the change's design text where one exists, claim provenance.
+  - Lines the work judges or reshapes carry their landing commits — read the recent ones: a deliberate recent change is context, never a blind flag; reversing one is named.
   - Not listing them, no sweep, or findings all checklist-visible (format, counts, message shape) with none traced to a carried body — is disengagement: re-dispatch, both demanded first.
   - An enumerated sweep with zero findings stands.
 - A rule that fails its must-allow case is blocking.

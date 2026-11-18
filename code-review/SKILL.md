@@ -24,9 +24,9 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 ## Depth — verify everything; judge the whole system
 - Every finding is verified before it's written — read surrounding code, trace the call path, check the test asserts the behavior.
 - Never hand the author a verification the reviewer could run; a real run (GPU, live engine) goes to the author, naming what it alone can show.
-- Every cited external reference — issue, PR, upstream commit, release asset — is resolved and checked to cover the claim (scope, state, in-tag).
+- Every cited external reference — issue, PR, commit, release — is resolved and checked to cover the claim (scope, state, in-tag).
   - A change that reimplements a published method, or rests on another codebase's behavior, is checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
-- Recall judges the change against the whole system it lands in — call sites, infra, structure, same-pattern instances — swept proactively, not only where findings point.
+- Recall judges the change against the whole system it lands in — call sites, infra, structure, same-pattern instances, recent landings — swept proactively, not only where findings point.
   - Right-sized: in-session, or a fast lane for large targets; the parent verifies candidates.
   - Every pass enumerates its coverage in the review file; an enumerated zero stands.
 - Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at full weight.

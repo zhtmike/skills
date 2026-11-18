@@ -16,6 +16,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 ## Situate the design
 
 - Check the parent or upstream project's precedent before inventing a convention — its habits are the ecosystem's default.
+- Lines the work judges or reshapes carry their landing commits — read the recent ones: a deliberate recent change is context, never a blind flag; reversing one is named.
 - Read the higher-level charter and sibling efforts for boundaries already drawn; compose with them, never re-own their scope.
 - Name new generations by identity, not version ordinals — ordinals collide with neighbors and expire.
 - Migration follows the neighboring code: add alongside, warn while the old path still works, delete only after a window.
