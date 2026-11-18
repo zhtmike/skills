@@ -11,7 +11,7 @@ description: "MUST load before any edit to code that already works (not unproven
 
 Edits to already-working code, and the pass that takes a demonstrated change to done — any language, any framework, any repo.
 
-- Taking a change to done starts from a change that demonstrably works — a real observed run or an executing test, never "should work".
+- Taking a change to done starts from one that demonstrably works — a real observed run or an executing test, never "should work".
 
 ## Core Principle
 
@@ -41,7 +41,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - A genuinely temporary fallback carries a tracked `TODO(owner)` plus a real tracking issue. No permanent workarounds.
 
 ## Be explicit
-- Modern idiomatic typing on code you write or modify — the language's current union/generic spellings — and annotated non-obvious locals.
+- Modern idiomatic typing on code you write or modify — current union/generic spellings — and annotated non-obvious locals.
 - On code you write or modify, a module with a public surface declares it up front (`__all__` or equivalent) and keeps helpers below the public API.
 - A provisional name freezes in this pass once a run exercises the behavior it names.
 - Inline helpers, globals, and configs that are used exactly once.
@@ -70,7 +70,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 ## Tests ship with the change
 - Every behavior change gets its fewest tests in the same PR, guarding its distinct failure modes: a new behavior's observable signature, a fixed bug (regression), an uncovered boundary/error path.
-  - Where the repo's CI runs tests, ship each test matched to its collection's naming and path pattern.
+  - Where CI collects tests, ship each matched to its collection's naming and path pattern.
   - The finishing pass drops or merges the rest.
 - Keep tests real and distinct.
   - Never fake import systems or mock what you could really construct.
@@ -81,8 +81,8 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 - Fail-silent defects (no crash, plausible output) need the test to assert the observable signature of correct behavior.
 - Test runs: lightweight CPU tests may run locally, on the user's clock.
   - An explicit checkpoint ("until commit") moves verification there; between checkpoints, state the last verified result.
-  - Report only real observed output; if deps are missing, say so and list remote commands — don't install heavy stacks.
-  - GPU/heavy tests run remotely: give commands + expected evidence; never claim a run you didn't see.
+  - Report only real observed output; name missing deps and their remote commands — never install heavy stacks.
+  - GPU/heavy tests run remotely: give commands + expected evidence; never claim an unobserved run.
   - The user or their CI executes heavy tests: never open remote sessions to run them unless the user says to.
 
 ## Docs are part of the diff
@@ -120,6 +120,7 @@ Write code that fails fast, carries its own explanation, and ships with proof. N
 
 - Verify the artifact, not the tool's success message: a direction-sensitive edit gets its region re-read.
 - Rescan your own diff once before declaring done, against the rules it can trip — diff size, fallbacks, comments, self-containment, tests, docs, public surface, pruning — not every rule.
+  - Each tripped rule is fixed or named in the done claim.
 
 ## Precedence
 
