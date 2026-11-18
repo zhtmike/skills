@@ -62,9 +62,11 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - The brief carries the session's verification record — what ran, its scope, observed results.
   - The lane re-runs only what that record leaves uncovered or a finding doubts — selected the same way, never a default repeat.
 - The brief carries the artifact — final diff plus full drafted commit message — and pointers, never questions, quoted rule subsets, or summaries:
-  - Rule files by path: the writer body that governed the edit, the project's `AGENTS.md`, its contributing guides; the lane reads what is named and judges applicability itself.
+  - Rule files by path: every writer body that governed the change — the writing and the finishing pass each — plus the project's `AGENTS.md`, its contributing guides.
+  - The lane judges applicability per rule, never wholesale: each carried body is read, and a skipped rule is named in the pass.
   - Task evidence by path, what exists: the change's design text, its investigation report, prior review rounds' findings — absent entries are skipped, never reconstructed.
-- Its job is a genuine review, not a style pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
+- Its job is a genuine review, not a formatting pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
+  - A carried writer body's rules are findings-grade alongside correctness — that body's own precedence governs, never a taste discount.
   - Plus the conventions in force and this file's message rules (root-cause narrative, numbers, self-contained bodies, verified trailers).
   - What only editing time could show is out of scope — no speculating.
 - For each changed rule in a claim-encoding artifact, the brief states one case it must reject and one nearby case it must allow.
@@ -72,7 +74,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - The cases come from the incident, not from the rule's own sentence.
   - Claim-encoding artifacts are skill bodies, guides, and retrospective docs.
 - The pass lists each case and its verdict, and enumerates its recall sweep — edge cases examined, conformance to the change's design text where one exists, claim provenance.
-  - Not listing them, no sweep, or findings all checklist-visible (format, counts, message shape) — is disengagement: re-dispatch, both demanded first.
+  - Not listing them, no sweep, or findings all checklist-visible (format, counts, message shape) with none traced to a carried body — is disengagement: re-dispatch, both demanded first.
   - An enumerated sweep with zero findings stands.
 - A rule that fails its must-allow case is blocking.
 - A headline that repeats a slogan the incident rejected is blocking.
