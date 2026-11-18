@@ -64,6 +64,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - The brief carries the artifact — final diff plus full drafted commit message — and pointers, never questions, quoted rule subsets, or summaries:
   - Rule files by path: every writer body that governed the change — the writing and the finishing pass each — plus the project's `AGENTS.md`, its contributing guides.
   - The lane judges applicability per rule, never wholesale: each carried body is read, and a skipped rule is named in the pass.
+  - A code change whose brief carries no finishing-pass body stops the gate: run the pass, then re-brief.
   - Task evidence by path, what exists: the change's design text, its investigation report, prior review rounds' findings — absent entries are skipped, never reconstructed.
 - Its job is a genuine review, not a formatting pass: correctness, logic and edge cases, tests that actually test the behavior, security where relevant.
   - A carried writer body's rules are findings-grade alongside correctness — that body's own precedence governs, never a taste discount.
