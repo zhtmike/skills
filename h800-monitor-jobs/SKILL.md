@@ -17,6 +17,7 @@ The session lives inside tmux → Slurm; both are incidental to job mechanics �
 
 Long monitoring loops burn the session's context.
 - Delegate the poll to a dispatched agent or background task when the harness can run one; the parent reads the verdict, not the stream.
+  - A dispatched poll is mechanical monitoring — the fast model at low thinking.
 - Otherwise poll directly at the cadence below.
 - Whoever polls: one retry max per failure — a second failure is the result.
 - Close with one final report: PASS/FAIL tally, durations, root causes — no log-stream paste.
