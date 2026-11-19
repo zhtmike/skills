@@ -45,6 +45,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - The assistance section lists modes of work only — investigation, design, implementation — never the process behind them: review rounds, dispatch lanes, gate counts.
 - Posted-text register follows the poster's role on the target repo.
   - A non-committer posts suggestions — findings, evidence, fix directions; no verdicts, gating language, or CI/process narration (untriggered jobs, runs, admission): maintainer territory.
+- A review reply lands in the thread it answers, never as a top-level comment.
 - A review reply opens with its verdict: addressed, naming the commit that did it; or skipped, naming the reason.
 - A reply names what it answers in its own text: the finding, request, or comment, quoted or restated.
   - Threading is no anchor — collapsed threads, notifications, and top-level posts all drop the parent.
