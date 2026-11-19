@@ -30,7 +30,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Never push upstream, even if it is `origin`.
 - Re-fetch the base and re-check mergeability before pushing when verification used an earlier fetch.
   - Upstream work landing in that gap publishes against the new base; semantic drift re-opens review scope.
-- When the work settles, check out the repo's default branch and fast-forward it to the remote — only when no live writer holds the checkout; otherwise park it and say so.
+- When the work settles, check out the default branch and fast-forward it to the remote — only when no live writer holds the checkout; otherwise park it and say so.
   - A parked branch is reported at handover, never assumed clean.
   - A worktree this task spawned is removed once its changes are committed and pushed.
 
@@ -62,7 +62,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - The brief carries the session's verification record — what ran, its scope, observed results.
   - The lane re-runs only what that record leaves uncovered or a finding doubts — selected the same way, never a default repeat.
 - The brief carries the artifact — final diff plus full drafted commit message — and pointers, never questions, quoted rule subsets, or summaries:
-  - Rule files by path: every writer body that governed the change — the writing and the finishing pass each — plus the project's `AGENTS.md`, its contributing guides.
+  - Rule files by path: every writer body that governed the change — writing and finishing each — plus the project's `AGENTS.md`, its contributing guides.
   - The lane judges applicability per rule, never wholesale: each carried body is read, and a skipped rule is named in the pass.
   - A code change whose brief carries no finishing-pass body stops the gate: run the pass, then re-brief.
   - Task evidence by path, what exists: the change's design text, its investigation report, prior review rounds' findings — absent entries are skipped, never reconstructed.
@@ -85,19 +85,20 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
 - Right-size the lane to the artifact: behavior-capable diffs get the full standard — the harness's judgment tier; all others a dispatched lightweight pass.
-  - Lightweight = the harness's fast read-only model at its lowest thinking, one tight brief, short leash.
+  - Lightweight = the harness's fast read-only model, one tight brief, short leash.
+  - Every review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
   - A blocking finding, or a check it could not run, escalates to the full standard.
 
 **After the review returns:**
 1. Fix each finding, blocking or nit, or report what's disputed and why — never silently skip.
    - Every changed diff gets step 2; only blocking findings arm the round cap (3) and the findings-based pre-check in (4).
-2. **Delta re-review** everything the fixes changed — including hook or test fixes — the same single-dispatch way, right-sized to the delta itself.
+2. **Delta re-review** everything the fixes changed, the same single-dispatch way, right-sized to the delta itself.
    - Message-only edits get a message-only pass: do the claims still match the certified diff?
    - A **full** re-review re-fires only on structural change: new files, public signatures, materially changed message claims (root cause, scope, numbers).
 3. **Two-round cap.** A second delta re-review still returning blocking findings is a disagreement — stop and ask the user to arbitrate.
 4. **Size check — approval licenses small changes only.** The line-count check is an approval invariant, not review machinery.
    - Small code deltas proceed under the existing approval; commit-message and PR-description edits are never large.
-   - Large = a new file, a public-signature change, or a new dependency (check the diff itself before fixing), or >~50 changed lines of code delta since approval, whatever its origin.
+   - Large = a new file, a public-signature change, or a new dependency, or >~50 changed lines of code delta since approval, whatever its origin.
    - Check the size after fixing and again after any commit-time hook/test fix.
    - A large change voids the commit approval — a go or the standing pre-approval for this work: notify the user; commit nothing under it.
    - Their direction licenses the work, never the commit — after directed work, rerun the review and stop for a fresh approval.

@@ -68,6 +68,7 @@ Agent work reaches a remote through three bodies, and its dispatched reviews run
   - The brief carries the artifact plus pointers — rule files, task evidence — never questions, quoted rule subsets, or summaries.
   - Every recall-gate pass enumerates its sweep; an enumerated zero-finding sweep stands, a pass with none re-dispatches.
   - The words-only verifiers (PR-text precision pass, review-file handover check) are exempt — parent-briefed claim lists by design.
+- Every dispatched review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
 
 ## Post-task updates — the incident loop
 

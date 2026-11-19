@@ -54,6 +54,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - The challenge names each new public surface's closest same-kind analog — repo or dependency — and flags departures with no align-or-diverge decision.
 - A contract that fits one sitting is checked by its author against the tree.
 - Every design faces one challenge review before acceptance, dispatched fresh: one wave per round at full weight, parent keeping findings, never transcripts.
+  - Every review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
   - The brief carries the design text plus pointers — the tree, the task's investigation report with its flagged-unverified claims, prior rounds' findings — never questions, quotes, or summaries.
   - The lane enumerates its recall sweep; a pass with none re-dispatches, an enumerated zero-finding sweep stands.
 - No dispatch mechanism: the challenge falls back in-session, disclosed as un-fresh — never silently self-reviewed.

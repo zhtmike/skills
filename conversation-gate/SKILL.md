@@ -59,7 +59,8 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 ## Precision pass — posted text
 
 - Posted text carrying claims its reviewed commits don't already certify — new numbers, results, root-cause narrative — gets a precision pass before the ask.
-  - One dispatched fast read-only lane, thinking above its floor, checks each claim against what the session observed: no word overstates, every name and number matches.
+  - One dispatched fast read-only lane checks each claim against what the session observed: no word overstates, every name and number matches.
+  - Every review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
   - The pass also checks the artifact against its destination — right audience, right platform — and that no name or numbering minted for another venue or a retired plan reaches the post.
   - The pass also checks the final text against the Conversation-text rules above.
   - Self-containment especially: every lettering, ID, or enumeration a reader must resolve is defined in the post itself.
