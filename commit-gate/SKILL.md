@@ -84,10 +84,9 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - Findings come back with `file:line` evidence, each graded **blocking** or **nit**.
 - The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
-- Right-size the lane to the artifact: behavior-capable diffs get the full standard — the harness's judgment tier; all others a dispatched lightweight pass.
-  - Lightweight = the harness's fast read-only model, one tight brief, short leash.
+- Right-size the lane to the artifact: the default is the harness's fast read-only model, one tight brief; the judgment tier is earned — a design-grade artifact (new public surface, architecture) or a lane that cannot settle what it reads.
   - Every review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
-  - A blocking finding, or a check it could not run, escalates to the full standard.
+  - A blocking finding, or a check it could not run, escalates to the judgment tier.
 
 **After the review returns:**
 1. Fix each finding, blocking or nit, or report what's disputed and why — never silently skip.

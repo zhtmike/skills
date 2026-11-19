@@ -27,7 +27,7 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 - Recall judges the change against the whole system it lands in — call sites, infra, structure, same-pattern instances, recent landings — not only where findings point.
   - Right-sized: in-session, or a fast lane for large targets; the parent verifies candidates.
   - Every pass enumerates its coverage in the review file; an enumerated zero stands.
-- Large or multi-subsystem targets: one wave of parallel read-only agents, one per subsystem, at full weight.
+- Large or multi-subsystem targets: one wave of parallel fast read-only agents, one per subsystem.
   - Each brief: its slice plus pointers — rule files, this body — no questions, quotes, or summaries.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
   - No dispatch mechanism: review in this session, say so, narrow to what fits.
