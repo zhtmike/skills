@@ -39,7 +39,7 @@ If underspecified (missing goal, constraints, or decision context), ask 2–3 cl
 - The brief's output instruction must match the lane's launch mode.
   - stdout-captured lanes are told their final message **is** the full deliverable; write-capable lanes name their single output file.
   - Never point stdout at a path the lane also writes — the final-message write at exit clobbers the artifact.
-- Dispatch all lanes concurrently — model and thinking matched to each lane's job where the harness allows: mechanical recon and cross-checks cheap, substantive digging moderate, verdict-gating moves dear.
+- Dispatch all lanes concurrently — model and thinking matched to each lane's job: mechanical recon and cross-checks cheap, substantive digging on the fast model at high thinking, verdict-gating moves on the judgment model at the maximum.
   - A failed or empty lane: rerun it alone; a rate-limited provider: run lanes sequentially.
   - A lane failing twice stops the survey — report it as retried, never a silent empty result.
   - No dispatch mechanism: run the lanes in this session one at a time, say so, keep the same budget.
