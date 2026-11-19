@@ -33,6 +33,8 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 - Follow the repo's PR or issue template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures.
 - The PR body is written for the reader: where the template leaves shape open, bullets over paragraphs, one claim each.
   - It presents the change as it stands — the substance, never a commit-by-commit walk.
+- An edit of an existing body rewrites it as one current account: new facts fold into the sections they belong to.
+  - Dated update blocks and `as of` snapshot framing never ride on top.
 - Sentences hold one point each: stacked clause chains — em-dashes, semicolons, nested parentheses — are split into sentences.
 - Prose paragraphs post as one unwrapped line: remotes render every newline as a visible break — fixed-column wrapping reads as broken sentences.
 - The PR body tracks its branch's landed commits: when commits change what the body claims — scope, root cause, numbers, results, disclosures — it is updated to match before the work is called done.
