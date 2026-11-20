@@ -21,12 +21,11 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 
 ## Depth — verify everything; judge the whole system
 - Every finding is verified before it's written — read surrounding code, trace the call path, check the test asserts the behavior.
-- Never hand the author a verification the reviewer could run; a real run (GPU, live engine) goes to the author, naming what it alone can show.
+- Never hand the author a verification the reviewer could run; a real run (GPU, live engine) goes to the author, naming what it alone shows.
 - Every cited external reference — issue, PR, commit, release — is resolved and checked to cover the claim (scope, state, in-tag).
-  - Reimplementations and cross-codebase behavior claims are checked against ground truth — reference implementation, dependency source — not the reviewed repo alone.
+  - Reimplementations and cross-codebase behavior claims are checked against ground truth (reference implementation, dependency source), not the reviewed repo alone.
 - Recall judges the change against the whole system it lands in — call sites, infra, structure, same-pattern instances, recent landings — not only where findings point.
-  - Right-sized: in-session, or a fast lane for large targets; the parent verifies candidates.
-  - Every pass enumerates its coverage in the review file; an enumerated zero stands.
+  - An enumerated zero stands.
 - Large or multi-subsystem targets: one wave of parallel fast read-only agents, one per subsystem.
   - Each brief: its slice plus pointers — rule files, this body — no questions, quotes, or summaries.
   - Each hands back `file:line` findings; the parent merges, dedupes, re-verifies the borderline.
@@ -34,29 +33,29 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 - Every review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
 
 ## Output contract
-- Register follows the poster's role: committer reviews open at the verdict — no title.
+- Register follows the poster's role: target-repo write access, verified; unresolved runs non-committer.
   - A non-committer posts suggestions — findings, evidence, fix directions; no verdict or gating language.
   - CI/process narration (untriggered jobs, runs, admission) is maintainer territory — never a finding or comment.
+- One shape, top to bottom: the opening (a committer's verdict, a non-committer's first finding), re-review accounting, a findings pointer, enumerated coverage, footer — nothing else; findings inline on a PR, numbered on branches.
 - A re-review accounts for every prior-round finding — fixed, re-flagged, or retracted with evidence — in author-resolvable terms: an unposted round's findings enter fresh and standalone.
   - A reviewer-side withdrawal — scope or taste — never reaches the file.
-  - Verified-fixed findings may share a line — accounting outranks the cap.
+  - Verified-fixed findings may share a line; accounting outranks the cap.
 - Write to `review_<pr-number>.md` / `review_<branch-slug>.md` in the project root; re-reviews overwrite it.
-- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs; review file and drafts are deleted once consumed.
+- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs, review file and drafts once consumed.
 - Posting is the user's by default — draft only.
   - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
   - Re-fetch head and conversation at the ask and again at the go — movement or newer feedback re-opens the review, not the post.
-  - Any post-approval edit re-opens approval.
   - Review text is the only remote write — never commit or push code.
 - Compact: ≤ 30 lines.
   - Numbered findings, 1–3 lines each: `file:line` + imperative ask + at most one fact or cross-link (fix snippets excepted).
-  - No preamble, tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries one.
+  - No tables, praise sections, or `[verified]` tags — verify silently; cite a run/artifact only when it carries one.
   - Blocking findings all ship, cap or no cap; past ~7, non-blocking nits drop or go one-line.
 - Severity by verb choice, not labels.
   - Blocking: "drop the fallback"; grounded cleanups get the same imperative however small.
   - "consider…" marks genuine taste calls where either shape is defensible.
   - When you know the fix, name the exact functions/APIs; cross-link, assign an owner, re-flag ignored feedback.
 - End with: `AI assistance (<agent>, <model>) was used for this review.` — verified from what the session exposes; omit what's unverified.
-- Before handover, one dispatched fast read-only lane checks the file against the tree: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve.
+- Before handover, one dispatched fast read-only lane checks the file against the tree and this contract: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve, the shape holds.
   - Words only — no new findings, no re-scoring; mismatches return for fix or retract.
   - No dispatch mechanism: re-read each finding at its cite; the handover discloses the self-check.
 
