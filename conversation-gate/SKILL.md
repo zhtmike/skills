@@ -25,7 +25,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 - Operations stay on the PR or issue the change belongs to.
 - PRs and issues are the user's by default: the agent opens either only on an explicit go.
   - When the change is pushed, ask to open the PR — the user's yes opens it.
-  - Writing or editing the PR draft file (`pr_<branch-slug>.md`, via `pr_draft`) is not a gated action.
+  - Writing or editing the PR draft file (`pr_<branch-slug>.md`) is not a gated action.
 
 ## Conversation text
 - Paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures.
