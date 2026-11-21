@@ -58,8 +58,8 @@ The founding pairs: `coding-style` ↔ `code-review` (writer/reviewer rubric), `
 
 ## Remote-surface symmetry — commit-gate, code-review, conversation-gate, propose
 
-Agent work reaches a remote through three bodies, and its dispatched reviews run through four bodies' lanes; they share one shape, and an edit to one side keeps it (the fresh review judges the symmetry; no tool floors it):
-- Every remote artifact is verified before it ships — commits by the fresh review (diff + message), review files by the handover precision check, posted PR text by the precision pass: claims checked against the source, never style, each with a no-dispatch fallback.
+Agent work reaches a remote through these bodies, and its dispatched reviews run through their lanes; they share one shape, and an edit to one side keeps it (the fresh review judges the symmetry; no tool floors it):
+- Every remote artifact is verified before it ships — commits by the fresh review (diff + message), posted PR text by the precision pass: claims checked against the source, never style, each with a no-dispatch fallback.
 - Every remote action ends in the user's explicit go, and the ask is the agent's — the artifact is presented, the go covers its exact wording; an exemption trades the ask for the verification, never skips both.
 - Every agent-authored remote surface carries a verified AI-assistance disclosure — commit trailers, the review handover line, PR text's reply line and body section — dropping what the session cannot verify.
 - Every agent-authored remote surface is self-contained: the account stands alone for its outside reader — links supplement it, never replace it.
@@ -67,8 +67,7 @@ Agent work reaches a remote through three bodies, and its dispatched reviews run
   - Recall axes live in the owning body; the lane reaches them by reading it.
   - The brief carries the artifact plus pointers — rule files, task evidence — never questions, quoted rule subsets, or summaries.
   - Every recall-gate pass enumerates its sweep; an enumerated zero-finding sweep stands, a pass with none re-dispatches.
-  - The words-only verifiers (PR-text precision pass, review-file handover check) are exempt — parent-briefed claim lists by design.
-- Every dispatched review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
+  - The words-only verifiers (the PR-text precision pass) are exempt — parent-briefed claim lists by design.
 
 ## Post-task updates — the incident loop
 

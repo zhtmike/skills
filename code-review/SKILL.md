@@ -36,12 +36,11 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
 - Register follows the poster's role: target-repo write access, verified; unresolved runs non-committer.
   - A non-committer posts suggestions — findings, evidence, fix directions; no verdict or gating language.
   - CI/process narration (untriggered jobs, runs, admission) is maintainer territory — never a finding or comment.
-- One shape, top to bottom: the opening (a committer's verdict, a non-committer's first finding), re-review accounting, a findings pointer, enumerated coverage, footer — nothing else; findings inline on a PR, numbered on branches.
+- One shape, top to bottom: the opening (a committer's verdict, a non-committer's first finding), re-review accounting, a findings pointer, enumerated coverage, footer — nothing else; findings inline on a PR.
 - A re-review accounts for every prior-round finding — fixed, re-flagged, or retracted with evidence — in author-resolvable terms: an unposted round's findings enter fresh and standalone.
-  - A reviewer-side withdrawal — scope or taste — never reaches the file.
+  - A reviewer-side withdrawal — scope or taste — never reaches the review.
   - Verified-fixed findings may share a line; accounting outranks the cap.
-- Write to `review_<pr-number>.md` / `review_<branch-slug>.md` in the project root; re-reviews overwrite it.
-- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs, review file and drafts once consumed.
+- When the round ends, remove every artifact this review created — worktree, diffs, briefs, lane outputs, drafts once consumed.
 - Posting is the user's by default — draft only.
   - The user's explicit go on the exact text — file and inline comments — opts in: post verbatim via gh.
   - Re-fetch head and conversation at the ask and again at the go — movement or newer feedback re-opens the review, not the post.
@@ -55,7 +54,7 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
   - "consider…" marks genuine taste calls where either shape is defensible.
   - When you know the fix, name the exact functions/APIs; cross-link, assign an owner, re-flag ignored feedback.
 - End with: `AI assistance (<agent>, <model>) was used for this review.` — verified from what the session exposes; omit what's unverified.
-- Before handover, one dispatched fast read-only lane checks the file against the tree and this contract: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve, the shape holds.
+- Before handover, one dispatched fast read-only lane checks the review texts (`review_text` returns them in-result) against the tree and this contract: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve, the shape holds.
   - Words only — no new findings, no re-scoring; mismatches return for fix or retract.
   - No dispatch mechanism: re-read each finding at its cite; the handover discloses the self-check.
 
@@ -79,7 +78,7 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
    - A behavior change sweeps the suite for tests asserting the replaced semantics — a live old-contract test is a finding.
    - A test suggestion names the uncovered failure mode; "consider a test" is noise.
    - Fail-silent defects: the test asserts the observable signature of correct behavior, not just exit codes.
-   - CI-covered tests are read; the review file names failing conditions.
+   - CI-covered tests are read; failing conditions are named in the review.
    - A new test the CI job would not collect (naming, path filters) is a finding.
    - GPU claims (curves, counts) are plausibility-checked, never asserted as run.
    - A red check is root-caused via the run's artifacts, not relayed.

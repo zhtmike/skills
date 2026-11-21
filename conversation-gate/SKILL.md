@@ -14,23 +14,21 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 ## Conversation operations — approval-gated
 - Never create, close, reopen, or delete a PR or issue, merge a PR, edit its text — comment, reply, body, or title update — or change labels without the user's explicit approval.
   - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), a request to read something.
-  - A label or lifecycle action needs a fresh ask — a standing instruction from an earlier session is not approval.
+  - A standing instruction from an earlier session is not approval.
   - Close, delete, and branch deletion never ride a bundle: each takes its own explicit go.
-  - Exception: a clearly bot-authored message (bot account or auto-generated banner) may be replied to unapproved — keep the AI-assistance line and the change's verified facts.
-  - A human other than the user in the thread ends the bot-reply exemption: the ask is whether to reply as AI at all, before any wording go.
+  - A human other than the user in the thread: the ask is whether to reply as AI at all, before any wording go.
 - The gated list names common cases, not the boundary: any write to the PR or issue — state, metadata, threads, review verdicts, reactions — needs the same approval.
 - A gated step ends in an ask: the ready action or drafted text, presented for the user's go.
 - A review-response round, when it needs an ask, is one ask: the drafted reply, the body-sync delta, and their evidence present together.
-- The go covers the exact wording presented — a later edit re-opens the ask.
 - A posted review is a plain comment — never an approve or request-changes state; text approval is not state approval.
 - Before merging a PR, re-fetch the base and re-check mergeability — an earlier fetch is stale.
 - Operations stay on the PR or issue the change belongs to.
 - PRs and issues are the user's by default: the agent opens either only on an explicit go.
-  - When the change is pushed, write `pr_<branch-slug>.md` in the project root, then ask to open the PR — the user's yes opens it.
-  - Writing or editing that file is not a gated action.
+  - When the change is pushed, ask to open the PR — the user's yes opens it.
+  - Writing or editing the PR draft file (`pr_<branch-slug>.md`, via `pr_draft`) is not a gated action.
 
 ## Conversation text
-- Follow the repo's PR or issue template if one exists; paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures.
+- Paste-ready, self-contained: what/why, root-cause narrative, test commands + real results, disclosures.
 - The PR body is written for the reader: where the template leaves shape open, bullets over paragraphs, one claim each.
   - It presents the change as it stands — the substance, never a commit-by-commit walk.
 - An edit of an existing body rewrites it as one current account: new facts fold into the sections they belong to.
@@ -66,7 +64,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - The pass also checks the artifact against its destination — right audience, right platform — and that no name or numbering minted for another venue or a retired plan reaches the post.
   - The pass also checks the final text against the Conversation-text rules above.
   - Self-containment especially: every lettering, ID, or enumeration a reader must resolve is defined in the post itself.
-  - The bot-reply exemption skips the ask, not the pass — it stands in for the missing go; one-line acks and pure links post without it.
+  - One-line acks and pure links post without the precision pass; every other reply keeps it.
   - No dispatch mechanism: re-check each claim at its source and disclose the self-check.
 
 ## Precedence

@@ -14,8 +14,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 ## Git actions — approval-gated
 - Never commit or push without the user's explicit approval.
   - Not approval: silence, work looking finished, an outcome-naming request, a request to read something.
-  - Approval is an explicit go on a presented diff and message.
-  - Commit approval bundles exactly that commit and its push — never later commits.
+  - Approval is an explicit go.
   - A standing repo pre-approval from the user stands in for that approval — paid by the fresh review.
 - Just before every commit, on every path: run the repo's pre-commit hooks (if configured) and the relevant CPU tests (if they exist) — fix or report failures first. At commit time only, not after every edit.
   - List the covering tests before running any — relevance is coverage of the changed code, not the suite.
@@ -27,7 +26,6 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
   - Run the hook's check over the tracked tree; if clean, bypass that hook alone.
   - Disclose the bypass and its proof in the commit body.
 - Pushes go to the user's own remote — fork push target or standalone origin; identify it before the first push, asking only when ambiguous.
-  - Never push upstream, even if it is `origin`.
 - Re-fetch the base and re-check mergeability before pushing when verification used an earlier fetch.
   - Upstream work landing in that gap publishes against the new base; semantic drift re-opens review scope.
 - When the work settles, check out the default branch and fast-forward it to the remote — only when no live writer holds the checkout; otherwise park it and say so.
@@ -85,22 +83,15 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - The editing session rubber-stamping its own draft is not a review.
   - If the harness cannot dispatch, the user's own review satisfies the gate — stop and ask for it.
 - Right-size the lane to the artifact: the default is the harness's fast read-only model, one tight brief; the judgment tier is earned — a design-grade artifact (new public surface, architecture) or a lane that cannot settle what it reads.
-  - Every review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
   - A blocking finding, or a check it could not run, escalates to the judgment tier.
 
 **After the review returns:**
 1. Fix each finding, blocking or nit, or report what's disputed and why — never silently skip.
-   - Every changed diff gets step 2; only blocking findings arm the round cap (3) and the findings-based pre-check in (4).
+   - Every changed diff gets step 2; only blocking findings arm the round cap (3).
 2. **Delta re-review** everything the fixes changed, the same single-dispatch way, right-sized to the delta itself.
    - Message-only edits get a message-only pass: do the claims still match the certified diff?
    - A **full** re-review re-fires only on structural change: new files, public signatures, materially changed message claims (root cause, scope, numbers).
 3. **Two-round cap.** A second delta re-review still returning blocking findings is a disagreement — stop and ask the user to arbitrate.
-4. **Size check — approval licenses small changes only.** The line-count check is an approval invariant, not review machinery.
-   - Small code deltas proceed under the existing approval; commit-message and PR-description edits are never large.
-   - Large = a new file, a public-signature change, or a new dependency, or >~50 changed lines of code delta since approval, whatever its origin.
-   - Check the size after fixing and again after any commit-time hook/test fix.
-   - A large change voids the commit approval — a go or the standing pre-approval for this work: notify the user; commit nothing under it.
-   - Their direction licenses the work, never the commit — after directed work, rerun the review and stop for a fresh approval.
 
 ## Precedence
 
