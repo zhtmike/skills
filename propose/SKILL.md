@@ -1,6 +1,6 @@
 ---
 name: propose
-description: "MUST load before drafting or materially revising the design for a non-trivial change — interface, subsystem, refactor or migration, multi-PR series. Pin the smallest behavior contract others code against, keep machinery minimal behind it, verify claims against the code, and review scope for weight as hard as for correctness. Not for trivial edits, not for executing an already-agreed design, not for the proving build of that design."
+description: "MUST load before drafting or materially revising the design for a non-trivial change — any plan others will implement or operate: interface, subsystem, refactor, migration, workflow, RFC — and before implementing a design written elsewhere: verify its claims, flag departures, slice multi-commit scope. Pin the smallest behavior contract others build against, keep machinery minimal, review weight as hard as correctness. Not for trivial edits, not for the proving build of a design accepted in this workflow."
 ---
 
 # Propose
@@ -9,9 +9,9 @@ description: "MUST load before drafting or materially revising the design for a 
 
 ## Scope — the design gate before code
 
-Fires for the changes that need agreement before code: a new interface or subsystem, a refactor or migration plan, a multi-step series. This skill ends when the user has accepted one short text — behavior pins, non-goals, the smallest first slice, its done-when — and that text is anchored; it does not write the slice.
+Fires for the changes that need agreement before code: a new interface or subsystem, a refactor or migration plan, a multi-step series. A design written elsewhere (an RFC, another team's spec) enters through this skill even when only implementation was asked — its claims were never verified here and its acceptance never challenged here: verify claims against what exists, flag departures to the user before coding, slice multi-commit scope into green milestones. This skill ends when the user has accepted one short text — behavior pins, non-goals, the smallest first slice, its done-when — and that text is anchored; it does not write the slice.
 
-Out of scope: trivial edits; executing an already-agreed design; interrogating a person's plan at their request (a different concern); the proving build of an agreed approach.
+Out of scope: trivial edits; executing a design this workflow already accepted (its challenge and acceptance happened here); interrogating a person's plan at their request (a different concern); the proving build of an agreed approach.
 
 ## Situate the design
 
