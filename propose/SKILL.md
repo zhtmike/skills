@@ -37,7 +37,7 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 
 ## Make it checkable
 
-- Every factual claim is verified against the tree before review, semantics included — an existing symbol, config key, or call site is not its behavior or keying.
+- Every factual claim is verified against the tree before review, semantics included — an existing symbol, config key, or call site is not its behavior or keying; a contract that fits one sitting still gets this pass.
   - A claim imported from a dispatched lane is not verification — re-verify it at its owning symbol.
   - A name the design introduces is marked as a proposal.
 - Every constraint is checkable — a rule you cannot test, or a validator you cannot write, is not a constraint.
@@ -52,7 +52,6 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - The weight question, this body's recall axis, verbatim: should this be specified now — has a first exercise paid for freezing it?
   - The challenge lane reads this body for it — the question rides the body, never the brief.
 - The challenge names each new public surface's closest same-kind analog — repo or dependency — and flags departures with no align-or-diverge decision.
-- A contract that fits one sitting is checked by its author against the tree.
 - Every design faces one challenge review before acceptance, dispatched fresh: one wave per round at full weight, parent keeping findings, never transcripts.
   - Every review lane runs at high or maximum thinking, whatever its model — a fast model at low thinking reviews nothing.
   - The brief carries the design text plus pointers — the tree, the task's investigation report with its flagged-unverified claims, prior rounds' findings — never questions, quotes, or summaries.

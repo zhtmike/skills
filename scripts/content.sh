@@ -21,6 +21,33 @@ ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || ROOT=$(cd "$(dirname "$0")/
 . "$ROOT/scripts/common.sh"
 
 # crossrefs: self-containment — the handoff is the only sanctioned mention
+# hard rules: an absolute negative over a git/gh operation with no judgment
+# qualifier is a routing defect — the mechanical half belongs in the harness
+# tools; the body keeps the judgment (fail). Op-verb hits without the git/gh
+# marker are advisory only (prose "merge", noun "commit" live there).
+HARDRULE_JUDGE='(^|[^a-z])(approv|ask|user|review|verif|report|disclos|explicit|hedge|arbiter|convention|expects|repo|session|worktree|claim|grant|pre-approv)'
+hardrules() {
+	for s in $SKILLS; do
+		hit=$(awk -v j="$HARDRULE_JUDGE" '
+			{
+				neg = $0 ~ /[Nn]ever|don.t|do not|must not|without the user|only with the user/
+				cmd = $0 ~ /(^|[^a-z])(git|gh) [a-z]/
+				low = tolower($0); jud = low ~ j
+				if (neg && cmd && !jud) printf "%d %s\n", FNR, $0
+			}' "$s/SKILL.md")
+		[ -z "$hit" ] || fail_ "hardrules $s: absolute over a git/gh operation with no judgment qualifier — route the mechanical half to the harness tools — $(printf '%s' "$hit" | head -1 | cut -c1-70)"
+		hit=$(awk -v j="$HARDRULE_JUDGE" '
+			{
+				neg = $0 ~ /[Nn]ever|don.t|do not|must not|without the user|only with the user/
+				op = $0 ~ /(^|[^a-z])(push|rebase|force-push|reset --hard|switch|delete|merge)( the| a| an| it| to| from| or|,|\.|;| )/
+				cmd = $0 ~ /(^|[^a-z])(git|gh) [a-z]/
+				low = tolower($0); jud = low ~ j
+				if (neg && op && !cmd && !jud) printf "%d %s\n", FNR, $0
+			}' "$s/SKILL.md")
+		[ -z "$hit" ] || warn_ "hardrules $s: git/gh-adjacent absolute with no judgment qualifier — confirm the tools carry the mechanics — $(printf '%s' "$hit" | head -1 | cut -c1-70)"
+	done
+}
+
 crossrefs() {
   for s in $SKILLS; do
     for other in $ALL_SKILLS; do
@@ -95,4 +122,5 @@ harness
 incident
 rule_lines
 nesting
+hardrules
 finish content

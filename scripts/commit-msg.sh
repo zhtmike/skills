@@ -16,6 +16,10 @@
 #   laws) and the message carries no Paired: trailer stating why the
 #   sibling didn't move. Rule lines landing in two listed bodies at
 #   once floor nothing — that symmetry stays with the fresh review.
+#   FAIL when the message carries Learned-By: self-learn and the staged
+#   diff touches anything but exactly one */SKILL.md — the incident
+#   loop's edit is one file, the owning skill's body (self-learn's own
+#   scope rule, mechanically floored).
 #   Presence is the floor; the statement's truth stays with the fresh
 #   review.
 #
@@ -62,6 +66,14 @@ check_msg() { # $1 = label (commit sha or "draft"), $2 = message text, $3 = dele
   done
   if [ "$oneside" -eq 1 ] && ! printf '%s\n' "$msg" | grep -q '^Paired: .'; then
     fail_ "pairs $label: rule lines added to one paired body, no Paired trailer — state why the sibling didn't move (writer-only remainder, twin follows)"
+  fi
+  if printf '%s\n' "$msg" | grep -q '^Learned-By: self-learn'; then
+    files=$(git diff "$@" --name-only)
+    n=$(printf '%s\n' "$files" | grep -c .)
+    skill=$(printf '%s\n' "$files" | grep -c '/SKILL\.md$')
+    if [ "$n" -ne 1 ] || [ "$skill" -ne 1 ]; then
+      fail_ "learned $label: Learned-By loop commits touch exactly one */SKILL.md (touched: $n file(s), $skill body/bodies) — the incident loop's edit is one file"
+    fi
   fi
 }
 

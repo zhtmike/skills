@@ -9,10 +9,10 @@ CONTRIBUTING.
 |---|---|---|
 | `check.sh` | the whole gate — also the pre-commit entry | `scripts/check.sh [skill]` |
 | `structure.sh` | frontmatter shape, size ceiling, registry (stray entries, README rows, scripts/ whitelist) | `scripts/structure.sh [skill]` |
-| `content.sh` | cross-references, harness/incident vocabulary, long rule lines, list nesting depth | `scripts/content.sh [skill]` |
+| `content.sh` | cross-references, harness/incident vocabulary, long rule lines, list nesting depth, hard-rule routing | `scripts/content.sh [skill]` |
 | `handoff.sh` | the frozen wind-down handoff — prints a diff on mismatch | `scripts/handoff.sh [skill]` |
 | `handoff.sh --fix` | a body's handoff missing or diverged at the tail (ambiguous cases refused) | `scripts/handoff.sh --fix <skill>` |
-| `commit-msg.sh` | the message floor — attribution trailers, the Growth and Paired markers; also the commit-msg-stage hook entry | `scripts/commit-msg.sh <msgfile>` |
+| `commit-msg.sh` | the message floor — attribution trailers, the Growth and Paired markers, the Learned-By one-file scope; also the commit-msg-stage hook entry | `scripts/commit-msg.sh <msgfile>` |
 | `commit-msg.sh --audit` | diagnose a landed range for missing attribution, Growth payment, or a Paired statement | `scripts/commit-msg.sh --audit <rev-range>` |
 | `report.sh` | size budgets before adding to a near-ceiling body | `scripts/report.sh [skill]` |
 | `common.sh` | never picked — the shared harness (limits, patterns, diagnostics) | sourced only |
@@ -45,6 +45,8 @@ before rewording a correct body:
 | `incident` | repo/project names without numbers; short SHAs (deliberately — hex-word collisions); paths outside `~/gitlocal` and `/Users/`; anything inside `h800-*` bodies, which the invariant exempts | a PR/issue number in legitimate prose outside backticks (rare) |
 | `rule-lines` | rules miswritten as prose paragraphs (no bullet marker) escape the 40-word cap | a bullet that is legitimately one long unfenced example can exceed 40 words without holding three rules |
 | `nesting` | odd indents that render shallower than they read (depth follows CommonMark content columns, not raw spaces — a 3-space dash under a dash parent renders level 2) | none — fences, frontmatter, and the frozen handoff are exempt like every body concern; a hit is a real sub-sub-item |
+| `hard-rules` (fail tier) | an absolute negative naming a `git`/`gh` command with no judgment qualifier (approval, ask, review, user…) — the mechanical half belongs in the harness tools' tier tables | none — a judgment word on the line exempts it; the fail pattern requires a literal `git `/`gh ` command token |
+| `hard-rules` (warn tier) | op-verb absolutes (push/merge/rebase/switch/delete) without the command token — prose "merge two questions", "switch already expresses" live here | the four standing advisories (code-review's branch discipline, propose's vocabulary switch, self-learn's merge-onto-one-line, survey's lane split) are reviewed portable judgment, not defects |
 | `handoff` | `--fix` trusts everything above the heading — deletions above the tail repair silently | none — byte-exact against canonical; a reformatted CONTRIBUTING fence fails loudly |
 | `trailers` | a present-but-false attribution — presence is the floor, truth stays with the fresh review | merge commits (exempt by design); `--audit` over pre-convention history warns on the missing `AI-assistance:` (a WARN, not a FAIL — an unverifiable segment legitimately drops) |
 | `growth` | hook mode checks the staged delta — on `--amend` a message-only amend is vacuous (the original commit already gated; audit/CI see the full delta); the CI first-push path (clean checkout, empty staged diff) is growth-inert | description rewords and whitespace-only or restructure-only edits demand a marker ("reworded, no rule lost"); `handoff.sh --fix`'s tail repair fires (its rewrite path deletes lines); a split or retirement fires by design — the marker names what moved or left; `--audit` over pre-convention history fails by design (push ranges cover new commits only) |

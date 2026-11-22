@@ -9,9 +9,8 @@ description: "MUST load before launching any long-running GPU job (training, rol
 
 ## Scope — the launch mechanism, not tmux
 
-The interactive session happens to live inside tmux → Slurm — that is incidental.
+The interactive session happens to live inside tmux → Slurm — that is incidental; it only explains why the session survives network drops.
 - Do NOT launch jobs via tmux (no `tmux new-window`/`send-keys`); the ssh-detach pattern below is the launch mechanism, full stop.
-- tmux only explains why the session survives network drops.
 
 ## The ssh-detach pattern (the cluster's #1 operational rule)
 - Agent/tool shells reap locally-detached children — `setsid`, `nohup`, and `&` from the tool shell all die with it.

@@ -40,8 +40,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - No quoted user instructions, session-habit narratives, or machine-local paths beyond what the repo already states.
 - Review fixes: title `address review` + bullet list of changed areas.
 - Trailers: `AI-assistance: <agent> (<model>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by: <user's name and email from git config>`.
-  - Never restate an identity trailer the session's tooling already injects — where injection is mechanical, pass only the remaining trailers.
-  - The default set: a trailer the edited file's own rules require rides along too, never dropped for being off-list.
+  - Beyond the trailer set above: one the edited file's own rules require rides along too, never dropped for being off-list.
   - Sign-off only where the repo expects it — DCO check or docs.
   - Verify agent identity and model from what the session exposes before writing — a false attribution is worse than none.
   - If a segment is unverifiable, drop it (a bare `Co-authored-by: <agent>` is valid).
@@ -50,7 +49,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 
 **Trigger:** a licensed commit — under an explicit go, a standing repo pre-approval, or an amend/rebase rewriting one — and no fresh review has run on this exact artifact.
 - Nothing earlier: no review because work looks done, none offered unprompted.
-- An independent review from this session of this exact artifact satisfies the gate.
+- An independent review from this session of this exact artifact satisfies the gate — independent means not the editing session: a dispatched reviewer, or the user's own pass.
   - A review of an earlier draft does not.
 - Once triggered, run it directly; don't just offer.
 - The review precedes the commit — an unreviewed push, amends included, is the violation; post-hoc review documents, not repairs.

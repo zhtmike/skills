@@ -15,11 +15,12 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 - Never create, close, reopen, or delete a PR or issue, merge a PR, edit its text — comment, reply, body, or title update — or change labels without the user's explicit approval.
   - Not approval: silence, work looking finished, an outcome-naming request ("merge main into the PR", "land it"), a request to read something.
   - A standing instruction from an earlier session is not approval.
+  - A standing repo pre-approval the user configured stands in for it — each gated op still gets its fresh-verified text.
   - Close, delete, and branch deletion never ride a bundle: each takes its own explicit go.
   - A human other than the user in the thread: the ask is whether to reply as AI at all, before any wording go.
 - The gated list names common cases, not the boundary: any write to the PR or issue — state, metadata, threads, review verdicts, reactions — needs the same approval.
 - A gated step ends in an ask: the ready action or drafted text, presented for the user's go.
-- A review-response round, when it needs an ask, is one ask: the drafted reply, the body-sync delta, and their evidence present together.
+- A review-response round is one ask: the drafted reply, the body-sync delta, and their evidence present together.
 - A posted review is a plain comment — never an approve or request-changes state; text approval is not state approval.
 - Before merging a PR, re-fetch the base and re-check mergeability — an earlier fetch is stale.
 - Operations stay on the PR or issue the change belongs to.

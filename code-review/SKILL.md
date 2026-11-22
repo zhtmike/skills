@@ -78,11 +78,10 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
    - A behavior change sweeps the suite for tests asserting the replaced semantics — a live old-contract test is a finding.
    - A test suggestion names the uncovered failure mode; "consider a test" is noise.
    - Fail-silent defects: the test asserts the observable signature of correct behavior, not just exit codes.
-   - CI-covered tests are read; failing conditions are named in the review.
+   - CI-covered tests are read; failing conditions are named in the review; a validation claim CI contradicts is a finding.
    - A new test the CI job would not collect (naming, path filters) is a finding.
    - GPU claims (curves, counts) are plausibility-checked, never asserted as run.
    - A red check is root-caused via the run's artifacts, not relayed.
-   - A validation claim CI contradicts is a finding.
 7. **Readability** — "What is this code doing?" If it needs re-reading, rewrite it; flag names that hide intent.
    - Self-documenting code is the bar — flag WHAT-comments, section banners, version-dated comments outliving their version, and comments the diff orphaned.
    - Only WHY-comments earn their line, capped at two; WHY means an invariant, never provenance.
