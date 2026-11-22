@@ -31,7 +31,7 @@
 set -u
 # Paired bodies share one law (CONTRIBUTING, Shared laws) — rule
 # lines landing in exactly one listed body demand a Paired: statement.
-PAIRED='coding-style code-review spike'
+PAIRED='coding-style code-review spike propose'
 failures=0 warnings=0
 fail_() { failures=$((failures + 1)); printf 'FAIL %s\n' "$*"; }
 warn_() { warnings=$((warnings + 1)); printf 'WARN %s\n' "$*"; }

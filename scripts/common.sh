@@ -20,7 +20,7 @@ WARN_LINES=105 WARN_WORDS=1300        # from here, additions pay per Growth
 DESC_MAX=512 NAME_MAX=64              # frontmatter limits
 
 # Harness vocabulary banned from bodies — extend the list, never weaken it.
-HARNESS_PAT='(^|[^a-z0-9_.-])(pi|codex|claude|opencode|codemode)([^a-z0-9_-]|$)|--print|--no-session|--tools|\.pi/|exit code [0-9]'
+HARNESS_PAT='(^|[^a-z0-9_.-])(pi|codex|claude|opencode|codemode)([^a-z0-9_-]|$)|--print|--no-session|--tools|\.pi/|exit code [0-9]|pr_[a-z0-9*-]*\.md'
 
 # Incident specifics banned outside environment-bound (h800-*) bodies.
 INCIDENT_PAT='#[0-9]+|[0-9a-f]{40}|~/gitlocal|/Users/'

@@ -55,7 +55,7 @@ export PYTHONUNBUFFERED=1 RAY_DEDUP_LOGS=0
 - Stop shared cluster services (e.g. ray) between sequential jobs.
   - Skip only for parallel groups on disjoint devices, via the test suite's own opt-out if it has one.
 - Capture exit codes per job and print a final `=== done (job=$RC) ===` line — polling greps for it.
-- Per-task run harnesses (launcher dirs, scratch scripts, run logs) are ephemeral: at task wind-down archive the report out of the working tree and remove the rest.
+- Per-task run harnesses (launcher dirs, scratch scripts, run logs) are ephemeral: at task wind-down archive the report out of the working tree and remove the launcher dirs, scratch scripts, and run logs this task created.
 
 ## Precedence
 
