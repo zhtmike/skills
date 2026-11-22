@@ -69,6 +69,12 @@ Out of scope: trivial edits; executing an already-agreed design; interrogating a
 - After the anchor, the behavior pins and the named first slice are enough to start that slice's code.
 - Names stay provisional through the proving run; the finishing pass freezes them — a scratch script of a narrower question never does.
 
+## Slicing — designs that span multiple commits
+
+A design spanning multiple verifiable slices decomposes before acceptance into ordered milestones — enough to land green, few enough to stay coherent. Each milestone is decision-complete on its own: goal and contract, file scope with explicit out-of-scope, the verification commands that prove it green, and its execution tier (inline when small or tacit; delegated when edit-heavy — the strongest model for risky logic).
+- Every milestone leaves the tree green: an independent verified commit and the baseline the next slice builds on — coarser green slices beat finer broken ones.
+- A slice too entangled to land green merges into its neighbor; a breakdown that cannot produce green slices is not a breakdown.
+
 ## Precedence
 
 Project-specific design guidance wins; this skill covers the rest.
