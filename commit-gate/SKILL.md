@@ -40,6 +40,7 @@ Approvals, remotes, branches, commit messages, and the pre-commit fresh review.
 - No quoted user instructions, session-habit narratives, or machine-local paths beyond what the repo already states.
 - Review fixes: title `address review` + bullet list of changed areas.
 - Trailers: `AI-assistance: <agent> (<model>)` + `Co-authored-by: <agent> <noreply@<provider-domain>>` + `Signed-off-by: <user's name and email from git config>`.
+  - Never restate an identity trailer the session's tooling already injects — where injection is mechanical, pass only the remaining trailers.
   - The default set: a trailer the edited file's own rules require rides along too, never dropped for being off-list.
   - Sign-off only where the repo expects it — DCO check or docs.
   - Verify agent identity and model from what the session exposes before writing — a false attribution is worse than none.
