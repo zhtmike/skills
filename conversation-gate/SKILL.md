@@ -42,6 +42,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 - Agent-authored conversation text on the remote ends with a visible AI-assistance disclosure naming agent and model, verified from what the session exposes.
   - An unverifiable segment is dropped, never guessed — a false attribution is worse than none.
   - A comment or reply ends with a small-print line: `AI-assisted reply — <agent> (<model>)`.
+  - A standalone review keeps its own closing disclosure line — its footer stands, no reply marker added.
   - The PR body closes with an assistance section: what the agent did, what the human reviewed and stands behind.
   - The assistance section lists modes of work only — investigation, design, implementation — never the process behind them: review rounds, dispatch lanes, gate counts.
 - Posted-text register follows the poster's role on the target repo.
@@ -66,6 +67,7 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
   - The pass also checks the final text against the Conversation-text rules above.
   - Self-containment especially: every lettering, ID, or enumeration a reader must resolve is defined in the post itself.
   - One-line acks and pure links post without the precision pass; every other reply keeps it.
+  - A standalone review's text, already verified against the tree before handover, posts on that check — no duplicate pass.
   - No dispatch mechanism: re-check each claim at its source and disclose the self-check.
 
 ## Precedence
