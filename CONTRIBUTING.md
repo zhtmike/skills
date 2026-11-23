@@ -61,7 +61,7 @@ The founding pairs, each labeled by branch: **verbatim** — `spike` ↔ `coding
 Agent work reaches a remote through these bodies, and its dispatched reviews run through their lanes; they share one shape, and an edit to one side keeps it (the fresh review judges the symmetry; no tool floors it):
 - Every remote artifact is verified before it ships — commits by the fresh review (diff + message), posted PR text by the precision pass: claims checked against the source, never style, each with a no-dispatch fallback.
 - Every remote action ends in the user's explicit go, and the ask is the agent's — the artifact is presented, the go covers its exact wording; an exemption trades the ask for the verification, never skips both.
-- Every agent-authored remote surface carries a verified AI-assistance disclosure — commit trailers, the review handover line, PR text's reply line and body section — dropping what the session cannot verify.
+- Every agent-authored remote surface carries exactly one verified AI-assistance disclosure — commit trailers, the review handover line, PR text's reply line and body section — the posting tool's where it writes one, else the agent's own, unverified parts dropped.
 - Every agent-authored remote surface is self-contained: the account stands alone for its outside reader — links supplement it, never replace it.
 - Every dispatched review lane is briefed by contract, not by summary:
   - Recall axes live in the owning body; the lane reaches them by reading it.

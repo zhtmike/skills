@@ -39,10 +39,10 @@ Approvals for the PR and issue lifecycle; the agent's authorship rules for text 
 - The PR body tracks its branch's landed commits: when commits change what the body claims — scope, root cause, numbers, results, disclosures — it is updated to match before the work is called done.
   - The sync is a delta edit — stale claims change, still-true statements stand as written.
   - The update is a gated text edit with its own approval — never riding a commit or merge approval.
-- Agent-authored conversation text on the remote ends with a visible AI-assistance disclosure naming agent and model, verified from what the session exposes.
+- Agent-authored conversation text on the remote carries exactly one AI-assistance disclosure naming agent and model — the posting tool's where it writes one, else the text's own, verified from what the session exposes.
   - An unverifiable segment is dropped, never guessed — a false attribution is worse than none.
   - A comment or reply ends with a small-print line: `AI-assisted reply — <agent> (<model>)`.
-  - A standalone review keeps its own closing disclosure line — its footer stands, no reply marker added.
+  - A standalone review closes with the review footer, never a reply marker.
   - The PR body closes with an assistance section: what the agent did, what the human reviewed and stands behind.
   - The assistance section lists modes of work only — investigation, design, implementation — never the process behind them: review rounds, dispatch lanes, gate counts.
 - Posted-text register follows the poster's role on the target repo.
