@@ -53,7 +53,7 @@ Out of scope: re-running the target's CI (its verdict stands), and the agent's p
   - Blocking: "drop the fallback"; grounded cleanups get the same imperative however small.
   - "consider…" marks genuine taste calls where either shape is defensible.
   - When you know the fix, name the exact functions/APIs; cross-link, assign an owner, re-flag ignored feedback.
-- End with: `AI assistance (<agent>, <model>) was used for this review.` — verified from what the session exposes; omit what's unverified.
+- End with the disclosure footer once — the posting tool's where it appends one, else `AI assistance (<agent>, <model>) was used for this review.`, verified from what the session exposes and omitting what's unverified.
 - Before handover, one dispatched fast read-only lane checks the returned review texts against the tree and this contract: every `file:line` matches, no word overstates the code, severity verbs hold, links resolve, the shape holds.
   - Words only — no new findings, no re-scoring; mismatches return for fix or retract.
   - No dispatch mechanism: re-read each finding at its cite; the handover discloses the self-check.
